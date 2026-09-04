@@ -75,7 +75,7 @@ mumbai-uhi-platform/
 
 ### 1. Clone & Environment Setup
 ```bash
-git clone <repo-url>
+git clone https://github.com/Hussny-06/mumbai-uhi-platform.git
 cd mumbai-uhi-platform
 
 python -m venv .venv

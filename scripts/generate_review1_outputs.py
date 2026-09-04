@@ -1,19 +1,12 @@
 """Review 1 Geospatial Imagery & Biophysical Layers Generator for Metropolitan Mumbai.
 
-Author: Hussain (Lead Architecture & ML Downscaling)
+Author: Hussain ( Architecture & ML Downscaling)
 Scope: Review 1 Deliverable — High-Resolution Raster Layers (True Color, NDVI, NDBI, Band 10 LST).
 Geographic Extent: Mumbai [72.7753°E, 18.8928°N to 73.0024°E, 19.2801°N]
 """
 
-import sys
 import json
 from pathlib import Path
-
-# Add project root to sys.path
-PROJECT_ROOT = Path(__file__).parents[1]
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
-
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
