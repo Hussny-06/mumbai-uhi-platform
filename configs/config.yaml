@@ -1,0 +1,63 @@
+# Mumbai Urban Heat Island Platform Configuration
+project:
+  name: "mumbai-uhi-platform"
+  version: "0.1.0"
+  scope: "Metropolitan Mumbai (24 Administrative Municipal Wards)"
+  area_km2: 437.71
+
+spatial:
+  crs: "EPSG:32643"  # WGS 84 / UTM Zone 43N
+  geographic_crs: "EPSG:4326"
+  target_resolution_meters: 30
+  bounding_box:
+    min_lon: 72.7753
+    min_lat: 18.8928
+    max_lon: 73.0024
+    max_lat: 19.2801
+
+satellite:
+  landsat_collections:
+    - "LANDSAT/LC09/C02/T1_L2"
+    - "LANDSAT/LC08/C02/T1_L2"
+  sentinel_collection: "COPERNICUS/S2_SR_HARMONIZED"
+  dem_asset: "USGS/SRTMGL1_003"
+  cloud_cover_max_percent: 20
+  radiometric:
+    optical_scale: 0.0000275
+    optical_offset: -0.2
+    thermal_scale: 0.00341802
+    thermal_offset: 149.0
+    planck_c2: 14380.0
+    wavelength_microns: 10.895
+
+meteorological:
+  stations:
+    colaba:
+      id: "43057"
+      name: "Colaba Coastal Station"
+      lat: 18.9067
+      lon: 72.8147
+      microclimate: "Coastal Peninsula / Marine Buffer"
+    santacruz:
+      id: "43003"
+      name: "Santacruz Inland Station"
+      lat: 19.1176
+      lon: 72.8631
+      microclimate: "Inland Urban / Airport"
+  sync_tolerance_minutes: 30
+  outlier_sigma_threshold: 3.0
+
+models:
+  spatial_kfold:
+    n_splits: 5
+    buffer_distance_km: 1.2  # Moran's I empirical semivariogram range
+  xgboost:
+    n_estimators: 500
+    max_depth: 6
+    learning_rate: 0.05
+    subsample: 0.8
+    colsample_bytree: 0.8
+    random_state: 42
+  benchmarks:
+    rmse_target_max: 1.5
+    r2_target_min: 0.85
