@@ -3,12 +3,26 @@
 Author: Hussain (Lead Architecture & ML Downscaling)
 """
 
+from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import numpy as np
 
 from .schemas import InterventionRequest, SimulationResponse, WardSummary
 from .simulation_engine import WhatIfSimulationEngine
+
+# Load trained downscaler model if available
+model_artifact = Path(__file__).parents[2] / "data" / "models" / "downscaler_xgb_mumbai.json"
+trained_model = None
+if model_artifact.exists():
+    try:
+        import xgboost as xgb
+        trained_model = xgb.XGBRegressor()
+        trained_model.load_model(str(model_artifact))
+    except Exception:
+        trained_model = None
+
+engine = WhatIfSimulationEngine(model=trained_model)
 
 app = FastAPI(
     title="Mumbai Urban Heat Island (UHI) Platform API",
@@ -23,8 +37,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-engine = WhatIfSimulationEngine()
 
 
 @app.get("/health")

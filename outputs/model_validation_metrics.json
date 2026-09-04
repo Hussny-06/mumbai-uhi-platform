@@ -1,0 +1,18 @@
+{
+  "rmse_celsius": 0.8843461495534024,
+  "r2_score": 0.8591277582762666,
+  "passes_acceptance": true,
+  "spatial_buffer_km": 1.2,
+  "train_samples": 3861,
+  "test_samples": 1029,
+  "top_drivers": {
+    "Longitude": 0.47232747077941895,
+    "Distance_Coast_km": 0.24604013562202454,
+    "Latitude": 0.05643957853317261,
+    "NDBI": 0.05381545424461365,
+    "Elevation_m": 0.04591494798660278,
+    "F_v": 0.02334435284137726,
+    "VPD_kPa": 0.019426260143518448,
+    "NDVI": 0.015544459223747253
+  }
+}

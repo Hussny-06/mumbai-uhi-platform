@@ -1,0 +1,50 @@
+[
+  {
+    "ward_id": "A",
+    "ward_name": "Colaba / Fort",
+    "mean_lst_c": 31.4,
+    "mean_ndvi": 0.18,
+    "mean_ndbi": 0.22,
+    "uhi_severity": "Low (Marine Buffer)"
+  },
+  {
+    "ward_id": "C",
+    "ward_name": "Marine Lines / Kalbadevi",
+    "mean_lst_c": 34.8,
+    "mean_ndvi": 0.08,
+    "mean_ndbi": 0.44,
+    "uhi_severity": "High"
+  },
+  {
+    "ward_id": "G/N",
+    "ward_name": "Dharavi / Dadar",
+    "mean_lst_c": 36.9,
+    "mean_ndvi": 0.06,
+    "mean_ndbi": 0.52,
+    "uhi_severity": "Extreme"
+  },
+  {
+    "ward_id": "K/W",
+    "ward_name": "Andheri West",
+    "mean_lst_c": 35.1,
+    "mean_ndvi": 0.14,
+    "mean_ndbi": 0.38,
+    "uhi_severity": "Moderate-High"
+  },
+  {
+    "ward_id": "M/E",
+    "ward_name": "Govandi / Mankhurd",
+    "mean_lst_c": 37.3,
+    "mean_ndvi": 0.05,
+    "mean_ndbi": 0.54,
+    "uhi_severity": "Critical"
+  },
+  {
+    "ward_id": "R/C",
+    "ward_name": "Borivali / SGNP Fringe",
+    "mean_lst_c": 29.8,
+    "mean_ndvi": 0.62,
+    "mean_ndbi": -0.15,
+    "uhi_severity": "Cooling Sink"
+  }
+]

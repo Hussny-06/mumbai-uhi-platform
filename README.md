@@ -26,7 +26,7 @@ This platform bridges the gap by fusing **27 years of IMD continuous ground weat
 
 | Team Member | Project Role | Domain Focus | Core Deliverables |
 | :--- | :--- | :--- | :--- |
-| **Hussain** *(Lead)* | ML Downscaling & Backend Core | GEE Pipelines, ML Regressors, Fast Simulation | GEE multi-sensor scripts, XGBoost/RF 30m LST models, sub-1.5s FastAPI simulation endpoints. |
+| **Hussain**  | ML Downscaling & Backend Core | GEE Pipelines, ML Regressors, Fast Simulation | GEE multi-sensor scripts, XGBoost/RF 30m LST models, sub-1.5s FastAPI simulation endpoints. |
 | **Asad** | Data Engineering & Spatial Analytics | IMD Synchronization, Spatial Statistics, XAI | 27-year IMD cleaning pipeline, 17-feature matrix, Spatial Block K-Fold validator, Mann-Kendall trend tests, SHAP attribution. |
 | **Abdulrehman** | Cloud Architect & Dashboard Lead | AWS Infrastructure, S3 Data Lake, Web UI | S3 Cloud-Optimized GeoTIFF storage, Dockerized EC2 server, Streamlit/Mapbox GL dashboard. |
 | **Ahmed** | Reporting Engine & Quality Assurance | Automated PDF Reports, Data Validation, Thesis | Automated 2-page PDF municipal briefs (`reportlab`), EPSG:32643 CRS tests, thesis & presentation decks. |
