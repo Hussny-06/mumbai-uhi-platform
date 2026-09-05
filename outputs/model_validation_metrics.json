@@ -1,18 +1,20 @@
 {
-  "rmse_celsius": 0.8843461495534024,
-  "r2_score": 0.8591277582762666,
-  "passes_acceptance": true,
+  "data_source": "Real Google Earth Engine (Landsat 8/9 Level-2 & SRTM DEM)",
+  "project_id": "uhi-mumbai-507613",
+  "rmse_celsius": 2.0365977558109516,
+  "r2_score": 0.4537671101931122,
+  "passes_acceptance": false,
   "spatial_buffer_km": 1.2,
-  "train_samples": 3861,
-  "test_samples": 1029,
+  "train_samples": 2306,
+  "test_samples": 137,
   "top_drivers": {
-    "Longitude": 0.47232747077941895,
-    "Distance_Coast_km": 0.24604013562202454,
-    "Latitude": 0.05643957853317261,
-    "NDBI": 0.05381545424461365,
-    "Elevation_m": 0.04591494798660278,
-    "F_v": 0.02334435284137726,
-    "VPD_kPa": 0.019426260143518448,
-    "NDVI": 0.015544459223747253
+    "NDBI": 0.38261741399765015,
+    "F_v": 0.1513916552066803,
+    "NDVI": 0.06951786577701569,
+    "Relative_Humidity": 0.060078833252191544,
+    "Albedo": 0.053211744874715805,
+    "Emissivity": 0.050944287329912186,
+    "Distance_Coast_km": 0.03542583808302879,
+    "T_drybulb_C": 0.03344478830695152
   }
 }
