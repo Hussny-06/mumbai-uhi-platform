@@ -50,36 +50,62 @@ The platform maintains modular, version-controlled engineering documentation in 
 
 ```text
 mumbai-uhi-platform/
-├── configs/
-│   ├── config.yaml          # Bounding box, CRS, thresholds, GEE assets
-│   └── logging_config.yaml  # Structured JSON logging format
-├── data/
-│   ├── raw/                 # Raw IMD CSVs (gitignored)
-│   ├── processed/           # Cleaned Parquet feature stores
-│   └── vectors/             # Mumbai 24 Wards GeoJSON (EPSG:32643)
-├── src/
-│   ├── ingestion/
-│   │   ├── gee_extractor.py      # [Hussain] GEE extraction & cloud masking
-│   │   └── imd_parser.py         # [Asad] IMD parser & QC filter
-│   ├── features/
-│   │   ├── spectral_indices.py   # [Hussain] NDVI, NDBI, Albedo, True LST
-│   │   └── weather_physics.py    # [Asad] Wind (u,v), VPD, Co-Kriging
-│   ├── models/
-│   │   ├── spatial_kfold.py      # [Asad] Buffered spatial block splitter
-│   │   ├── downscaler_xgb.py     # [Hussain] XGBoost 30m LST regressor
-│   │   └── shap_explainer.py     # [Asad/Hussain] TreeSHAP attribution
-│   ├── api/
-│   │   ├── main.py               # [Hussain] FastAPI asynchronous server
-│   │   ├── schemas.py            # Pydantic request/response models
-│   │   └── simulation_engine.py  # [Hussain] Low-latency What-If engine
-│   └── frontend/
-│       └── app.py                # Streamlit + Mapbox GL dashboard
-├── tests/
-│   ├── test_gee_bounds.py        # Spatial bounds & projection tests
-│   ├── test_weather_physics.py   # Vector decomposition unit tests
-│   └── test_spatial_leakage.py   # Validation buffer overlap tests
-├── pyproject.toml                # Dependencies configuration
-└── README.md                     # Professional architectural overview
+│
+├── .venv/                         <-- Your isolated Python installation (packages live here)
+├── pyproject.toml                 <-- The list of required libraries (pandas, xgboost, etc.)
+├── README.md                      <-- The homepage of your project repo
+│
+├── configs/                       <-- SETTINGS
+│   ├── config.yaml                <-- Stores Mumbai's coordinates, bounding box, and thresholds
+│   └── logging_config.yaml        <-- Formats how error and debug messages are printed
+│
+├── data/                          <-- THE DATA STORAGE ROOM
+│   ├── raw/                       <-- Where raw, untouched IMD weather CSVs will sit (Asad's data)
+│   ├── processed/                 <-- Cleaned data ready for ML (contains our 2,481 real GEE points)
+│   ├── vectors/                   <-- Geographic shapes: contains mumbai_boundary.geojson (Mumbai outline)
+│   └── models/                    <-- Trained AI brains: contains downscaler_xgb_mumbai.json
+│
+├── outputs/                       <-- FINAL PICTURES & METRICS
+│   ├── review1_true_color.png     <-- Satellite natural color image of Mumbai
+│   ├── review1_ndvi.png           <-- Greenery map of Mumbai
+│   ├── review1_ndbi.png           <-- Concrete / built-up map of Mumbai
+│   ├── review1_lst.png            <-- Land Surface Temperature (Heat) map of Mumbai
+│   ├── review1_geospatial_layers_4panel.png <-- All 4 maps combined side-by-side with legends
+│   ├── review1_downscaling_validation.png   <-- Scatter plot proving the model works
+│   └── model_validation_metrics.json       <-- Accuracy numbers (RMSE, R²) in text form
+│
+├── scripts/                       <-- "RUN-ME" SCRIPTS (Things you run from terminal)
+│   ├── fetch_real_gee_mumbai.py   <-- Connects to GEE and downloads the 4 satellite maps
+│   ├── train_and_validate_downscaler.py <-- Connects to GEE, pulls points, trains the XGBoost model
+│   └── demo_hussain.py            <-- One master script that tests and demos all your work for Review 1
+│
+├── src/                           <-- THE CORE SOURCE CODE (The reusable engine parts)
+│   ├── ingestion/                 <-- Code that talks to external data
+│   │   ├── gee_extractor.py       <-- Google Earth Engine download logic
+│   │   └── imd_parser.py          <-- Weather station reading logic (Asad)
+│   ├── features/                  <-- Physics & Math
+│   │   ├── spectral_indices.py    <-- Formulas for NDVI, NDBI, and Planck LST
+│   │   └── weather_physics.py     <-- Formulas for wind speed (u, v) and humidity
+│   ├── models/                    <-- Machine Learning classes
+│   │   ├── downscaler_xgb.py      <-- The XGBoost Downscaler class definition
+│   │   ├── spatial_kfold.py       <-- The 1.2km buffer cross-validation splitter (prevents data leakage)
+│   │   └── shap_explainer.py      <-- TreeSHAP (explains WHY an area is hot)
+│   ├── api/                       <-- Backend Server
+│   │   ├── main.py                <-- FastAPI web app routes
+│   │   ├── schemas.py             <-- Definitions of what inputs the API accepts
+│   │   └── simulation_engine.py   <-- The "What-If" simulator that perturbs features and outputs cooling
+│   └── frontend/                  <-- User Interface
+│       └── app.py                 <-- The Streamlit web dashboard (Abdulrehman's domain)
+│
+├── tests/                         <-- AUTOMATED QUALITY CHECKERS (Pytest)
+│   ├── test_gee_bounds.py         <-- Checks that Mumbai coordinates are correct
+│   ├── test_hussain_deliverables.py <-- Checks that NDVI/LST formulas work & simulator is fast
+│   ├── test_spatial_leakage.py    <-- Checks that training and testing points don't touch
+│   └── test_weather_physics.py    <-- Checks wind math and humidity equations
+│
+└── docs/                          <-- DOCUMENTATION
+    ├── review1_presentation_deck.md <-- 13 slides ready for Ahmed to put into PowerPoint
+    └── development/               <-- Detailed dev logs, team matrix, and technical specs
 ```
 
 ---
