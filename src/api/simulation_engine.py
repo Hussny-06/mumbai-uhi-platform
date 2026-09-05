@@ -41,9 +41,28 @@ class WhatIfSimulationEngine:
             perturbed[:, albedo_col_idx] + delta_albedo, 0.0, 1.0
         )
 
+        expected_features = getattr(self.model, "n_features_in_", None)
+        if expected_features is None and hasattr(self.model, "get_booster"):
+            try:
+                expected_features = self.model.get_booster().num_features()
+            except Exception:
+                expected_features = 17
+
+        def align_features(mat):
+            if expected_features == 19 and mat.shape[1] == 17:
+                ndbi_ndvi = mat[:, 1] - mat[:, 0]
+                albedo_ndbi = mat[:, 3] * mat[:, 1]
+                return np.column_stack([mat, ndbi_ndvi, albedo_ndbi])
+            elif expected_features == 17 and mat.shape[1] == 19:
+                return mat[:, :17]
+            return mat
+
+        base_mat = align_features(base_features)
+        sim_mat = align_features(perturbed)
+
         if self.model and hasattr(self.model, "predict"):
-            baseline_lst = self.model.predict(base_features)
-            simulated_lst = self.model.predict(perturbed)
+            baseline_lst = self.model.predict(base_mat)
+            simulated_lst = self.model.predict(sim_mat)
         else:
             # Physics-based heuristic approximation fallback
             baseline_lst = np.full(len(base_features), 34.5)
