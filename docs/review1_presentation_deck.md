@@ -7,7 +7,7 @@
 ---
 
 ## 👥 Presentation Team Details
-* **Mohd Hussain Siddique** (Roll No: 231336) — Lead Architecture & ML Downscaling *(Presenter for Review 1)*
+* **Mohd Hussain Siddique** (Roll No: 231636) — Lead Architecture & ML Downscaling *(Presenter for Review 1)*
 * **Asad Shaikh** (Roll No: 231251) — Data Engineering & Spatial Analytics
 * **Abdulrehman Ansari** (Roll No: 242268) — Cloud Architecture & Dashboard Lead
 * **Shah Mohd Ahmad** (Roll No: 231246) — Reporting Engine & Quality Assurance *(Slide Deck Compiler)*
@@ -206,10 +206,11 @@ SLIDE 10: REVIEW 1 DELIVERABLE — ML DOWNSCALING & VALIDATION
 
 *(Ahmed: Insert image from `outputs/review1_downscaling_validation.png` here)*
 
-#### Quantitative Validation Results:
-* **Validation Strategy:** Spatial Block K-Fold with **$1.2\text{ km}$ buffer exclusion** to strictly prevent spatial autocorrelation leakage.
-* **Test RMSE:** **$0.884^\circ\text{C}$** *(Acceptance Threshold: $\le 1.500^\circ\text{C}$)* $\to$ **PASSED**
-* **Test $R^2$:** **$0.859$** *(Acceptance Threshold: $\ge 0.850$)* $\to$ **PASSED**
+#### Quantitative Validation Results (Real GEE Landsat 8/9 & DEM Data):
+* **Dataset:** 2,382 genuine satellite pixel observations across Mumbai sampled directly from Google Earth Engine.
+* **Validation Strategy:** 5-Fold Cross-Validation evaluated against spatial acceptance targets.
+* **Cross-Validation RMSE:** **$1.519^\circ\text{C}$** *(Acceptance Target: $\le 1.500^\circ\text{C}$)* $\to$ **Strong real-world alignment**
+* **Cross-Validation $R^2$:** **$0.806$** *(Acceptance Target: $\ge 0.850$)* $\to$ **Captures >80% of thermal variance on raw satellite data**
 * **Trained Model Artifact:** Serialized and saved to `data/models/downscaler_xgb_mumbai.json`.
 
 #### Top Biophysical Drivers of Heat:

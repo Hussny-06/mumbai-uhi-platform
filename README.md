@@ -26,10 +26,23 @@ This platform bridges the gap by fusing **27 years of IMD continuous ground weat
 
 | Team Member | Project Role | Domain Focus | Core Deliverables |
 | :--- | :--- | :--- | :--- |
-| **Hussain**  | ML Downscaling & Backend Core | GEE Pipelines, ML Regressors, Fast Simulation | GEE multi-sensor scripts, XGBoost/RF 30m LST models, sub-1.5s FastAPI simulation endpoints. |
+| **Hussain** | System Architecture & ML Downscaling | GEE Pipelines, ML Regressors, Fast Simulation | GEE multi-sensor scripts, XGBoost/RF 30m LST models, sub-1.5s FastAPI simulation endpoints. |
 | **Asad** | Data Engineering & Spatial Analytics | IMD Synchronization, Spatial Statistics, XAI | 27-year IMD cleaning pipeline, 17-feature matrix, Spatial Block K-Fold validator, Mann-Kendall trend tests, SHAP attribution. |
 | **Abdulrehman** | Cloud Architect & Dashboard Lead | AWS Infrastructure, S3 Data Lake, Web UI | S3 Cloud-Optimized GeoTIFF storage, Dockerized EC2 server, Streamlit/Mapbox GL dashboard. |
 | **Ahmed** | Reporting Engine & Quality Assurance | Automated PDF Reports, Data Validation, Thesis | Automated 2-page PDF municipal briefs (`reportlab`), EPSG:32643 CRS tests, thesis & presentation decks. |
+
+---
+
+## 📚 Project Documentation & Engineering Logs
+
+The platform maintains modular, version-controlled engineering documentation in [`docs/`](docs/):
+
+* **[Review 1 Presentation Deck](docs/review1_presentation_deck.md):** 13-slide academic presentation deck aligned strictly to Guide Dr. Nazneen Pendhari's 7 mandatory sections.
+* **[Chronological Engineering Log](docs/development/dev_log_chronological.md):** Day-by-day development timeline tracking architecture setup, real GEE ingestion, XGBoost training, and simulation benchmarks.
+* **[Team Contribution Matrix & Viva Defense Guide](docs/development/team_contribution_matrix.md):** Granular code ownership, task breakdown, and viva examination defense strategies for Hussain, Asad, Abdulrehman, and Ahmed.
+* **[Technical Architecture & Mathematical Specification](docs/development/technical_architecture_spec.md):** Rigorous mathematical formulas (Planck radiative transfer, Tetens VPD, wind orthogonalization, Moran's $I$ spatial buffer, and 17-feature data dictionary).
+
+*(Note: High-level conceptual charters, IEEE 830 SRS documents, and academic research papers are maintained in the conceptual repository vault at `../DOCUMENTATION/`).*
 
 ---
 
