@@ -7,7 +7,7 @@
 ---
 
 ## 👥 Presentation Team Details
-* **Mohd Hussain Siddique** (Roll No: 231636) — Lead Architecture & ML Downscaling *(Presenter for Review 1)*
+* **Mohd Hussain Siddique** (Roll No: 231336) — System Architecture & ML Downscaling
 * **Asad Shaikh** (Roll No: 231251) — Data Engineering & Spatial Analytics
 * **Abdulrehman Ansari** (Roll No: 242268) — Cloud Architecture & Dashboard Lead
 * **Shah Mohd Ahmad** (Roll No: 231246) — Reporting Engine & Quality Assurance *(Slide Deck Compiler)*
@@ -40,54 +40,68 @@ SLIDE 2: PRESENTATION OUTLINE
 ================================================================================
 ```
 ### Presentation Outline
-1. **Research Paper Summary & Comparative Survey Matrix**
+1. **Research Paper Summary & Comparative Survey Matrix (8 Landmark Papers)**
 2. **Abstract**
-3. **Problem Statement & Technical Remote Sensing Bottleneck**
-4. **Motivation & Urban Relevance (Metropolitan Mumbai)**
+3. **Problem Statement & Satellite Remote Sensing Bottleneck**
+4. **Motivation & Urban Relevance (Metropolitan Mumbai Coastal Context)**
 5. **Aim & Measurable Engineering Objectives**
 6. **Proposed System Architecture & Radiometric Methodology**
-7. **Review 1 Implementation & Live Deliverables (Hussain)**
-   * Google Earth Engine (GEE) Satellite Ingestion Pipeline
-   * Real Satellite Layers of Mumbai (True Color, NDVI, NDBI, 30m LST)
-   * ML Downscaling Validation ($RMSE \le 1.5^\circ\text{C}$, $R^2 \ge 0.85$)
-   * Real-Time "What-If" Decision Simulator Benchmark (sub-5ms)
-8. **Scope, Expected Outcomes & Sprint Roadmap**
+7. **Review 1 Primary Milestone: Live Google Earth Engine (GEE) Ingestion & Calibrated Satellite Layers**
+8. **Scope, Expected Outcomes & Phased Sprint Roadmap**
+9. **Conclusion & Q&A**
 
 ---
 
 ```
 ================================================================================
-SLIDE 3: RESEARCH PAPER SUMMARY & LITERATURE SURVEY
+SLIDE 3: RESEARCH PAPER SUMMARY (PART 1: THERMAL REMOTE SENSING & SHARPENING)
 ================================================================================
 ```
-### Comparative Literature Survey Matrix
+### Research Paper Summary & Literature Survey (1 / 2)
 
-| Approach / Prior Art | Key Methodology | Critical Limitations & Research Gaps | How Our Proposed Platform Improves |
+| Paper & Authors | Core Methodology | Critical Limitations & Research Gaps | How Our Platform Improves |
 | :--- | :--- | :--- | :--- |
-| **Traditional Geostatistics (Weng et al., Voogt et al.)** | Bilinear / Bicubic interpolation, Ordinary Kriging on coarse thermal pixels. | Ignores complex urban land morphology; over-smooths sharp boundaries; fails to capture micro-urban canopy variations. | Uses **multi-sensor biophysical feature fusion** (NDVI, NDBI, Albedo, DEM, Coastal Distance) to reconstruct physical thermal gradients at 30m. |
-| **Classical Thermal Sharpening (Agam et al., Ts-NDVI)** | Linear regression between temperature and vegetation indices (Ts-NDVI triangle). | Linear assumptions fail in coastal tropical megacities where humidity, sea breezes, and high concrete density dominate. | Employs **non-linear ensemble gradient boosting (XGBoost)** capturing complex non-linear microclimatic interactions. |
-| **Deep Learning Super-Resolution (CycleGAN, SRCNN)** | Computer vision CNNs trained on satellite rasters. | High computational cost, black-box predictions with zero interpretability, and severe **spatial data leakage** from naive random splitting. | Enforces **Spatial Block K-Fold CV (1.2 km buffer)** to eliminate spatial autocorrelation leakage + **TreeSHAP** for policy explainability. |
-| **Urban Energy Simulators (ENVI-met, WRF-UCM)** | Numerical fluid dynamics and physical thermodynamic microclimate models. | Requires hours to days of compute for a single city block; unusable for real-time interactive municipal decision-making. | Deploys a **machine-learning surrogate simulator** delivering What-If cooling deltas and energy savings in **$\le 1.5$ seconds**. |
+| **Voogt & Oke (2003)**<br>*Thermal remote sensing of urban climates* (RSE) | Foundational micro-meteorological principles linking surface temperature to urban 3D geometry and materials. | Identifies sensor trade-offs: satellite nadir view misses vertical walls; coarse thermal pixels obscure street-level dynamics. | Implements **multi-source biophysical feature fusion** (30m optical, DEM, and coastal distance) to resolve street-scale gradients. |
+| **Weng, Lu & Schubring (2004)**<br>*Estimation of LST-vegetation abundance relationship* (RSE) | Linear regression and spectral mixture analysis relating LST to NDVI vegetation abundance. | Assumes simplistic linear relationship, failing in coastal tropical cities where humidity, concrete density, and sea breezes dominate. | Employs **non-linear ensemble gradient boosting (XGBoost)** capturing non-linear biophysical and meteorological interactions. |
+| **Agam, Kustas, Anderson, et al. (2007)**<br>*TsHARP: Thermal sharpening of imagery* (RSE) | Least-squares regression between fractional vegetation cover ($F_v$) and thermal radiometry. | Assumes homogeneous surface emissivity; produces high error in ultra-dense built-up areas with complex concrete morphology. | Integrates **17 predictors** including NDBI, broadband albedo, elevation, coastal distance, and wind vectors. |
+| **Gao, Masek, Schwaller & Hall (2006)**<br>*STARFM: Spatiotemporal reflectance fusion* (IEEE TGRS) | Blends coarse daily MODIS with fine Landsat optical imagery using adaptive weighting. | Highly sensitive to cloud obstruction; lacks physical radiative transfer calibration for dynamic urban heat anomalies. | Uses **automated QA_PIXEL bitmask cloud rejection** combined with the Planck split-window radiative transfer equation. |
 
 ---
 
 ```
 ================================================================================
-SLIDE 4: ABSTRACT
+SLIDE 4: RESEARCH PAPER SUMMARY (PART 2: DOWNSCALING, EXPLAINABILITY & MITIGATION)
+================================================================================
+```
+### Research Paper Summary & Literature Survey (2 / 2)
+
+| Paper & Authors | Core Methodology | Critical Limitations & Research Gaps | How Our Platform Improves |
+| :--- | :--- | :--- | :--- |
+| **Bonafoni (2016)**<br>*Downscaling Landsat thermal imagery for UHI* (IEEE GRSL) | High-resolution thermal sharpening using multi-spectral indices (NDVI, NDBI, MNDWI). | Evaluated using standard random train-test splits, introducing severe **spatial autocorrelation data leakage**. | Enforces **Spatial Block K-Fold Cross-Validation (1.2 km buffer)** based on Moran's $I$ semivariogram range. |
+| **Zhan, Chen, Zhou, et al. (2013)**<br>*Disaggregation of remotely sensed LST* (PE&RS) | Comprehensive benchmark of thermal disaggregation algorithms across diverse satellite platforms. | Proves that empirical regression without physical radiometric constraints causes severe boundary and thermal drift artifacts. | Directly couples inverted Planck radiation physics with Sobrino fractional vegetation emissivity ($F_v, \varepsilon$). |
+| **Lundberg & Lee (2017)**<br>*A unified approach to interpreting model predictions (TreeSHAP)* (NeurIPS) | Game-theoretic Shapley additive feature attribution for tree-based ensemble models. | Standard XAI tools explain individual rows without spatial context or municipal policy translation. | Implements **Spatial TreeSHAP attribution** measuring exact marginal degree Celsius contributions per municipal ward. |
+| **Santamouris (2014)**<br>*Cooling the cities—reflective & green mitigation* (Solar Energy) | Thermodynamic assessment of urban cooling technologies: cool roofs ($\Delta\alpha$) and green canopy ($\Delta\text{NDVI}$). | Numerical simulation models (e.g., ENVI-met, CFD) take hours to days per city block, unusable for interactive planning. | Engineers a **machine-learning surrogate simulation engine** delivering interactive What-If cooling deltas in **$\le 1.5$ seconds**. |
+
+---
+
+```
+================================================================================
+SLIDE 5: ABSTRACT
 ================================================================================
 ```
 ### Abstract
-* **Background:** Dense urban infrastructure and high coastal humidity subject Metropolitan Mumbai to severe Urban Heat Island (UHI) stress, elevating heatwave mortality and surging electrical cooling loads.
+* **Background:** Dense urban infrastructure and high coastal humidity subject Metropolitan Mumbai to severe Urban Heat Island (UHI) stress, elevating heatwave vulnerability and surging electrical cooling loads.
 * **The Challenge:** Public Earth observation satellites face a fundamental resolution trade-off: **MODIS** revisits daily but is too coarse ($1\text{ km}$), while **Landsat 8/9** provides $100\text{m}$ thermal data but has a 16-day revisit latency, leaving municipal planners without actionable, street-level microclimate data.
-* **The Solution:** This project builds an artificial intelligence platform that ingests multi-sensor satellite data streams (**Landsat 8/9, Sentinel-2, SRTM DEM**) via **Google Earth Engine (GEE)** and downscales thermal radiometry to a sharp **$30\text{m}$ uniform grid** in `EPSG:32643`.
-* **Rigor & Performance:** The system validates downscaling accuracy using **Spatial Block K-Fold Cross-Validation** with a $1.2\text{ km}$ buffer (derived from Moran's $I$ range), achieving $RMSE = 0.884^\circ\text{C}$ ($\le 1.5^\circ\text{C}$) and $R^2 = 0.859$ ($\ge 0.85$).
-* **Municipal Impact:** Integrates a real-time **"What-If" decision simulator** that calculates cooling deltas ($\Delta T$) and HVAC electricity demand savings in under $10\text{ ms}$, empowering the Brihanmumbai Municipal Corporation (BMC) to model cooling interventions before investing capital.
+* **The Solution:** This project builds an artificial intelligence platform that ingests multi-source satellite data streams (**Landsat 8/9, Sentinel-2, SRTM DEM**) via **Google Earth Engine (GEE)** and downscales thermal radiometry to a sharp **$30\text{m}$ uniform grid** in `EPSG:32643`.
+* **Methodological Rigor:** The system incorporates **Spatial Block K-Fold Cross-Validation** with a $1.2\text{ km}$ buffer (derived from Moran's $I$ semivariogram range) to strictly prevent spatial autocorrelation leakage.
+* **Review 1 Progress:** Fully initialized project repository with virtual environment isolation, connected live to Google Earth Engine (`uhi-mumbai-507613`), clipped data to Mumbai's official 24-ward boundary ($437.71\text{ km}^2$), and derived calibrated high-resolution maps for True Color, NDVI, NDBI, and 30m Land Surface Temperature (LST).
+* **Municipal Impact:** Lays the foundation for an interactive **"What-If" decision simulator** empowering the Brihanmumbai Municipal Corporation (BMC) to model urban cooling interventions before deploying civic capital.
 
 ---
 
 ```
 ================================================================================
-SLIDE 5: PROBLEM STATEMENT
+SLIDE 6: PROBLEM STATEMENT
 ================================================================================
 ```
 ### Problem Statement: The Satellite Remote Sensing Bottleneck
@@ -107,7 +121,7 @@ Public satellite thermal infrared sensors suffer from an inherent physical trade
 
 ```
 ================================================================================
-SLIDE 6: MOTIVATION AND URBAN RELEVANCE
+SLIDE 7: MOTIVATION AND URBAN RELEVANCE
 ================================================================================
 ```
 ### Motivation & Urban Relevance: Why Metropolitan Mumbai?
@@ -126,7 +140,7 @@ SLIDE 6: MOTIVATION AND URBAN RELEVANCE
 
 ```
 ================================================================================
-SLIDE 7: AIM AND OBJECTIVES
+SLIDE 8: AIM AND OBJECTIVES
 ================================================================================
 ```
 ### Aim & Measurable Project Objectives
@@ -147,7 +161,7 @@ To engineer an AI-driven spatiotemporal modeling platform that sharpens coarse s
 
 ```
 ================================================================================
-SLIDE 8: SYSTEM ARCHITECTURE & RADIOMETRIC METHODOLOGY
+SLIDE 9: SYSTEM ARCHITECTURE & RADIOMETRIC METHODOLOGY
 ================================================================================
 ```
 ### System Architecture & Radiometric Formulation
@@ -162,8 +176,8 @@ SLIDE 8: SYSTEM ARCHITECTURE & RADIOMETRIC METHODOLOGY
           ▼ [ Automated Bitmask Cloud & Shadow Rejection (QA_PIXEL) ]
           │
           ▼ [ Radiometric Calibration & Physics Transformations ]
-          │   • Optical: ρ = DN * 0.0000275 - 0.2
-          │   • Thermal: T_B = DN * 0.00341802 + 149.0 (Kelvin)
+          │   • Optical Reflectance: ρ = DN * 0.0000275 - 0.2
+          │   • Thermal Brightness:  T_B = DN * 0.00341802 + 149.0 (Kelvin)
           │
           ▼ [ Planck Split-Window Radiative Transfer Equation ]
           │   • Fractional Vegetation: F_v = ((NDVI - 0.05) / 0.65)²
@@ -181,104 +195,58 @@ SLIDE 8: SYSTEM ARCHITECTURE & RADIOMETRIC METHODOLOGY
 
 ```
 ================================================================================
-SLIDE 9: REVIEW 1 DELIVERABLE — LIVE GEE INGESTION & SATELLITE LAYERS
+SLIDE 10: REVIEW 1 PRIMARY MILESTONE — LIVE GEE INGESTION & SATELLITE LAYERS
 ================================================================================
 ```
-### Review 1 Deliverable: Real Landsat 8/9 Satellite Layers over Mumbai
+### Review 1 Development Milestone: Real Satellite Ingestion over Mumbai
 
-*(Ahmed: Insert image from `outputs/review1_geospatial_layers_4panel.png` here)*
+*(Ahmed: Insert master image from `outputs/review1_geospatial_layers_4panel.png` here)*
 
-* **Live Cloud Ingestion:** Successfully connected to Google Earth Engine under project `uhi-mumbai-507613`. Ingested 14 cloud-filtered Landsat 8/9 scenes during pre-monsoon peak heat (March–May 2024).
-* **Layer Interpretation (Clipped to Official BMC Boundary):**
-  1. **(a) True Color (RGB):** Shows clear physical contrast between dense urban concrete, marine waters, and the Sanjay Gandhi National Park forest reserve.
-  2. **(b) Real NDVI (Vegetation):** Ranging from $0.00$ (water/barren) to $0.65$ in the north-central SGNP green buffer; illustrates near-zero canopy cover in Dharavi and Govandi.
-  3. **(c) Real NDBI (Built-Up):** Highlights high concrete impervious surface density ($>0.30$) concentrated along the central railway corridor and informal settlements.
-  4. **(d) Real 30m LST (°C):** Demonstrates microclimatic thermal divergence: coastal cooling along the Arabian Sea ($30\text{--}32^\circ\text{C}$) vs. extreme inland concrete heat traps ($38\text{--}41^\circ\text{C}$).
+* **Active Google Earth Engine Connection:** Successfully authenticated and connected to GEE under project **`uhi-mumbai-507613`**. Ingested 14 cloud-filtered Landsat 8/9 scenes during peak pre-monsoon heat (March–May 2024).
+* **Official Administrative Boundary:** Standardized on official OpenStreetMap/BMC municipal geometry ($437.71\text{ km}^2$, 24 wards, EPSG:32643 UTM Zone 43N).
+* **Four Calibrated Geospatial Layers Produced:**
+  1. **(a) True Color (Sentinel-2 / Landsat RGB):** Distinguishes dense built-up terrain, coastal waters, and the Sanjay Gandhi National Park forest reserve.
+  2. **(b) Canopy Density (NDVI):** Resolves vegetation indices from $0.00$ to $0.65$; exposes severe canopy deficits in central municipal wards (Dharavi, Govandi, Kurla).
+  3. **(c) Built-Up Impervious Density (NDBI):** Identifies dense concrete surface concentrations ($>0.30$) along transportation corridors and industrial zones.
+  4. **(d) Land Surface Temperature (Planck LST):** Street-level 30m thermal baseline capturing maritime cooling ($30\text{--}32^\circ\text{C}$) vs. inland thermal traps ($38\text{--}41^\circ\text{C}$).
 
 ---
 
 ```
 ================================================================================
-SLIDE 10: REVIEW 1 DELIVERABLE — ML DOWNSCALING & VALIDATION
+SLIDE 11: SCOPE, OUTCOMES, SPRINT ROADMAP & CONCLUSION
 ================================================================================
 ```
-### Review 1 Deliverable: ML Downscaler Spatial Acceptance Validation
-
-*(Ahmed: Insert image from `outputs/review1_downscaling_validation.png` here)*
-
-#### Quantitative Validation Results (Real GEE Landsat 8/9 & DEM Data):
-* **Dataset:** 2,382 genuine satellite pixel observations across Mumbai sampled directly from Google Earth Engine.
-* **Validation Strategy:** 5-Fold Cross-Validation evaluated against spatial acceptance targets.
-* **Cross-Validation RMSE:** **$1.519^\circ\text{C}$** *(Acceptance Target: $\le 1.500^\circ\text{C}$)* $\to$ **Strong real-world alignment**
-* **Cross-Validation $R^2$:** **$0.806$** *(Acceptance Target: $\ge 0.850$)* $\to$ **Captures >80% of thermal variance on raw satellite data**
-* **Trained Model Artifact:** Serialized and saved to `data/models/downscaler_xgb_mumbai.json`.
-
-#### Top Biophysical Drivers of Heat:
-1. **Built-Up Density (NDBI):** Primary contributor to localized heating ($+\Phi_{\text{NDBI}}$).
-2. **Distance to Coast ($D_{\text{coast}}$):** Coastal wards benefit from marine sea breeze buffering.
-3. **Canopy Density (NDVI):** Significant vegetative cooling sink ($-\Phi_{\text{NDVI}}$).
-4. **Surface Albedo ($\alpha$):** Solar reflectance reducing thermal energy absorption.
-
----
-
-```
-================================================================================
-SLIDE 11: REVIEW 1 DELIVERABLE — REAL-TIME WHAT-IF SIMULATION ENGINE
-================================================================================
-```
-### Review 1 Deliverable: Real-Time "What-If" Decision Simulator
-
-#### Live Simulation Benchmark Execution:
-* **Technology:** Asynchronous FastAPI microservice connected directly to the trained gradient-boosted surrogate downscaling model.
-* **Test Intervention Scenario:**
-  * Ward: **G/North (Dharavi / Dadar)**
-  * Interventions: $+25\%$ Tree Canopy ($\Delta\text{NDVI} = +0.25$) and $+0.30$ Cool-Roof Surface Albedo ($\Delta\alpha = +0.30$)
-
-| Metric | Measured Value | Acceptance SLA Benchmark |
-| :--- | :--- | :--- |
-| **Baseline Mean LST** | $37.58^\circ\text{C}$ | Real Landsat pre-monsoon baseline |
-| **Simulated Mean LST** | $37.29^\circ\text{C}$ | Post-intervention prediction |
-| **Predicted Cooling Delta ($\Delta T$)** | **$-0.28^\circ\text{C}$ cooling** | Physics-consistent reduction |
-| **Est. HVAC Electricity Savings** | **$1.4\text{ kWh}/\text{m}^2/\text{year}$** | Empirical cooling degree conversion |
-| **Measured Inference Latency** | **$2.94\text{ ms}$** | **$\le 1500\text{ ms}$ ($\le 1.5\text{s}$) $\to$ PASSED** |
-
----
-
-```
-================================================================================
-SLIDE 12: SCOPE, OUTCOMES & FUTURE SPRINT ROADMAP
-================================================================================
-```
-### Scope, Expected Outcomes & Sprint Roadmap
+### Scope, Sprint Roadmap & Conclusion
 
 #### Project Scope:
-* Spatial: All 24 Administrative Municipal Wards of Greater Mumbai ($437.71\text{ km}^2$, CRS: `EPSG:32643`).
-* Temporal: Multi-decadal satellite baseline (2010–2025) and 27-year IMD ground weather records (1998–2025).
+* **Spatial:** All 24 Administrative Municipal Wards of Greater Mumbai ($437.71\text{ km}^2$, CRS: `EPSG:32643`).
+* **Temporal:** Multi-decadal satellite baseline (2010–2025) and 27-year IMD ground weather records (1998–2025).
 
-#### Key Deliverables & Outcomes:
-* High-resolution $30\text{m}$ downscaled thermal rasters for Mumbai.
-* Web-based interactive What-If scenario decision support dashboard (Streamlit + Mapbox GL).
-* Automated publication-grade 2-page PDF municipal policy briefs (`reportlab`).
-
-#### 8-Week / 4-Sprint Roadmap Status:
-* ✅ **Sprint 1 (Weeks 1–2 - COMPLETED):** Repository initialization, GEE pipeline with project `uhi-mumbai-507613`, official BMC boundary ingestion, XGBoost 30m downscaling validation ($R^2=0.859$), and sub-5ms What-If simulation engine.
-* 🔜 **Sprint 2 (Weeks 3–4):** Ingestion of 27-year IMD weather records (Colaba & Santacruz), automated Hampel 3σ QC cleaning, and seasonal TreeSHAP explainability engine.
-* 🔜 **Sprint 3 (Weeks 5–6):** Streamlit geospatial dashboard integration with Mapbox GL polygon drawing tools and Mann-Kendall ward warming trend tests.
-* 🔜 **Sprint 4 (Weeks 7–8):** PyTorch CNN-LSTM spatiotemporal benchmarking, Dockerized AWS EC2 deployment, automated PDF policy brief generation, and final thesis.
+#### 4-Sprint Phased Roadmap:
+* ✅ **Sprint 1 (Review 1 Milestone — COMPLETED):**
+  * Monorepo architecture setup with `.venv` isolation.
+  * Live Google Earth Engine pipeline (`uhi-mumbai-507613`).
+  * Official BMC 24-ward boundary acquisition ($437.71\text{ km}^2$).
+  * Multi-sensor radiometric calibration & 4-panel satellite layers (RGB, NDVI, NDBI, LST).
+* 🔜 **Sprint 2 (Review 2 Focus):**
+  * 27-year IMD weather records ingestion & Hampel $3\sigma$ cleaning (Colaba & Santacruz).
+  * Machine Learning Downscaler training & Spatial Block K-Fold validation.
+  * Seasonal TreeSHAP explainability engine (identifying ward-level heat drivers).
+* 🔜 **Sprint 3 (Review 3 Focus):**
+  * Interactive Streamlit / Mapbox GL web dashboard with polygon drawing tools.
+  * Mann-Kendall monotonic ward warming trend tests (2010–2025).
+* 🔜 **Sprint 4 (Final Defense):**
+  * Deep learning benchmark (PyTorch CNN-LSTM).
+  * Automated 2-page municipal PDF policy brief engine (`reportlab`) for BMC planners.
+  * Dockerized AWS EC2 deployment & final thesis.
 
 ---
 
-```
-================================================================================
-SLIDE 13: THANK YOU & Q&A
-================================================================================
-```
 ### Thank You!
 
 **AI-Driven Spatiotemporal Modeling and Downscaling of Urban Heat Island Dynamics in Metropolitan Mumbai**
 
 * **GitHub Repository:** [github.com/Hussny-06/mumbai-uhi-platform](https://github.com/Hussny-06/mumbai-uhi-platform)
-* **Live Demo Command:** `python scripts/demo_hussain.py`
-* **Automated Tests:** `pytest tests/ -v`
 
-*Questions & Faculty Discussion*
+*Open for Questions & Faculty Discussion*
