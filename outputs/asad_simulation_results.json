@@ -1,0 +1,67 @@
+{
+  "model_used": "asad_xgb_imd_enriched",
+  "prediction_surface_size": 2481,
+  "baseline_mean_lst": 40.03714370727539,
+  "scenarios": [
+    {
+      "mean_baseline_lst": 40.03714370727539,
+      "mean_simulated_lst": 38.899322509765625,
+      "cooling_delta": -1.1378211975097656,
+      "energy_reduction_kwh_m2_yr": 5.461541748046875,
+      "elapsed_ms": 15.84409992210567,
+      "scenario_name": "Urban Greening (NDVI +0.25)",
+      "scenario_description": "Plant trees and expand green cover in target ward",
+      "delta_ndvi_applied": 0.25,
+      "delta_albedo_applied": 0.0,
+      "num_pixels": 2481
+    },
+    {
+      "mean_baseline_lst": 40.03714370727539,
+      "mean_simulated_lst": 40.812599182128906,
+      "cooling_delta": 0.7754554748535156,
+      "energy_reduction_kwh_m2_yr": 3.7221862792968747,
+      "elapsed_ms": 17.47900014743209,
+      "scenario_name": "Cool Roof Campaign (Albedo +0.30)",
+      "scenario_description": "White reflective roof coating on commercial/residential buildings",
+      "delta_ndvi_applied": 0.0,
+      "delta_albedo_applied": 0.3,
+      "num_pixels": 2481
+    },
+    {
+      "mean_baseline_lst": 40.03714370727539,
+      "mean_simulated_lst": 40.12430953979492,
+      "cooling_delta": 0.08716583251953125,
+      "energy_reduction_kwh_m2_yr": 0.41839599609375,
+      "elapsed_ms": 15.399899799376726,
+      "scenario_name": "Combined Greening + Cool Roofs",
+      "scenario_description": "Simultaneous tree planting and reflective roof installation",
+      "delta_ndvi_applied": 0.2,
+      "delta_albedo_applied": 0.2,
+      "num_pixels": 2481
+    },
+    {
+      "mean_baseline_lst": 40.03714370727539,
+      "mean_simulated_lst": 39.66387939453125,
+      "cooling_delta": -0.3732643127441406,
+      "energy_reduction_kwh_m2_yr": 1.791668701171875,
+      "elapsed_ms": 12.851400068029761,
+      "scenario_name": "New Urban Park (NDVI +0.40)",
+      "scenario_description": "Convert vacant lot / demolished structure to urban park",
+      "delta_ndvi_applied": 0.4,
+      "delta_albedo_applied": 0.05,
+      "num_pixels": 2481
+    },
+    {
+      "mean_baseline_lst": 40.03714370727539,
+      "mean_simulated_lst": 38.32927322387695,
+      "cooling_delta": -1.7078704833984375,
+      "energy_reduction_kwh_m2_yr": 8.1977783203125,
+      "elapsed_ms": 16.326799988746643,
+      "scenario_name": "Water Body Restoration",
+      "scenario_description": "Restore creek or lake to enhance evaporative cooling",
+      "delta_ndvi_applied": 0.1,
+      "delta_albedo_applied": -0.05,
+      "num_pixels": 2481
+    }
+  ]
+}

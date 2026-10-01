@@ -1,0 +1,38 @@
+{
+  "pipeline": "Asad IMD 27-Year Cleaning Pipeline",
+  "dataset": "Kaggle Mumbai Weather Data (27 Years)",
+  "total_observations_cleaned": 383640,
+  "date_range": {
+    "start": "1997-01-01 00:30:00",
+    "end": "2024-10-27 16:30:00"
+  },
+  "years_covered": 28,
+  "statistics": {
+    "temperature_c_mean": 28.195081380848872,
+    "temperature_c_std": 3.001700986157813,
+    "humidity_mean": 67.14701071224458,
+    "vpd_mean_kpa": 1.3142753369083136
+  },
+  "mann_kendall_trend": {
+    "analysis": "Mann-Kendall Monotonic Trend Test",
+    "variable": "Annual Mean Temperature (\u00b0C)",
+    "station": "Mumbai (Kaggle 27-Year Dataset)",
+    "period": "1997\u20132024",
+    "trend": "increasing",
+    "p_value": 3.641660788544776e-05,
+    "sens_slope_per_year": 0.0440137500861497,
+    "z_statistic": 4.129112573899058,
+    "kendall_s": 210,
+    "significant_at_005": true,
+    "n_years": 28
+  },
+  "output_files": [
+    "data/processed/mumbai_imd_27yr_cleaned.csv",
+    "data/processed/mumbai_imd_daily_overpass_features.csv",
+    "data/processed/mumbai_imd_annual_summary.csv",
+    "outputs/mann_kendall_trend_results.json",
+    "outputs/asad_27yr_temperature_trend.png",
+    "outputs/asad_monthly_climatology_heatmap.png",
+    "outputs/asad_data_quality_summary.png"
+  ]
+}

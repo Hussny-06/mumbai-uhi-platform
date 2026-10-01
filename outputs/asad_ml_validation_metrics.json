@@ -1,0 +1,55 @@
+{
+  "author": "Asad (Data Engineering & Spatial Analytics)",
+  "pipeline": "IMD-Enriched ML Training Pipeline",
+  "split_method": "Spatial Block K-Fold (1.2 km buffer exclusion)",
+  "split_ratio": "80/20 (train/test)",
+  "train_samples": 2306,
+  "test_samples": 137,
+  "acceptance_criteria": {
+    "rmse_max_celsius": 1.5,
+    "r2_min": 0.85
+  },
+  "xgboost": {
+    "rmse": 2.053588254815079,
+    "r2": 0.44461509952420863,
+    "mae": 1.6253965345772496,
+    "passes": false,
+    "model_path": "data/models/asad_xgb_imd_enriched.json"
+  },
+  "random_forest": {
+    "rmse": 2.2068088060434436,
+    "r2": 0.35864757495065425,
+    "mae": 1.7458583406865007,
+    "passes": false,
+    "model_path": "data/models/asad_rf_benchmark.joblib"
+  },
+  "shap_top_drivers": {
+    "NDBI": 1.4130139350891113,
+    "NDVI": 0.41792717576026917,
+    "Albedo": 0.37560123205184937,
+    "Distance_Coast_km": 0.35818910598754883,
+    "Latitude": 0.29223012924194336,
+    "F_v": 0.2752460241317749,
+    "Elevation_m": 0.2256898283958435,
+    "MNDWI": 0.22146686911582947
+  },
+  "feature_names": [
+    "NDVI",
+    "NDBI",
+    "MNDWI",
+    "Albedo",
+    "F_v",
+    "Emissivity",
+    "Elevation_m",
+    "Slope_deg",
+    "Aspect_deg",
+    "Distance_Coast_km",
+    "Latitude",
+    "Longitude",
+    "T_drybulb_C",
+    "Relative_Humidity",
+    "Wind_u_zonal",
+    "Wind_v_meridional",
+    "VPD_kPa"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "analysis": "Mann-Kendall Monotonic Trend Test",
+  "variable": "Annual Mean Temperature (\u00b0C)",
+  "station": "Mumbai (Kaggle 27-Year Dataset)",
+  "period": "1997\u20132024",
+  "trend": "increasing",
+  "p_value": 3.641660788544776e-05,
+  "sens_slope_per_year": 0.0440137500861497,
+  "z_statistic": 4.129112573899058,
+  "kendall_s": 210,
+  "significant_at_005": true,
+  "n_years": 28
+}
