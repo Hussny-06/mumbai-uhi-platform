@@ -19,7 +19,11 @@ This document maintains an immutable, academic-grade chronological audit trail o
    │
 [Day 6] Low-Latency 'What-If' Simulation Engine (<5ms Inference)
    │
-[Day 7] Test Suite Verification & Review 1 Presentation Package
+[Day 7] Review 1 Presentation Package & 7 Automated Tests
+   │
+[Day 8] 27-Year IMD Meteorological Pipeline, Mann-Kendall Trend & TreeSHAP
+   │
+[Day 9] Review 2 Presentation Package, Synopsis & Master Feature Matrix
 ```
 
 ---
@@ -116,14 +120,39 @@ This document maintains an immutable, academic-grade chronological audit trail o
 ### Milestone 7: Review 1 Deliverables & Presentation Deck
 * **Objective:** Prepare comprehensive presentation materials for Review 1 strictly aligned with academic requirements.
 * **Key Decisions & Implementations:**
-  * Aligned slide deck strictly to Guide Dr. Nazneen Pendhari's 7 mandatory sections:
-    1. Project Title
-    2. Research Paper Summary (Comparative Literature Matrix of 7 foundational papers)
-    3. Abstract
-    4. Problem Statement
-    5. Aim & Objectives
-    6. Scope & Outcome
-    7. Motivation & Relevance
-  * Authored complete 13-slide markdown deck: [`docs/review1_presentation_deck.md`](file:///d:/Major%20Project/mumbai-uhi-platform/docs/review1_presentation_deck.md).
+  * Aligned slide deck strictly to Guide Dr. Nazneen Pendhari's 7 mandatory sections with an 8-paper literature survey matrix.
+  * Authored complete 11-slide markdown deck: [`docs/review1_presentation_deck.md`](file:///d:/Major%20Project/mumbai-uhi-platform/docs/review1_presentation_deck.md).
   * Synthesized publication-grade outputs for Ahmed to embed into PPT slides.
 * **Lead Engineers:** Ahmed (Deck Coordinator), Hussain (Technical Content & Imagery).
+
+---
+
+### Milestone 8: 27-Year IMD Meteorological Ingestion, Climatology & TreeSHAP
+* **Objective:** Ingest multi-decadal historical in-situ ground weather observations, perform automated quality control, establish statistical warming trends, and attribute biophysical heat drivers.
+* **Key Decisions & Implementations:**
+  * Ingested and cleaned **383,640 continuous observations** across 28 years (1997–2024) from Mumbai weather station records in [`src/ingestion/imd_parser.py`](file:///d:/Major%20Project/mumbai-uhi-platform/src/ingestion/imd_parser.py) and [`scripts/asad_imd_pipeline.py`](file:///d:/Major%20Project/mumbai-uhi-platform/scripts/asad_imd_pipeline.py).
+  * Implemented an automated 6-stage quality control filter:
+    1. Hampel $3\sigma$ Median Absolute Deviation outlier rejection.
+    2. Tropospheric sensor bounds clipping.
+    3. Piecewise Cubic Hermite Interpolating Polynomial (PCHIP) spline gap filling for gaps $\le 3$ hours.
+    4. Orthogonal wind vector decomposition: $u = -W_s \sin(\theta)$ (zonal), $v = -W_s \cos(\theta)$ (meridional).
+    5. Vapor Pressure Deficit (VPD) computation via the Tetens equation.
+    6. Satellite overpass window isolation (10:00–11:30 AM IST).
+  * Conclusively proved statistically significant multi-decadal warming via the non-parametric Mann-Kendall Monotonic Trend Test ($p = 3.64 \times 10^{-5}$, $Z = +4.129$) with Sen’s slope of **$+0.044^\circ\text{C}$ per year ($+0.44^\circ\text{C}$ per decade)**.
+  * Executed dual-model downscaling benchmark on an 80/20 Spatial Block K-Fold split with a $1.2\text{ km}$ buffer (XGBoost $\text{RMSE} = 2.05^\circ\text{C}$ vs. Random Forest $\text{RMSE} = 2.21^\circ\text{C}$).
+  * Quantified biophysical feature attribution via `shap.TreeExplainer`: Built-Up Concrete (`NDBI`) adds $+1.41^\circ\text{C}$, Vegetation (`NDVI`) cools by $-0.42^\circ\text{C}$, Albedo cools by $-0.38^\circ\text{C}$, and Coastal Proximity buffers by $-0.36^\circ\text{C}$.
+  * Built policy prediction pipeline ([`scripts/asad_predict_simulate.py`](file:///d:/Major%20Project/mumbai-uhi-platform/scripts/asad_predict_simulate.py)) evaluating 5 municipal cooling scenarios (greening, cool roofs, combined, urban park, water body restoration).
+  * Added 22 automated unit and integration tests in [`tests/test_asad_deliverables.py`](file:///d:/Major%20Project/mumbai-uhi-platform/tests/test_asad_deliverables.py) (22/22 passing).
+* **Lead Engineer:** Asad.
+
+---
+
+### Milestone 9: Review 2 Academic Package & Master Roadmap Synchronization
+* **Objective:** Consolidate spatial satellite achievements with temporal climatology achievements for Review 2 presentation, compile official academic synopsis, and establish a clear master task matrix for the entire group.
+* **Key Decisions & Implementations:**
+  * Produced the Review 2 presentation deck ([`docs/review2_presentation_deck.md`](file:///d:/Major%20Project/mumbai-uhi-platform/docs/review2_presentation_deck.md)) featuring 12 slides covering both the GEE satellite layers and 27-year IMD findings.
+  * Authored the official Review 2 project synopsis ([`docs/review2_project_synopsis.md`](file:///d:/Major%20Project/mumbai-uhi-platform/docs/review2_project_synopsis.md)) formatted for submission to Guide Dr. Nazneen Pendhari.
+  * Published the Master Feature & Task Matrix ([`docs/development/feature_and_task_matrix.md`](file:///d:/Major%20Project/mumbai-uhi-platform/docs/development/feature_and_task_matrix.md)) identifying that **65.5% of the total major project roadmap is already implemented and verified**.
+  * Formulated the team meeting playbook ([`docs/development/review2_meeting_plan.md`](file:///d:/Major%20Project/mumbai-uhi-platform/docs/development/review2_meeting_plan.md)) to streamline tonight's preparation and rehearsal.
+  * Total verified test suite: **29 passed out of 29 automated tests (100% passing)**.
+* **Lead Engineers:** Hussain, Asad, Abdulrehman, Ahmed.
