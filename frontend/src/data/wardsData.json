@@ -1,0 +1,2138 @@
+[
+  {
+    "id": "A",
+    "name": "Colaba / Fort",
+    "zone": "Island City",
+    "lat": 18.922,
+    "lon": 72.8347,
+    "area": 12.5,
+    "popDensity": 14800,
+    "meanLst": 31.4,
+    "uhi": 0.2,
+    "ndvi": 0.18,
+    "ndbi": 0.22,
+    "mndwi": 0.15,
+    "albedo": 0.14,
+    "elev": 9,
+    "distCoast": 0.4,
+    "risk": "Low",
+    "driver": "Maritime sea breeze buffer (-D_coast)",
+    "shapDrivers": [
+      {
+        "name": "NDBI (Built-up)",
+        "value": 0.17,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "NDVI (Canopy)",
+        "value": -0.37,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Albedo (Reflectance)",
+        "value": -0.24,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Distance to Coast",
+        "value": -0.91,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Elevation (m)",
+        "value": 0.02,
+        "unit": "\u00b0C",
+        "isHeating": true
+      }
+    ],
+    "polygon": [
+      [
+        72.85355,
+        18.922
+      ],
+      [
+        72.84923,
+        18.93583
+      ],
+      [
+        72.8347,
+        18.93737
+      ],
+      [
+        72.8195,
+        18.93648
+      ],
+      [
+        72.81739,
+        18.922
+      ],
+      [
+        72.8215,
+        18.90943
+      ],
+      [
+        72.8347,
+        18.9023
+      ],
+      [
+        72.84608,
+        18.91116
+      ],
+      [
+        72.85613,
+        18.922
+      ]
+    ]
+  },
+  {
+    "id": "B",
+    "name": "Sandhurst Road / Dongri",
+    "zone": "Island City",
+    "lat": 18.955,
+    "lon": 72.839,
+    "area": 2.84,
+    "popDensity": 44700,
+    "meanLst": 35.2,
+    "uhi": 4.0,
+    "ndvi": 0.05,
+    "ndbi": 0.48,
+    "mndwi": -0.12,
+    "albedo": 0.11,
+    "elev": 11,
+    "distCoast": 1.1,
+    "risk": "High",
+    "driver": "Dense masonry built-up (+NDBI)",
+    "shapDrivers": [
+      {
+        "name": "NDBI (Built-up)",
+        "value": 1.27,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "NDVI (Canopy)",
+        "value": -0.01,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Albedo (Reflectance)",
+        "value": -0.18,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Distance to Coast",
+        "value": -0.78,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Elevation (m)",
+        "value": -0.02,
+        "unit": "\u00b0C",
+        "isHeating": false
+      }
+    ],
+    "polygon": [
+      [
+        72.84798,
+        18.955
+      ],
+      [
+        72.84592,
+        18.96159
+      ],
+      [
+        72.839,
+        18.96233
+      ],
+      [
+        72.83175,
+        18.9619
+      ],
+      [
+        72.83075,
+        18.955
+      ],
+      [
+        72.83271,
+        18.94901
+      ],
+      [
+        72.839,
+        18.94561
+      ],
+      [
+        72.84442,
+        18.94983
+      ],
+      [
+        72.84922,
+        18.955
+      ]
+    ]
+  },
+  {
+    "id": "C",
+    "name": "Marine Lines / Kalbadevi",
+    "zone": "Island City",
+    "lat": 18.948,
+    "lon": 72.827,
+    "area": 1.78,
+    "popDensity": 93400,
+    "meanLst": 34.8,
+    "uhi": 3.6,
+    "ndvi": 0.08,
+    "ndbi": 0.44,
+    "mndwi": -0.08,
+    "albedo": 0.12,
+    "elev": 10,
+    "distCoast": 0.7,
+    "risk": "High",
+    "driver": "High thermal inertia concrete canyon",
+    "shapDrivers": [
+      {
+        "name": "NDBI (Built-up)",
+        "value": 1.1,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "NDVI (Canopy)",
+        "value": -0.09,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Albedo (Reflectance)",
+        "value": -0.2,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Distance to Coast",
+        "value": -0.85,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Elevation (m)",
+        "value": 0.0,
+        "unit": "\u00b0C",
+        "isHeating": false
+      }
+    ],
+    "polygon": [
+      [
+        72.83411,
+        18.948
+      ],
+      [
+        72.83248,
+        18.95322
+      ],
+      [
+        72.827,
+        18.9538
+      ],
+      [
+        72.82126,
+        18.95346
+      ],
+      [
+        72.82047,
+        18.948
+      ],
+      [
+        72.82202,
+        18.94326
+      ],
+      [
+        72.827,
+        18.94056
+      ],
+      [
+        72.83129,
+        18.94391
+      ],
+      [
+        72.83509,
+        18.948
+      ]
+    ]
+  },
+  {
+    "id": "D",
+    "name": "Malabar Hill / Grant Road",
+    "zone": "Island City",
+    "lat": 18.962,
+    "lon": 72.808,
+    "area": 6.63,
+    "popDensity": 52200,
+    "meanLst": 32.6,
+    "uhi": 1.4,
+    "ndvi": 0.24,
+    "ndbi": 0.28,
+    "mndwi": 0.05,
+    "albedo": 0.15,
+    "elev": 28,
+    "distCoast": 0.5,
+    "risk": "Moderate",
+    "driver": "Ridge elevation & sea breeze",
+    "shapDrivers": [
+      {
+        "name": "NDBI (Built-up)",
+        "value": 0.43,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "NDVI (Canopy)",
+        "value": -0.54,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Albedo (Reflectance)",
+        "value": -0.27,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Distance to Coast",
+        "value": -0.89,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Elevation (m)",
+        "value": -0.36,
+        "unit": "\u00b0C",
+        "isHeating": false
+      }
+    ],
+    "polygon": [
+      [
+        72.82173,
+        18.962
+      ],
+      [
+        72.81858,
+        18.97207
+      ],
+      [
+        72.808,
+        18.97319
+      ],
+      [
+        72.79693,
+        18.97255
+      ],
+      [
+        72.79539,
+        18.962
+      ],
+      [
+        72.79839,
+        18.95285
+      ],
+      [
+        72.808,
+        18.94765
+      ],
+      [
+        72.81629,
+        18.95411
+      ],
+      [
+        72.82361,
+        18.962
+      ]
+    ]
+  },
+  {
+    "id": "E",
+    "name": "Byculla / Mazgaon",
+    "zone": "Island City",
+    "lat": 18.974,
+    "lon": 72.841,
+    "area": 7.4,
+    "popDensity": 53200,
+    "meanLst": 35.8,
+    "uhi": 4.6,
+    "ndvi": 0.09,
+    "ndbi": 0.46,
+    "mndwi": -0.1,
+    "albedo": 0.13,
+    "elev": 12,
+    "distCoast": 1.6,
+    "risk": "High",
+    "driver": "Industrial port heat retention (+NDBI)",
+    "shapDrivers": [
+      {
+        "name": "NDBI (Built-up)",
+        "value": 1.18,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "NDVI (Canopy)",
+        "value": -0.12,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Albedo (Reflectance)",
+        "value": -0.22,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Distance to Coast",
+        "value": -0.69,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Elevation (m)",
+        "value": -0.04,
+        "unit": "\u00b0C",
+        "isHeating": false
+      }
+    ],
+    "polygon": [
+      [
+        72.8555,
+        18.974
+      ],
+      [
+        72.85218,
+        18.98464
+      ],
+      [
+        72.841,
+        18.98583
+      ],
+      [
+        72.8293,
+        18.98514
+      ],
+      [
+        72.82768,
+        18.974
+      ],
+      [
+        72.83085,
+        18.96433
+      ],
+      [
+        72.841,
+        18.95884
+      ],
+      [
+        72.84975,
+        18.96566
+      ],
+      [
+        72.85749,
+        18.974
+      ]
+    ]
+  },
+  {
+    "id": "F/N",
+    "name": "Matunga / Sion / Wadala",
+    "zone": "Island City",
+    "lat": 19.03,
+    "lon": 72.86,
+    "area": 14.0,
+    "popDensity": 37800,
+    "meanLst": 35.9,
+    "uhi": 4.7,
+    "ndvi": 0.11,
+    "ndbi": 0.47,
+    "mndwi": -0.11,
+    "albedo": 0.13,
+    "elev": 14,
+    "distCoast": 2.1,
+    "risk": "High",
+    "driver": "Highway corridors & asphalt surface",
+    "shapDrivers": [
+      {
+        "name": "NDBI (Built-up)",
+        "value": 1.22,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "NDVI (Canopy)",
+        "value": -0.18,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Albedo (Reflectance)",
+        "value": -0.22,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Distance to Coast",
+        "value": -0.6,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Elevation (m)",
+        "value": -0.08,
+        "unit": "\u00b0C",
+        "isHeating": false
+      }
+    ],
+    "polygon": [
+      [
+        72.87995,
+        19.03
+      ],
+      [
+        72.87537,
+        19.04464
+      ],
+      [
+        72.86,
+        19.04627
+      ],
+      [
+        72.84391,
+        19.04532
+      ],
+      [
+        72.84168,
+        19.03
+      ],
+      [
+        72.84603,
+        19.0167
+      ],
+      [
+        72.86,
+        19.00915
+      ],
+      [
+        72.87204,
+        19.01853
+      ],
+      [
+        72.88268,
+        19.03
+      ]
+    ]
+  },
+  {
+    "id": "F/S",
+    "name": "Parel / Sewri",
+    "zone": "Island City",
+    "lat": 18.998,
+    "lon": 72.846,
+    "area": 14.1,
+    "popDensity": 25600,
+    "meanLst": 35.4,
+    "uhi": 4.2,
+    "ndvi": 0.1,
+    "ndbi": 0.43,
+    "mndwi": -0.09,
+    "albedo": 0.14,
+    "elev": 13,
+    "distCoast": 1.8,
+    "risk": "High",
+    "driver": "High-rise canyon traps & low albedo",
+    "shapDrivers": [
+      {
+        "name": "NDBI (Built-up)",
+        "value": 1.06,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "NDVI (Canopy)",
+        "value": -0.15,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Albedo (Reflectance)",
+        "value": -0.24,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Distance to Coast",
+        "value": -0.66,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Elevation (m)",
+        "value": -0.06,
+        "unit": "\u00b0C",
+        "isHeating": false
+      }
+    ],
+    "polygon": [
+      [
+        72.86602,
+        18.998
+      ],
+      [
+        72.86143,
+        19.01269
+      ],
+      [
+        72.846,
+        19.01432
+      ],
+      [
+        72.82985,
+        19.01338
+      ],
+      [
+        72.82761,
+        18.998
+      ],
+      [
+        72.83198,
+        18.98465
+      ],
+      [
+        72.846,
+        18.97707
+      ],
+      [
+        72.85808,
+        18.98649
+      ],
+      [
+        72.86876,
+        18.998
+      ]
+    ]
+  },
+  {
+    "id": "G/N",
+    "name": "Dharavi / Dadar West",
+    "zone": "Island City / Central",
+    "lat": 19.043,
+    "lon": 72.853,
+    "area": 9.07,
+    "popDensity": 66100,
+    "meanLst": 36.9,
+    "uhi": 5.7,
+    "ndvi": 0.06,
+    "ndbi": 0.52,
+    "mndwi": -0.14,
+    "albedo": 0.1,
+    "elev": 11,
+    "distCoast": 1.5,
+    "risk": "Extreme",
+    "driver": "Extreme tin/tin-sheet roof density (+NDBI)",
+    "shapDrivers": [
+      {
+        "name": "NDBI (Built-up)",
+        "value": 1.43,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "NDVI (Canopy)",
+        "value": -0.04,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Albedo (Reflectance)",
+        "value": -0.16,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Distance to Coast",
+        "value": -0.71,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Elevation (m)",
+        "value": -0.02,
+        "unit": "\u00b0C",
+        "isHeating": false
+      }
+    ],
+    "polygon": [
+      [
+        72.86906,
+        19.043
+      ],
+      [
+        72.86537,
+        19.05478
+      ],
+      [
+        72.853,
+        19.05609
+      ],
+      [
+        72.84005,
+        19.05533
+      ],
+      [
+        72.83825,
+        19.043
+      ],
+      [
+        72.84176,
+        19.03229
+      ],
+      [
+        72.853,
+        19.02622
+      ],
+      [
+        72.86269,
+        19.03377
+      ],
+      [
+        72.87126,
+        19.043
+      ]
+    ]
+  },
+  {
+    "id": "G/S",
+    "name": "Worli / Prabhadevi",
+    "zone": "Island City",
+    "lat": 19.006,
+    "lon": 72.825,
+    "area": 10.0,
+    "popDensity": 37700,
+    "meanLst": 33.9,
+    "uhi": 2.7,
+    "ndvi": 0.14,
+    "ndbi": 0.36,
+    "mndwi": 0.02,
+    "albedo": 0.16,
+    "elev": 12,
+    "distCoast": 0.8,
+    "risk": "Moderate",
+    "driver": "Worli Sea Face ventilation offset",
+    "shapDrivers": [
+      {
+        "name": "NDBI (Built-up)",
+        "value": 0.76,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "NDVI (Canopy)",
+        "value": -0.26,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Albedo (Reflectance)",
+        "value": -0.29,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Distance to Coast",
+        "value": -0.84,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Elevation (m)",
+        "value": -0.04,
+        "unit": "\u00b0C",
+        "isHeating": false
+      }
+    ],
+    "polygon": [
+      [
+        72.84186,
+        19.006
+      ],
+      [
+        72.83799,
+        19.01837
+      ],
+      [
+        72.825,
+        19.01975
+      ],
+      [
+        72.8114,
+        19.01895
+      ],
+      [
+        72.80952,
+        19.006
+      ],
+      [
+        72.8132,
+        18.99476
+      ],
+      [
+        72.825,
+        18.98838
+      ],
+      [
+        72.83518,
+        18.99631
+      ],
+      [
+        72.84417,
+        19.006
+      ]
+    ]
+  },
+  {
+    "id": "H/E",
+    "name": "Bandra East / BKC",
+    "zone": "Western Suburbs",
+    "lat": 19.065,
+    "lon": 72.858,
+    "area": 13.53,
+    "popDensity": 41200,
+    "meanLst": 36.2,
+    "uhi": 5.0,
+    "ndvi": 0.09,
+    "ndbi": 0.49,
+    "mndwi": -0.12,
+    "albedo": 0.13,
+    "elev": 12,
+    "distCoast": 2.8,
+    "risk": "Extreme",
+    "driver": "Commercial glass/asphalt heat trap",
+    "shapDrivers": [
+      {
+        "name": "NDBI (Built-up)",
+        "value": 1.31,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "NDVI (Canopy)",
+        "value": -0.12,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Albedo (Reflectance)",
+        "value": -0.22,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Distance to Coast",
+        "value": -0.48,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Elevation (m)",
+        "value": -0.04,
+        "unit": "\u00b0C",
+        "isHeating": false
+      }
+    ],
+    "polygon": [
+      [
+        72.87761,
+        19.065
+      ],
+      [
+        72.87311,
+        19.07939
+      ],
+      [
+        72.858,
+        19.08099
+      ],
+      [
+        72.84218,
+        19.08007
+      ],
+      [
+        72.83999,
+        19.065
+      ],
+      [
+        72.84427,
+        19.05192
+      ],
+      [
+        72.858,
+        19.0445
+      ],
+      [
+        72.86984,
+        19.05373
+      ],
+      [
+        72.8803,
+        19.065
+      ]
+    ]
+  },
+  {
+    "id": "H/W",
+    "name": "Bandra West / Khar",
+    "zone": "Western Suburbs",
+    "lat": 19.06,
+    "lon": 72.833,
+    "area": 11.55,
+    "popDensity": 29200,
+    "meanLst": 33.1,
+    "uhi": 1.9,
+    "ndvi": 0.19,
+    "ndbi": 0.32,
+    "mndwi": 0.04,
+    "albedo": 0.15,
+    "elev": 15,
+    "distCoast": 0.6,
+    "risk": "Moderate",
+    "driver": "Coastal tree canopy and Arabian Sea breeze",
+    "shapDrivers": [
+      {
+        "name": "NDBI (Built-up)",
+        "value": 0.59,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "NDVI (Canopy)",
+        "value": -0.4,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Albedo (Reflectance)",
+        "value": -0.27,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Distance to Coast",
+        "value": -0.87,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Elevation (m)",
+        "value": -0.1,
+        "unit": "\u00b0C",
+        "isHeating": false
+      }
+    ],
+    "polygon": [
+      [
+        72.85112,
+        19.06
+      ],
+      [
+        72.84696,
+        19.0733
+      ],
+      [
+        72.833,
+        19.07477
+      ],
+      [
+        72.81838,
+        19.07392
+      ],
+      [
+        72.81636,
+        19.06
+      ],
+      [
+        72.82031,
+        19.04792
+      ],
+      [
+        72.833,
+        19.04106
+      ],
+      [
+        72.84394,
+        19.04958
+      ],
+      [
+        72.8536,
+        19.06
+      ]
+    ]
+  },
+  {
+    "id": "K/E",
+    "name": "Andheri East / Marol",
+    "zone": "Western Suburbs",
+    "lat": 19.118,
+    "lon": 72.868,
+    "area": 24.78,
+    "popDensity": 33500,
+    "meanLst": 36.4,
+    "uhi": 5.2,
+    "ndvi": 0.12,
+    "ndbi": 0.51,
+    "mndwi": -0.15,
+    "albedo": 0.12,
+    "elev": 22,
+    "distCoast": 4.2,
+    "risk": "Extreme",
+    "driver": "Airport runway tarmac & industrial MIDC",
+    "shapDrivers": [
+      {
+        "name": "NDBI (Built-up)",
+        "value": 1.39,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "NDVI (Canopy)",
+        "value": -0.21,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Albedo (Reflectance)",
+        "value": -0.2,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Distance to Coast",
+        "value": -0.22,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Elevation (m)",
+        "value": -0.24,
+        "unit": "\u00b0C",
+        "isHeating": false
+      }
+    ],
+    "polygon": [
+      [
+        72.89454,
+        19.118
+      ],
+      [
+        72.88845,
+        19.13748
+      ],
+      [
+        72.868,
+        19.13964
+      ],
+      [
+        72.84659,
+        19.13839
+      ],
+      [
+        72.84363,
+        19.118
+      ],
+      [
+        72.84942,
+        19.1003
+      ],
+      [
+        72.868,
+        19.09026
+      ],
+      [
+        72.88402,
+        19.10274
+      ],
+      [
+        72.89817,
+        19.118
+      ]
+    ]
+  },
+  {
+    "id": "K/W",
+    "name": "Andheri West / Versova",
+    "zone": "Western Suburbs",
+    "lat": 19.124,
+    "lon": 72.832,
+    "area": 23.39,
+    "popDensity": 31800,
+    "meanLst": 35.1,
+    "uhi": 3.9,
+    "ndvi": 0.14,
+    "ndbi": 0.38,
+    "mndwi": 0.03,
+    "albedo": 0.15,
+    "elev": 14,
+    "distCoast": 1.2,
+    "risk": "Moderate-High",
+    "driver": "Built-up density offset by Versova creek",
+    "shapDrivers": [
+      {
+        "name": "NDBI (Built-up)",
+        "value": 0.85,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "NDVI (Canopy)",
+        "value": -0.26,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Albedo (Reflectance)",
+        "value": -0.27,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Distance to Coast",
+        "value": -0.76,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Elevation (m)",
+        "value": -0.08,
+        "unit": "\u00b0C",
+        "isHeating": false
+      }
+    ],
+    "polygon": [
+      [
+        72.85779,
+        19.124
+      ],
+      [
+        72.85187,
+        19.14292
+      ],
+      [
+        72.832,
+        19.14503
+      ],
+      [
+        72.8112,
+        19.14381
+      ],
+      [
+        72.80832,
+        19.124
+      ],
+      [
+        72.81395,
+        19.10681
+      ],
+      [
+        72.832,
+        19.09705
+      ],
+      [
+        72.84756,
+        19.10918
+      ],
+      [
+        72.86132,
+        19.124
+      ]
+    ]
+  },
+  {
+    "id": "L",
+    "name": "Kurla / Sakinaka",
+    "zone": "Eastern Suburbs",
+    "lat": 19.073,
+    "lon": 72.882,
+    "area": 15.84,
+    "popDensity": 56900,
+    "meanLst": 36.8,
+    "uhi": 5.6,
+    "ndvi": 0.07,
+    "ndbi": 0.53,
+    "mndwi": -0.16,
+    "albedo": 0.11,
+    "elev": 16,
+    "distCoast": 4.8,
+    "risk": "Extreme",
+    "driver": "Mithi river channel industrial thermal buildup",
+    "shapDrivers": [
+      {
+        "name": "NDBI (Built-up)",
+        "value": 1.48,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "NDVI (Canopy)",
+        "value": -0.07,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Albedo (Reflectance)",
+        "value": -0.18,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Distance to Coast",
+        "value": -0.12,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Elevation (m)",
+        "value": -0.12,
+        "unit": "\u00b0C",
+        "isHeating": false
+      }
+    ],
+    "polygon": [
+      [
+        72.90322,
+        19.073
+      ],
+      [
+        72.89835,
+        19.08857
+      ],
+      [
+        72.882,
+        19.0903
+      ],
+      [
+        72.86488,
+        19.0893
+      ],
+      [
+        72.86251,
+        19.073
+      ],
+      [
+        72.86714,
+        19.05885
+      ],
+      [
+        72.882,
+        19.05082
+      ],
+      [
+        72.89481,
+        19.0608
+      ],
+      [
+        72.90613,
+        19.073
+      ]
+    ]
+  },
+  {
+    "id": "M/E",
+    "name": "Govandi / Mankhurd",
+    "zone": "Eastern Suburbs",
+    "lat": 19.055,
+    "lon": 72.923,
+    "area": 32.5,
+    "popDensity": 24800,
+    "meanLst": 37.3,
+    "uhi": 6.1,
+    "ndvi": 0.05,
+    "ndbi": 0.54,
+    "mndwi": -0.18,
+    "albedo": 0.1,
+    "elev": 18,
+    "distCoast": 3.5,
+    "risk": "Critical",
+    "driver": "Deonar dumping ground & lack of vegetation (-NDVI)",
+    "shapDrivers": [
+      {
+        "name": "NDBI (Built-up)",
+        "value": 1.52,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "NDVI (Canopy)",
+        "value": -0.01,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Albedo (Reflectance)",
+        "value": -0.16,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Distance to Coast",
+        "value": -0.35,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Elevation (m)",
+        "value": -0.16,
+        "unit": "\u00b0C",
+        "isHeating": false
+      }
+    ],
+    "polygon": [
+      [
+        72.95339,
+        19.055
+      ],
+      [
+        72.94642,
+        19.07731
+      ],
+      [
+        72.923,
+        19.07978
+      ],
+      [
+        72.89848,
+        19.07835
+      ],
+      [
+        72.89509,
+        19.055
+      ],
+      [
+        72.90172,
+        19.03473
+      ],
+      [
+        72.923,
+        19.02323
+      ],
+      [
+        72.94135,
+        19.03753
+      ],
+      [
+        72.95756,
+        19.055
+      ]
+    ]
+  },
+  {
+    "id": "M/W",
+    "name": "Chembur West",
+    "zone": "Eastern Suburbs",
+    "lat": 19.062,
+    "lon": 72.898,
+    "area": 19.5,
+    "popDensity": 21100,
+    "meanLst": 35.5,
+    "uhi": 4.3,
+    "ndvi": 0.15,
+    "ndbi": 0.42,
+    "mndwi": -0.09,
+    "albedo": 0.13,
+    "elev": 20,
+    "distCoast": 3.9,
+    "risk": "High",
+    "driver": "Refinery zone proximity & paved density",
+    "shapDrivers": [
+      {
+        "name": "NDBI (Built-up)",
+        "value": 1.01,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "NDVI (Canopy)",
+        "value": -0.29,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Albedo (Reflectance)",
+        "value": -0.22,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Distance to Coast",
+        "value": -0.28,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Elevation (m)",
+        "value": -0.2,
+        "unit": "\u00b0C",
+        "isHeating": false
+      }
+    ],
+    "polygon": [
+      [
+        72.92154,
+        19.062
+      ],
+      [
+        72.91614,
+        19.07928
+      ],
+      [
+        72.898,
+        19.0812
+      ],
+      [
+        72.87901,
+        19.08009
+      ],
+      [
+        72.87638,
+        19.062
+      ],
+      [
+        72.88152,
+        19.0463
+      ],
+      [
+        72.898,
+        19.03739
+      ],
+      [
+        72.91221,
+        19.04847
+      ],
+      [
+        72.92477,
+        19.062
+      ]
+    ]
+  },
+  {
+    "id": "N",
+    "name": "Ghatkopar / Vikhroli W",
+    "zone": "Eastern Suburbs",
+    "lat": 19.096,
+    "lon": 72.912,
+    "area": 25.96,
+    "popDensity": 24000,
+    "meanLst": 35.7,
+    "uhi": 4.5,
+    "ndvi": 0.16,
+    "ndbi": 0.44,
+    "mndwi": -0.1,
+    "albedo": 0.13,
+    "elev": 26,
+    "distCoast": 5.1,
+    "risk": "High",
+    "driver": "Hill barrier impeding sea breeze penetration",
+    "shapDrivers": [
+      {
+        "name": "NDBI (Built-up)",
+        "value": 1.1,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "NDVI (Canopy)",
+        "value": -0.32,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Albedo (Reflectance)",
+        "value": -0.22,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Distance to Coast",
+        "value": -0.06,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Elevation (m)",
+        "value": -0.32,
+        "unit": "\u00b0C",
+        "isHeating": false
+      }
+    ],
+    "polygon": [
+      [
+        72.93916,
+        19.096
+      ],
+      [
+        72.93293,
+        19.11594
+      ],
+      [
+        72.912,
+        19.11815
+      ],
+      [
+        72.89009,
+        19.11687
+      ],
+      [
+        72.88705,
+        19.096
+      ],
+      [
+        72.89298,
+        19.07789
+      ],
+      [
+        72.912,
+        19.06761
+      ],
+      [
+        72.9284,
+        19.08038
+      ],
+      [
+        72.94289,
+        19.096
+      ]
+    ]
+  },
+  {
+    "id": "P/N",
+    "name": "Malad / Marve",
+    "zone": "Western Suburbs",
+    "lat": 19.186,
+    "lon": 72.842,
+    "area": 46.67,
+    "popDensity": 20100,
+    "meanLst": 34.6,
+    "uhi": 3.4,
+    "ndvi": 0.22,
+    "ndbi": 0.35,
+    "mndwi": 0.01,
+    "albedo": 0.14,
+    "elev": 18,
+    "distCoast": 1.4,
+    "risk": "Moderate",
+    "driver": "Western mangrove buffer moderation",
+    "shapDrivers": [
+      {
+        "name": "NDBI (Built-up)",
+        "value": 0.72,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "NDVI (Canopy)",
+        "value": -0.49,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Albedo (Reflectance)",
+        "value": -0.24,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Distance to Coast",
+        "value": -0.73,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Elevation (m)",
+        "value": -0.16,
+        "unit": "\u00b0C",
+        "isHeating": false
+      }
+    ],
+    "polygon": [
+      [
+        72.87842,
+        19.186
+      ],
+      [
+        72.87007,
+        19.21273
+      ],
+      [
+        72.842,
+        19.2157
+      ],
+      [
+        72.81262,
+        19.21398
+      ],
+      [
+        72.80855,
+        19.186
+      ],
+      [
+        72.8165,
+        19.16172
+      ],
+      [
+        72.842,
+        19.14793
+      ],
+      [
+        72.86399,
+        19.16506
+      ],
+      [
+        72.88341,
+        19.186
+      ]
+    ]
+  },
+  {
+    "id": "P/S",
+    "name": "Goregaon / Aarey Fringe",
+    "zone": "Western Suburbs",
+    "lat": 19.162,
+    "lon": 72.851,
+    "area": 24.44,
+    "popDensity": 18900,
+    "meanLst": 33.8,
+    "uhi": 2.6,
+    "ndvi": 0.31,
+    "ndbi": 0.29,
+    "mndwi": -0.02,
+    "albedo": 0.15,
+    "elev": 24,
+    "distCoast": 3.1,
+    "risk": "Moderate",
+    "driver": "Aarey forest vegetation cooling edge",
+    "shapDrivers": [
+      {
+        "name": "NDBI (Built-up)",
+        "value": 0.47,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "NDVI (Canopy)",
+        "value": -0.74,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Albedo (Reflectance)",
+        "value": -0.27,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Distance to Coast",
+        "value": -0.42,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Elevation (m)",
+        "value": -0.28,
+        "unit": "\u00b0C",
+        "isHeating": false
+      }
+    ],
+    "polygon": [
+      [
+        72.87736,
+        19.162
+      ],
+      [
+        72.87131,
+        19.18134
+      ],
+      [
+        72.851,
+        19.18349
+      ],
+      [
+        72.82974,
+        19.18225
+      ],
+      [
+        72.82679,
+        19.162
+      ],
+      [
+        72.83255,
+        19.14443
+      ],
+      [
+        72.851,
+        19.13445
+      ],
+      [
+        72.86691,
+        19.14685
+      ],
+      [
+        72.88097,
+        19.162
+      ]
+    ]
+  },
+  {
+    "id": "R/C",
+    "name": "Borivali / SGNP Fringe",
+    "zone": "Western Suburbs",
+    "lat": 19.232,
+    "lon": 72.856,
+    "area": 50.0,
+    "popDensity": 11300,
+    "meanLst": 29.8,
+    "uhi": -1.4,
+    "ndvi": 0.62,
+    "ndbi": -0.15,
+    "mndwi": 0.08,
+    "albedo": 0.16,
+    "elev": 45,
+    "distCoast": 2.8,
+    "risk": "Cooling Sink",
+    "driver": "Sanjay Gandhi National Park forest sink (-NDVI)",
+    "shapDrivers": [
+      {
+        "name": "NDBI (Built-up)",
+        "value": -1.38,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "NDVI (Canopy)",
+        "value": -1.61,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Albedo (Reflectance)",
+        "value": -0.29,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Distance to Coast",
+        "value": -0.48,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Elevation (m)",
+        "value": -0.7,
+        "unit": "\u00b0C",
+        "isHeating": false
+      }
+    ],
+    "polygon": [
+      [
+        72.8937,
+        19.232
+      ],
+      [
+        72.88505,
+        19.25967
+      ],
+      [
+        72.856,
+        19.26274
+      ],
+      [
+        72.82559,
+        19.26096
+      ],
+      [
+        72.82138,
+        19.232
+      ],
+      [
+        72.82961,
+        19.20686
+      ],
+      [
+        72.856,
+        19.19259
+      ],
+      [
+        72.87876,
+        19.21033
+      ],
+      [
+        72.89886,
+        19.232
+      ]
+    ]
+  },
+  {
+    "id": "R/N",
+    "name": "Dahisar",
+    "zone": "Western Suburbs",
+    "lat": 19.255,
+    "lon": 72.862,
+    "area": 18.0,
+    "popDensity": 24000,
+    "meanLst": 33.2,
+    "uhi": 2.0,
+    "ndvi": 0.28,
+    "ndbi": 0.27,
+    "mndwi": 0.02,
+    "albedo": 0.14,
+    "elev": 25,
+    "distCoast": 3.6,
+    "risk": "Moderate",
+    "driver": "Northern green fringe buffer",
+    "shapDrivers": [
+      {
+        "name": "NDBI (Built-up)",
+        "value": 0.38,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "NDVI (Canopy)",
+        "value": -0.65,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Albedo (Reflectance)",
+        "value": -0.24,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Distance to Coast",
+        "value": -0.33,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Elevation (m)",
+        "value": -0.3,
+        "unit": "\u00b0C",
+        "isHeating": false
+      }
+    ],
+    "polygon": [
+      [
+        72.88462,
+        19.255
+      ],
+      [
+        72.87943,
+        19.2716
+      ],
+      [
+        72.862,
+        19.27344
+      ],
+      [
+        72.84375,
+        19.27238
+      ],
+      [
+        72.84123,
+        19.255
+      ],
+      [
+        72.84616,
+        19.23992
+      ],
+      [
+        72.862,
+        19.23136
+      ],
+      [
+        72.87565,
+        19.242
+      ],
+      [
+        72.88772,
+        19.255
+      ]
+    ]
+  },
+  {
+    "id": "R/S",
+    "name": "Kandivali / Charkop",
+    "zone": "Western Suburbs",
+    "lat": 19.208,
+    "lon": 72.848,
+    "area": 17.78,
+    "popDensity": 39200,
+    "meanLst": 35.3,
+    "uhi": 4.1,
+    "ndvi": 0.13,
+    "ndbi": 0.45,
+    "mndwi": -0.07,
+    "albedo": 0.13,
+    "elev": 20,
+    "distCoast": 2.4,
+    "risk": "High",
+    "driver": "High residential concrete footprint",
+    "shapDrivers": [
+      {
+        "name": "NDBI (Built-up)",
+        "value": 1.14,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "NDVI (Canopy)",
+        "value": -0.23,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Albedo (Reflectance)",
+        "value": -0.22,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Distance to Coast",
+        "value": -0.55,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Elevation (m)",
+        "value": -0.2,
+        "unit": "\u00b0C",
+        "isHeating": false
+      }
+    ],
+    "polygon": [
+      [
+        72.87048,
+        19.208
+      ],
+      [
+        72.86532,
+        19.2245
+      ],
+      [
+        72.848,
+        19.22633
+      ],
+      [
+        72.82987,
+        19.22527
+      ],
+      [
+        72.82735,
+        19.208
+      ],
+      [
+        72.83226,
+        19.19301
+      ],
+      [
+        72.848,
+        19.1845
+      ],
+      [
+        72.86157,
+        19.19508
+      ],
+      [
+        72.87356,
+        19.208
+      ]
+    ]
+  },
+  {
+    "id": "S",
+    "name": "Bhandup / Powai",
+    "zone": "Eastern Suburbs",
+    "lat": 19.135,
+    "lon": 72.925,
+    "area": 64.0,
+    "popDensity": 11600,
+    "meanLst": 33.4,
+    "uhi": 2.2,
+    "ndvi": 0.38,
+    "ndbi": 0.22,
+    "mndwi": 0.12,
+    "albedo": 0.15,
+    "elev": 48,
+    "distCoast": 6.2,
+    "risk": "Moderate",
+    "driver": "Powai lake and hill topography cooling",
+    "shapDrivers": [
+      {
+        "name": "NDBI (Built-up)",
+        "value": 0.17,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "NDVI (Canopy)",
+        "value": -0.93,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Albedo (Reflectance)",
+        "value": -0.27,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Distance to Coast",
+        "value": 0.14,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "Elevation (m)",
+        "value": -0.76,
+        "unit": "\u00b0C",
+        "isHeating": false
+      }
+    ],
+    "polygon": [
+      [
+        72.96765,
+        19.135
+      ],
+      [
+        72.95787,
+        19.1663
+      ],
+      [
+        72.925,
+        19.16978
+      ],
+      [
+        72.8906,
+        19.16777
+      ],
+      [
+        72.88583,
+        19.135
+      ],
+      [
+        72.89514,
+        19.10656
+      ],
+      [
+        72.925,
+        19.09042
+      ],
+      [
+        72.95075,
+        19.11048
+      ],
+      [
+        72.97349,
+        19.135
+      ]
+    ]
+  },
+  {
+    "id": "T",
+    "name": "Mulund / Nahur",
+    "zone": "Eastern Suburbs",
+    "lat": 19.176,
+    "lon": 72.955,
+    "area": 45.4,
+    "popDensity": 9500,
+    "meanLst": 34.0,
+    "uhi": 2.8,
+    "ndvi": 0.32,
+    "ndbi": 0.26,
+    "mndwi": 0.03,
+    "albedo": 0.14,
+    "elev": 35,
+    "distCoast": 7.4,
+    "risk": "Moderate",
+    "driver": "Eastern hills and low-density footprint",
+    "shapDrivers": [
+      {
+        "name": "NDBI (Built-up)",
+        "value": 0.34,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "NDVI (Canopy)",
+        "value": -0.77,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Albedo (Reflectance)",
+        "value": -0.24,
+        "unit": "\u00b0C",
+        "isHeating": false
+      },
+      {
+        "name": "Distance to Coast",
+        "value": 0.35,
+        "unit": "\u00b0C",
+        "isHeating": true
+      },
+      {
+        "name": "Elevation (m)",
+        "value": -0.5,
+        "unit": "\u00b0C",
+        "isHeating": false
+      }
+    ],
+    "polygon": [
+      [
+        72.99092,
+        19.176
+      ],
+      [
+        72.98268,
+        19.20236
+      ],
+      [
+        72.955,
+        19.20529
+      ],
+      [
+        72.92602,
+        19.2036
+      ],
+      [
+        72.92201,
+        19.176
+      ],
+      [
+        72.92985,
+        19.15205
+      ],
+      [
+        72.955,
+        19.13845
+      ],
+      [
+        72.97668,
+        19.15535
+      ],
+      [
+        72.99584,
+        19.176
+      ]
+    ]
+  }
+]

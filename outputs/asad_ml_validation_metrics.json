@@ -3,35 +3,35 @@
   "pipeline": "IMD-Enriched ML Training Pipeline",
   "split_method": "Spatial Block K-Fold (1.2 km buffer exclusion)",
   "split_ratio": "80/20 (train/test)",
-  "train_samples": 2306,
-  "test_samples": 137,
+  "train_samples": 1533,
+  "test_samples": 434,
   "acceptance_criteria": {
     "rmse_max_celsius": 1.5,
     "r2_min": 0.85
   },
   "xgboost": {
-    "rmse": 2.053588254815079,
-    "r2": 0.44461509952420863,
-    "mae": 1.6253965345772496,
+    "rmse": 0.8352500338956029,
+    "r2": 0.8256063133918263,
+    "mae": 0.6748669404130062,
     "passes": false,
     "model_path": "data/models/asad_xgb_imd_enriched.json"
   },
   "random_forest": {
-    "rmse": 2.2068088060434436,
-    "r2": 0.35864757495065425,
-    "mae": 1.7458583406865007,
+    "rmse": 0.8625265077823675,
+    "r2": 0.8140301003590745,
+    "mae": 0.6815306614866123,
     "passes": false,
     "model_path": "data/models/asad_rf_benchmark.joblib"
   },
   "shap_top_drivers": {
-    "NDBI": 1.4130139350891113,
-    "NDVI": 0.41792717576026917,
-    "Albedo": 0.37560123205184937,
-    "Distance_Coast_km": 0.35818910598754883,
-    "Latitude": 0.29223012924194336,
-    "F_v": 0.2752460241317749,
-    "Elevation_m": 0.2256898283958435,
-    "MNDWI": 0.22146686911582947
+    "Longitude": 0.39414945244789124,
+    "Distance_Coast_km": 0.2704237699508667,
+    "VPD_kPa": 0.10350444167852402,
+    "NDBI": 0.04027175530791283,
+    "Relative_Humidity": 0.03547979146242142,
+    "NDVI": 0.030210766941308975,
+    "F_v": 0.029177650809288025,
+    "Emissivity": 0.028177281841635704
   },
   "feature_names": [
     "NDVI",
