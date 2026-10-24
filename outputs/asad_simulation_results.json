@@ -1,67 +1,67 @@
 {
   "model_used": "asad_xgb_imd_enriched",
-  "prediction_surface_size": 2481,
-  "baseline_mean_lst": 40.03714370727539,
+  "prediction_surface_size": 500,
+  "baseline_mean_lst": 32.187164306640625,
   "scenarios": [
     {
-      "mean_baseline_lst": 40.03714370727539,
-      "mean_simulated_lst": 38.899322509765625,
-      "cooling_delta": -1.1378211975097656,
-      "energy_reduction_kwh_m2_yr": 5.461541748046875,
-      "elapsed_ms": 15.84409992210567,
+      "mean_baseline_lst": 32.187164306640625,
+      "mean_simulated_lst": 31.535215377807617,
+      "cooling_delta": -0.6519489288330078,
+      "energy_reduction_kwh_m2_yr": 3.1293548583984374,
+      "elapsed_ms": 3.210199996829033,
       "scenario_name": "Urban Greening (NDVI +0.25)",
       "scenario_description": "Plant trees and expand green cover in target ward",
       "delta_ndvi_applied": 0.25,
       "delta_albedo_applied": 0.0,
-      "num_pixels": 2481
+      "num_pixels": 500
     },
     {
-      "mean_baseline_lst": 40.03714370727539,
-      "mean_simulated_lst": 40.812599182128906,
-      "cooling_delta": 0.7754554748535156,
-      "energy_reduction_kwh_m2_yr": 3.7221862792968747,
-      "elapsed_ms": 17.47900014743209,
+      "mean_baseline_lst": 32.187164306640625,
+      "mean_simulated_lst": 31.878578186035156,
+      "cooling_delta": -0.30858612060546875,
+      "energy_reduction_kwh_m2_yr": 1.48121337890625,
+      "elapsed_ms": 3.672299993922934,
       "scenario_name": "Cool Roof Campaign (Albedo +0.30)",
       "scenario_description": "White reflective roof coating on commercial/residential buildings",
       "delta_ndvi_applied": 0.0,
       "delta_albedo_applied": 0.3,
-      "num_pixels": 2481
+      "num_pixels": 500
     },
     {
-      "mean_baseline_lst": 40.03714370727539,
-      "mean_simulated_lst": 40.12430953979492,
-      "cooling_delta": 0.08716583251953125,
-      "energy_reduction_kwh_m2_yr": 0.41839599609375,
-      "elapsed_ms": 15.399899799376726,
+      "mean_baseline_lst": 32.187164306640625,
+      "mean_simulated_lst": 31.36064338684082,
+      "cooling_delta": -0.8265209197998047,
+      "energy_reduction_kwh_m2_yr": 3.9673004150390625,
+      "elapsed_ms": 4.512900020927191,
       "scenario_name": "Combined Greening + Cool Roofs",
       "scenario_description": "Simultaneous tree planting and reflective roof installation",
       "delta_ndvi_applied": 0.2,
       "delta_albedo_applied": 0.2,
-      "num_pixels": 2481
+      "num_pixels": 500
     },
     {
-      "mean_baseline_lst": 40.03714370727539,
-      "mean_simulated_lst": 39.66387939453125,
-      "cooling_delta": -0.3732643127441406,
-      "energy_reduction_kwh_m2_yr": 1.791668701171875,
-      "elapsed_ms": 12.851400068029761,
+      "mean_baseline_lst": 32.187164306640625,
+      "mean_simulated_lst": 31.249460220336914,
+      "cooling_delta": -0.9377040863037109,
+      "energy_reduction_kwh_m2_yr": 4.500979614257813,
+      "elapsed_ms": 3.1843999749980867,
       "scenario_name": "New Urban Park (NDVI +0.40)",
       "scenario_description": "Convert vacant lot / demolished structure to urban park",
       "delta_ndvi_applied": 0.4,
       "delta_albedo_applied": 0.05,
-      "num_pixels": 2481
+      "num_pixels": 500
     },
     {
-      "mean_baseline_lst": 40.03714370727539,
-      "mean_simulated_lst": 38.32927322387695,
-      "cooling_delta": -1.7078704833984375,
-      "energy_reduction_kwh_m2_yr": 8.1977783203125,
-      "elapsed_ms": 16.326799988746643,
+      "mean_baseline_lst": 32.187164306640625,
+      "mean_simulated_lst": 31.99291229248047,
+      "cooling_delta": -0.19425201416015625,
+      "energy_reduction_kwh_m2_yr": 0.9324096679687499,
+      "elapsed_ms": 2.9132000054232776,
       "scenario_name": "Water Body Restoration",
       "scenario_description": "Restore creek or lake to enhance evaporative cooling",
       "delta_ndvi_applied": 0.1,
       "delta_albedo_applied": -0.05,
-      "num_pixels": 2481
+      "num_pixels": 500
     }
   ]
 }
