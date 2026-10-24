@@ -1,0 +1,2162 @@
+{
+  "annual": [
+    {
+      "year": 1997,
+      "meanTemp": 27.96,
+      "minTemp": 16.0,
+      "maxTemp": 39.0,
+      "rhMean": 65.1,
+      "vpdMean": 1.4,
+      "trendTemp": 27.4
+    },
+    {
+      "year": 1998,
+      "meanTemp": 28.2,
+      "minTemp": 15.0,
+      "maxTemp": 39.0,
+      "rhMean": 71.3,
+      "vpdMean": 1.18,
+      "trendTemp": 27.44
+    },
+    {
+      "year": 1999,
+      "meanTemp": 27.91,
+      "minTemp": 18.0,
+      "maxTemp": 38.0,
+      "rhMean": 66.0,
+      "vpdMean": 1.34,
+      "trendTemp": 27.49
+    },
+    {
+      "year": 2000,
+      "meanTemp": 27.42,
+      "minTemp": 16.0,
+      "maxTemp": 36.0,
+      "rhMean": 66.0,
+      "vpdMean": 1.3,
+      "trendTemp": 27.53
+    },
+    {
+      "year": 2001,
+      "meanTemp": 27.28,
+      "minTemp": 16.0,
+      "maxTemp": 37.0,
+      "rhMean": 68.1,
+      "vpdMean": 1.22,
+      "trendTemp": 27.58
+    },
+    {
+      "year": 2002,
+      "meanTemp": 27.84,
+      "minTemp": 14.0,
+      "maxTemp": 38.0,
+      "rhMean": 64.5,
+      "vpdMean": 1.4,
+      "trendTemp": 27.62
+    },
+    {
+      "year": 2003,
+      "meanTemp": 27.42,
+      "minTemp": 14.0,
+      "maxTemp": 37.0,
+      "rhMean": 65.7,
+      "vpdMean": 1.36,
+      "trendTemp": 27.66
+    },
+    {
+      "year": 2004,
+      "meanTemp": 27.09,
+      "minTemp": 13.0,
+      "maxTemp": 39.0,
+      "rhMean": 64.2,
+      "vpdMean": 1.38,
+      "trendTemp": 27.71
+    },
+    {
+      "year": 2005,
+      "meanTemp": 27.57,
+      "minTemp": 16.0,
+      "maxTemp": 37.0,
+      "rhMean": 61.2,
+      "vpdMean": 1.49,
+      "trendTemp": 27.75
+    },
+    {
+      "year": 2006,
+      "meanTemp": 27.52,
+      "minTemp": 18.0,
+      "maxTemp": 36.0,
+      "rhMean": 64.8,
+      "vpdMean": 1.35,
+      "trendTemp": 27.8
+    },
+    {
+      "year": 2007,
+      "meanTemp": 28.2,
+      "minTemp": 20.0,
+      "maxTemp": 38.0,
+      "rhMean": 64.0,
+      "vpdMean": 1.43,
+      "trendTemp": 27.84
+    },
+    {
+      "year": 2008,
+      "meanTemp": 27.98,
+      "minTemp": 15.0,
+      "maxTemp": 36.0,
+      "rhMean": 65.4,
+      "vpdMean": 1.37,
+      "trendTemp": 27.88
+    },
+    {
+      "year": 2009,
+      "meanTemp": 28.6,
+      "minTemp": 20.0,
+      "maxTemp": 41.0,
+      "rhMean": 69.4,
+      "vpdMean": 1.26,
+      "trendTemp": 27.93
+    },
+    {
+      "year": 2010,
+      "meanTemp": 28.27,
+      "minTemp": 20.0,
+      "maxTemp": 38.0,
+      "rhMean": 70.4,
+      "vpdMean": 1.18,
+      "trendTemp": 27.97
+    },
+    {
+      "year": 2011,
+      "meanTemp": 28.12,
+      "minTemp": 18.0,
+      "maxTemp": 39.0,
+      "rhMean": 67.4,
+      "vpdMean": 1.29,
+      "trendTemp": 28.02
+    },
+    {
+      "year": 2012,
+      "meanTemp": 27.76,
+      "minTemp": 16.0,
+      "maxTemp": 37.0,
+      "rhMean": 66.8,
+      "vpdMean": 1.27,
+      "trendTemp": 28.06
+    },
+    {
+      "year": 2013,
+      "meanTemp": 27.76,
+      "minTemp": 16.0,
+      "maxTemp": 39.0,
+      "rhMean": 68.2,
+      "vpdMean": 1.24,
+      "trendTemp": 28.1
+    },
+    {
+      "year": 2014,
+      "meanTemp": 28.27,
+      "minTemp": 18.0,
+      "maxTemp": 37.0,
+      "rhMean": 66.6,
+      "vpdMean": 1.33,
+      "trendTemp": 28.15
+    },
+    {
+      "year": 2015,
+      "meanTemp": 28.79,
+      "minTemp": 19.0,
+      "maxTemp": 40.0,
+      "rhMean": 65.6,
+      "vpdMean": 1.4,
+      "trendTemp": 28.19
+    },
+    {
+      "year": 2016,
+      "meanTemp": 28.33,
+      "minTemp": 19.0,
+      "maxTemp": 38.0,
+      "rhMean": 66.7,
+      "vpdMean": 1.34,
+      "trendTemp": 28.24
+    },
+    {
+      "year": 2017,
+      "meanTemp": 28.65,
+      "minTemp": 18.0,
+      "maxTemp": 40.0,
+      "rhMean": 66.8,
+      "vpdMean": 1.35,
+      "trendTemp": 28.28
+    },
+    {
+      "year": 2018,
+      "meanTemp": 28.86,
+      "minTemp": 20.0,
+      "maxTemp": 40.0,
+      "rhMean": 64.4,
+      "vpdMean": 1.47,
+      "trendTemp": 28.32
+    },
+    {
+      "year": 2019,
+      "meanTemp": 28.34,
+      "minTemp": 18.0,
+      "maxTemp": 41.0,
+      "rhMean": 68.7,
+      "vpdMean": 1.24,
+      "trendTemp": 28.37
+    },
+    {
+      "year": 2020,
+      "meanTemp": 28.47,
+      "minTemp": 18.0,
+      "maxTemp": 37.0,
+      "rhMean": 70.1,
+      "vpdMean": 1.2,
+      "trendTemp": 28.41
+    },
+    {
+      "year": 2021,
+      "meanTemp": 28.62,
+      "minTemp": 19.0,
+      "maxTemp": 40.0,
+      "rhMean": 70.3,
+      "vpdMean": 1.23,
+      "trendTemp": 28.46
+    },
+    {
+      "year": 2022,
+      "meanTemp": 28.31,
+      "minTemp": 17.0,
+      "maxTemp": 39.0,
+      "rhMean": 68.9,
+      "vpdMean": 1.26,
+      "trendTemp": 28.5
+    },
+    {
+      "year": 2023,
+      "meanTemp": 28.97,
+      "minTemp": 19.0,
+      "maxTemp": 39.0,
+      "rhMean": 66.6,
+      "vpdMean": 1.4,
+      "trendTemp": 28.54
+    },
+    {
+      "year": 2024,
+      "meanTemp": 28.71,
+      "minTemp": 21.0,
+      "maxTemp": 38.0,
+      "rhMean": 68.7,
+      "vpdMean": 1.28,
+      "trendTemp": 28.59
+    }
+  ],
+  "monthlyMatrix": [
+    {
+      "year": 1997,
+      "months": [
+        {
+          "month": 1,
+          "mean": 24.18,
+          "anomaly": -3.98
+        },
+        {
+          "month": 2,
+          "mean": 25.16,
+          "anomaly": -3.0
+        },
+        {
+          "month": 3,
+          "mean": 28.27,
+          "anomaly": 0.11
+        },
+        {
+          "month": 4,
+          "mean": 28.85,
+          "anomaly": 0.69
+        },
+        {
+          "month": 5,
+          "mean": 30.17,
+          "anomaly": 2.01
+        },
+        {
+          "month": 6,
+          "mean": 28.1,
+          "anomaly": -0.06
+        },
+        {
+          "month": 7,
+          "mean": 26.9,
+          "anomaly": -1.26
+        },
+        {
+          "month": 8,
+          "mean": 27.61,
+          "anomaly": -0.55
+        },
+        {
+          "month": 9,
+          "mean": 29.13,
+          "anomaly": 0.97
+        },
+        {
+          "month": 10,
+          "mean": 30.76,
+          "anomaly": 2.6
+        },
+        {
+          "month": 11,
+          "mean": 30.07,
+          "anomaly": 1.91
+        },
+        {
+          "month": 12,
+          "mean": 26.76,
+          "anomaly": -1.4
+        }
+      ]
+    },
+    {
+      "year": 1998,
+      "months": [
+        {
+          "month": 1,
+          "mean": 24.58,
+          "anomaly": -3.58
+        },
+        {
+          "month": 2,
+          "mean": 24.68,
+          "anomaly": -3.48
+        },
+        {
+          "month": 3,
+          "mean": 27.23,
+          "anomaly": -0.93
+        },
+        {
+          "month": 4,
+          "mean": 28.45,
+          "anomaly": 0.29
+        },
+        {
+          "month": 5,
+          "mean": 30.75,
+          "anomaly": 2.59
+        },
+        {
+          "month": 6,
+          "mean": 30.4,
+          "anomaly": 2.24
+        },
+        {
+          "month": 7,
+          "mean": 28.43,
+          "anomaly": 0.27
+        },
+        {
+          "month": 8,
+          "mean": 28.99,
+          "anomaly": 0.83
+        },
+        {
+          "month": 9,
+          "mean": 28.5,
+          "anomaly": 0.34
+        },
+        {
+          "month": 10,
+          "mean": 28.91,
+          "anomaly": 0.75
+        },
+        {
+          "month": 11,
+          "mean": 28.2,
+          "anomaly": 0.04
+        },
+        {
+          "month": 12,
+          "mean": 26.47,
+          "anomaly": -1.69
+        }
+      ]
+    },
+    {
+      "year": 1999,
+      "months": [
+        {
+          "month": 1,
+          "mean": 24.99,
+          "anomaly": -3.17
+        },
+        {
+          "month": 2,
+          "mean": 28.92,
+          "anomaly": 0.76
+        },
+        {
+          "month": 3,
+          "mean": 28.46,
+          "anomaly": 0.3
+        },
+        {
+          "month": 4,
+          "mean": 29.05,
+          "anomaly": 0.89
+        },
+        {
+          "month": 5,
+          "mean": 29.43,
+          "anomaly": 1.27
+        },
+        {
+          "month": 6,
+          "mean": 28.08,
+          "anomaly": -0.08
+        },
+        {
+          "month": 7,
+          "mean": 27.83,
+          "anomaly": -0.33
+        },
+        {
+          "month": 8,
+          "mean": 27.77,
+          "anomaly": -0.39
+        },
+        {
+          "month": 9,
+          "mean": 27.7,
+          "anomaly": -0.46
+        },
+        {
+          "month": 10,
+          "mean": 28.15,
+          "anomaly": -0.01
+        },
+        {
+          "month": 11,
+          "mean": 28.42,
+          "anomaly": 0.26
+        },
+        {
+          "month": 12,
+          "mean": 26.15,
+          "anomaly": -2.01
+        }
+      ]
+    },
+    {
+      "year": 2000,
+      "months": [
+        {
+          "month": 1,
+          "mean": 25.81,
+          "anomaly": -2.35
+        },
+        {
+          "month": 2,
+          "mean": 24.41,
+          "anomaly": -3.75
+        },
+        {
+          "month": 4,
+          "mean": 29.5,
+          "anomaly": 1.34
+        },
+        {
+          "month": 5,
+          "mean": 29.5,
+          "anomaly": 1.34
+        },
+        {
+          "month": 6,
+          "mean": 29.17,
+          "anomaly": 1.01
+        },
+        {
+          "month": 7,
+          "mean": 27.93,
+          "anomaly": -0.23
+        },
+        {
+          "month": 8,
+          "mean": 30.12,
+          "anomaly": 1.96
+        },
+        {
+          "month": 9,
+          "mean": 28.56,
+          "anomaly": 0.4
+        },
+        {
+          "month": 10,
+          "mean": 28.65,
+          "anomaly": 0.49
+        },
+        {
+          "month": 11,
+          "mean": 27.73,
+          "anomaly": -0.43
+        },
+        {
+          "month": 12,
+          "mean": 25.96,
+          "anomaly": -2.2
+        }
+      ]
+    },
+    {
+      "year": 2001,
+      "months": [
+        {
+          "month": 1,
+          "mean": 24.22,
+          "anomaly": -3.94
+        },
+        {
+          "month": 2,
+          "mean": 24.05,
+          "anomaly": -4.11
+        },
+        {
+          "month": 3,
+          "mean": 25.97,
+          "anomaly": -2.19
+        },
+        {
+          "month": 4,
+          "mean": 28.43,
+          "anomaly": 0.27
+        },
+        {
+          "month": 5,
+          "mean": 29.49,
+          "anomaly": 1.33
+        },
+        {
+          "month": 6,
+          "mean": 28.48,
+          "anomaly": 0.32
+        },
+        {
+          "month": 7,
+          "mean": 27.66,
+          "anomaly": -0.5
+        },
+        {
+          "month": 8,
+          "mean": 28.33,
+          "anomaly": 0.17
+        },
+        {
+          "month": 9,
+          "mean": 28.22,
+          "anomaly": 0.06
+        },
+        {
+          "month": 11,
+          "mean": 28.27,
+          "anomaly": 0.11
+        },
+        {
+          "month": 12,
+          "mean": 26.83,
+          "anomaly": -1.33
+        }
+      ]
+    },
+    {
+      "year": 2002,
+      "months": [
+        {
+          "month": 1,
+          "mean": 24.66,
+          "anomaly": -3.5
+        },
+        {
+          "month": 2,
+          "mean": 25.34,
+          "anomaly": -2.82
+        },
+        {
+          "month": 3,
+          "mean": 26.75,
+          "anomaly": -1.41
+        },
+        {
+          "month": 4,
+          "mean": 29.05,
+          "anomaly": 0.89
+        },
+        {
+          "month": 5,
+          "mean": 29.6,
+          "anomaly": 1.44
+        },
+        {
+          "month": 6,
+          "mean": 28.54,
+          "anomaly": 0.38
+        },
+        {
+          "month": 7,
+          "mean": 29.6,
+          "anomaly": 1.44
+        },
+        {
+          "month": 8,
+          "mean": 27.62,
+          "anomaly": -0.54
+        },
+        {
+          "month": 9,
+          "mean": 29.56,
+          "anomaly": 1.4
+        },
+        {
+          "month": 10,
+          "mean": 29.82,
+          "anomaly": 1.66
+        },
+        {
+          "month": 12,
+          "mean": 25.43,
+          "anomaly": -2.73
+        }
+      ]
+    },
+    {
+      "year": 2003,
+      "months": [
+        {
+          "month": 1,
+          "mean": 24.75,
+          "anomaly": -3.41
+        },
+        {
+          "month": 2,
+          "mean": 25.82,
+          "anomaly": -2.34
+        },
+        {
+          "month": 3,
+          "mean": 27.22,
+          "anomaly": -0.94
+        },
+        {
+          "month": 4,
+          "mean": 28.5,
+          "anomaly": 0.34
+        },
+        {
+          "month": 5,
+          "mean": 29.49,
+          "anomaly": 1.33
+        },
+        {
+          "month": 6,
+          "mean": 28.09,
+          "anomaly": -0.07
+        },
+        {
+          "month": 7,
+          "mean": 27.98,
+          "anomaly": -0.18
+        },
+        {
+          "month": 8,
+          "mean": 28.31,
+          "anomaly": 0.15
+        },
+        {
+          "month": 9,
+          "mean": 28.12,
+          "anomaly": -0.04
+        },
+        {
+          "month": 10,
+          "mean": 29.85,
+          "anomaly": 1.69
+        },
+        {
+          "month": 11,
+          "mean": 28.16,
+          "anomaly": 0.0
+        },
+        {
+          "month": 12,
+          "mean": 22.83,
+          "anomaly": -5.33
+        }
+      ]
+    },
+    {
+      "year": 2004,
+      "months": [
+        {
+          "month": 1,
+          "mean": 21.01,
+          "anomaly": -7.15
+        },
+        {
+          "month": 2,
+          "mean": 23.48,
+          "anomaly": -4.68
+        },
+        {
+          "month": 3,
+          "mean": 28.12,
+          "anomaly": -0.04
+        },
+        {
+          "month": 4,
+          "mean": 28.41,
+          "anomaly": 0.25
+        },
+        {
+          "month": 5,
+          "mean": 29.83,
+          "anomaly": 1.67
+        },
+        {
+          "month": 6,
+          "mean": 28.86,
+          "anomaly": 0.7
+        },
+        {
+          "month": 7,
+          "mean": 27.74,
+          "anomaly": -0.42
+        },
+        {
+          "month": 8,
+          "mean": 27.62,
+          "anomaly": -0.54
+        },
+        {
+          "month": 9,
+          "mean": 28.24,
+          "anomaly": 0.08
+        },
+        {
+          "month": 10,
+          "mean": 27.28,
+          "anomaly": -0.88
+        },
+        {
+          "month": 11,
+          "mean": 27.63,
+          "anomaly": -0.53
+        },
+        {
+          "month": 12,
+          "mean": 26.27,
+          "anomaly": -1.89
+        }
+      ]
+    },
+    {
+      "year": 2005,
+      "months": [
+        {
+          "month": 1,
+          "mean": 24.61,
+          "anomaly": -3.55
+        },
+        {
+          "month": 2,
+          "mean": 27.13,
+          "anomaly": -1.03
+        },
+        {
+          "month": 3,
+          "mean": 27.32,
+          "anomaly": -0.84
+        },
+        {
+          "month": 4,
+          "mean": 29.13,
+          "anomaly": 0.97
+        },
+        {
+          "month": 5,
+          "mean": 29.65,
+          "anomaly": 1.49
+        },
+        {
+          "month": 6,
+          "mean": 30.11,
+          "anomaly": 1.95
+        },
+        {
+          "month": 7,
+          "mean": 28.25,
+          "anomaly": 0.09
+        },
+        {
+          "month": 8,
+          "mean": 27.31,
+          "anomaly": -0.85
+        },
+        {
+          "month": 9,
+          "mean": 27.08,
+          "anomaly": -1.08
+        },
+        {
+          "month": 10,
+          "mean": 28.01,
+          "anomaly": -0.15
+        },
+        {
+          "month": 11,
+          "mean": 26.71,
+          "anomaly": -1.45
+        },
+        {
+          "month": 12,
+          "mean": 25.34,
+          "anomaly": -2.82
+        }
+      ]
+    },
+    {
+      "year": 2006,
+      "months": [
+        {
+          "month": 1,
+          "mean": 25.01,
+          "anomaly": -3.15
+        },
+        {
+          "month": 2,
+          "mean": 27.09,
+          "anomaly": -1.07
+        },
+        {
+          "month": 3,
+          "mean": 27.19,
+          "anomaly": -0.97
+        },
+        {
+          "month": 4,
+          "mean": 28.02,
+          "anomaly": -0.14
+        },
+        {
+          "month": 5,
+          "mean": 29.28,
+          "anomaly": 1.12
+        },
+        {
+          "month": 6,
+          "mean": 28.58,
+          "anomaly": 0.42
+        },
+        {
+          "month": 7,
+          "mean": 27.26,
+          "anomaly": -0.9
+        },
+        {
+          "month": 8,
+          "mean": 26.62,
+          "anomaly": -1.54
+        },
+        {
+          "month": 9,
+          "mean": 27.19,
+          "anomaly": -0.97
+        },
+        {
+          "month": 10,
+          "mean": 29.02,
+          "anomaly": 0.86
+        },
+        {
+          "month": 11,
+          "mean": 28.17,
+          "anomaly": 0.01
+        },
+        {
+          "month": 12,
+          "mean": 26.58,
+          "anomaly": -1.58
+        }
+      ]
+    },
+    {
+      "year": 2007,
+      "months": [
+        {
+          "month": 1,
+          "mean": 25.6,
+          "anomaly": -2.56
+        },
+        {
+          "month": 2,
+          "mean": 25.92,
+          "anomaly": -2.24
+        },
+        {
+          "month": 3,
+          "mean": 28.07,
+          "anomaly": -0.09
+        },
+        {
+          "month": 4,
+          "mean": 29.5,
+          "anomaly": 1.34
+        },
+        {
+          "month": 5,
+          "mean": 30.21,
+          "anomaly": 2.05
+        },
+        {
+          "month": 6,
+          "mean": 29.16,
+          "anomaly": 1.0
+        },
+        {
+          "month": 7,
+          "mean": 28.26,
+          "anomaly": 0.1
+        },
+        {
+          "month": 8,
+          "mean": 28.02,
+          "anomaly": -0.14
+        },
+        {
+          "month": 9,
+          "mean": 28.07,
+          "anomaly": -0.09
+        },
+        {
+          "month": 10,
+          "mean": 29.58,
+          "anomaly": 1.42
+        },
+        {
+          "month": 11,
+          "mean": 28.75,
+          "anomaly": 0.59
+        },
+        {
+          "month": 12,
+          "mean": 27.02,
+          "anomaly": -1.14
+        }
+      ]
+    },
+    {
+      "year": 2008,
+      "months": [
+        {
+          "month": 1,
+          "mean": 24.71,
+          "anomaly": -3.45
+        },
+        {
+          "month": 2,
+          "mean": 24.48,
+          "anomaly": -3.68
+        },
+        {
+          "month": 3,
+          "mean": 28.1,
+          "anomaly": -0.06
+        },
+        {
+          "month": 4,
+          "mean": 29.57,
+          "anomaly": 1.41
+        },
+        {
+          "month": 5,
+          "mean": 30.46,
+          "anomaly": 2.3
+        },
+        {
+          "month": 6,
+          "mean": 28.85,
+          "anomaly": 0.69
+        },
+        {
+          "month": 7,
+          "mean": 28.0,
+          "anomaly": -0.16
+        },
+        {
+          "month": 8,
+          "mean": 27.35,
+          "anomaly": -0.81
+        },
+        {
+          "month": 9,
+          "mean": 27.42,
+          "anomaly": -0.74
+        },
+        {
+          "month": 10,
+          "mean": 29.65,
+          "anomaly": 1.49
+        },
+        {
+          "month": 11,
+          "mean": 29.17,
+          "anomaly": 1.01
+        },
+        {
+          "month": 12,
+          "mean": 27.66,
+          "anomaly": -0.5
+        }
+      ]
+    },
+    {
+      "year": 2009,
+      "months": [
+        {
+          "month": 1,
+          "mean": 26.42,
+          "anomaly": -1.74
+        },
+        {
+          "month": 2,
+          "mean": 26.69,
+          "anomaly": -1.47
+        },
+        {
+          "month": 3,
+          "mean": 29.16,
+          "anomaly": 1.0
+        },
+        {
+          "month": 4,
+          "mean": 30.23,
+          "anomaly": 2.07
+        },
+        {
+          "month": 5,
+          "mean": 30.11,
+          "anomaly": 1.95
+        },
+        {
+          "month": 6,
+          "mean": 30.05,
+          "anomaly": 1.89
+        },
+        {
+          "month": 7,
+          "mean": 27.68,
+          "anomaly": -0.48
+        },
+        {
+          "month": 8,
+          "mean": 28.25,
+          "anomaly": 0.09
+        },
+        {
+          "month": 9,
+          "mean": 28.36,
+          "anomaly": 0.2
+        },
+        {
+          "month": 10,
+          "mean": 29.22,
+          "anomaly": 1.06
+        },
+        {
+          "month": 11,
+          "mean": 28.11,
+          "anomaly": -0.05
+        },
+        {
+          "month": 12,
+          "mean": 26.92,
+          "anomaly": -1.24
+        }
+      ]
+    },
+    {
+      "year": 2010,
+      "months": [
+        {
+          "month": 1,
+          "mean": 26.86,
+          "anomaly": -1.3
+        },
+        {
+          "month": 2,
+          "mean": 26.66,
+          "anomaly": -1.5
+        },
+        {
+          "month": 3,
+          "mean": 28.58,
+          "anomaly": 0.42
+        },
+        {
+          "month": 4,
+          "mean": 30.46,
+          "anomaly": 2.3
+        },
+        {
+          "month": 5,
+          "mean": 31.04,
+          "anomaly": 2.88
+        },
+        {
+          "month": 6,
+          "mean": 29.28,
+          "anomaly": 1.12
+        },
+        {
+          "month": 7,
+          "mean": 27.66,
+          "anomaly": -0.5
+        },
+        {
+          "month": 8,
+          "mean": 27.48,
+          "anomaly": -0.68
+        },
+        {
+          "month": 9,
+          "mean": 28.32,
+          "anomaly": 0.16
+        },
+        {
+          "month": 10,
+          "mean": 29.04,
+          "anomaly": 0.88
+        },
+        {
+          "month": 11,
+          "mean": 28.61,
+          "anomaly": 0.45
+        },
+        {
+          "month": 12,
+          "mean": 25.37,
+          "anomaly": -2.79
+        }
+      ]
+    },
+    {
+      "year": 2011,
+      "months": [
+        {
+          "month": 1,
+          "mean": 25.26,
+          "anomaly": -2.9
+        },
+        {
+          "month": 2,
+          "mean": 26.3,
+          "anomaly": -1.86
+        },
+        {
+          "month": 3,
+          "mean": 29.15,
+          "anomaly": 0.99
+        },
+        {
+          "month": 4,
+          "mean": 28.78,
+          "anomaly": 0.62
+        },
+        {
+          "month": 5,
+          "mean": 29.82,
+          "anomaly": 1.66
+        },
+        {
+          "month": 6,
+          "mean": 28.91,
+          "anomaly": 0.75
+        },
+        {
+          "month": 7,
+          "mean": 27.53,
+          "anomaly": -0.63
+        },
+        {
+          "month": 8,
+          "mean": 27.58,
+          "anomaly": -0.58
+        },
+        {
+          "month": 9,
+          "mean": 27.65,
+          "anomaly": -0.51
+        },
+        {
+          "month": 10,
+          "mean": 29.41,
+          "anomaly": 1.25
+        },
+        {
+          "month": 11,
+          "mean": 29.56,
+          "anomaly": 1.4
+        },
+        {
+          "month": 12,
+          "mean": 27.06,
+          "anomaly": -1.1
+        }
+      ]
+    },
+    {
+      "year": 2012,
+      "months": [
+        {
+          "month": 1,
+          "mean": 23.86,
+          "anomaly": -4.3
+        },
+        {
+          "month": 2,
+          "mean": 25.84,
+          "anomaly": -2.32
+        },
+        {
+          "month": 3,
+          "mean": 27.05,
+          "anomaly": -1.11
+        },
+        {
+          "month": 4,
+          "mean": 29.32,
+          "anomaly": 1.16
+        },
+        {
+          "month": 5,
+          "mean": 29.43,
+          "anomaly": 1.27
+        },
+        {
+          "month": 6,
+          "mean": 29.47,
+          "anomaly": 1.31
+        },
+        {
+          "month": 7,
+          "mean": 28.4,
+          "anomaly": 0.24
+        },
+        {
+          "month": 8,
+          "mean": 27.94,
+          "anomaly": -0.22
+        },
+        {
+          "month": 9,
+          "mean": 27.88,
+          "anomaly": -0.28
+        },
+        {
+          "month": 10,
+          "mean": 29.48,
+          "anomaly": 1.32
+        },
+        {
+          "month": 11,
+          "mean": 27.77,
+          "anomaly": -0.39
+        },
+        {
+          "month": 12,
+          "mean": 26.5,
+          "anomaly": -1.66
+        }
+      ]
+    },
+    {
+      "year": 2013,
+      "months": [
+        {
+          "month": 1,
+          "mean": 24.1,
+          "anomaly": -4.06
+        },
+        {
+          "month": 2,
+          "mean": 26.03,
+          "anomaly": -2.13
+        },
+        {
+          "month": 3,
+          "mean": 28.46,
+          "anomaly": 0.3
+        },
+        {
+          "month": 4,
+          "mean": 28.89,
+          "anomaly": 0.73
+        },
+        {
+          "month": 5,
+          "mean": 30.2,
+          "anomaly": 2.04
+        },
+        {
+          "month": 6,
+          "mean": 28.47,
+          "anomaly": 0.31
+        },
+        {
+          "month": 7,
+          "mean": 27.43,
+          "anomaly": -0.73
+        },
+        {
+          "month": 8,
+          "mean": 27.45,
+          "anomaly": -0.71
+        },
+        {
+          "month": 9,
+          "mean": 27.87,
+          "anomaly": -0.29
+        },
+        {
+          "month": 10,
+          "mean": 29.01,
+          "anomaly": 0.85
+        },
+        {
+          "month": 11,
+          "mean": 28.59,
+          "anomaly": 0.43
+        },
+        {
+          "month": 12,
+          "mean": 26.18,
+          "anomaly": -1.98
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "months": [
+        {
+          "month": 1,
+          "mean": 25.01,
+          "anomaly": -3.15
+        },
+        {
+          "month": 2,
+          "mean": 25.48,
+          "anomaly": -2.68
+        },
+        {
+          "month": 3,
+          "mean": 28.06,
+          "anomaly": -0.1
+        },
+        {
+          "month": 4,
+          "mean": 28.97,
+          "anomaly": 0.81
+        },
+        {
+          "month": 5,
+          "mean": 30.32,
+          "anomaly": 2.16
+        },
+        {
+          "month": 6,
+          "mean": 30.96,
+          "anomaly": 2.8
+        },
+        {
+          "month": 7,
+          "mean": 27.89,
+          "anomaly": -0.27
+        },
+        {
+          "month": 8,
+          "mean": 27.78,
+          "anomaly": -0.38
+        },
+        {
+          "month": 9,
+          "mean": 28.27,
+          "anomaly": 0.11
+        },
+        {
+          "month": 10,
+          "mean": 30.14,
+          "anomaly": 1.98
+        },
+        {
+          "month": 11,
+          "mean": 29.58,
+          "anomaly": 1.42
+        },
+        {
+          "month": 12,
+          "mean": 26.49,
+          "anomaly": -1.67
+        }
+      ]
+    },
+    {
+      "year": 2015,
+      "months": [
+        {
+          "month": 1,
+          "mean": 25.12,
+          "anomaly": -3.04
+        },
+        {
+          "month": 2,
+          "mean": 26.62,
+          "anomaly": -1.54
+        },
+        {
+          "month": 3,
+          "mean": 28.72,
+          "anomaly": 0.56
+        },
+        {
+          "month": 4,
+          "mean": 29.54,
+          "anomaly": 1.38
+        },
+        {
+          "month": 5,
+          "mean": 31.28,
+          "anomaly": 3.12
+        },
+        {
+          "month": 6,
+          "mean": 29.26,
+          "anomaly": 1.1
+        },
+        {
+          "month": 7,
+          "mean": 29.24,
+          "anomaly": 1.08
+        },
+        {
+          "month": 8,
+          "mean": 28.35,
+          "anomaly": 0.19
+        },
+        {
+          "month": 9,
+          "mean": 28.96,
+          "anomaly": 0.8
+        },
+        {
+          "month": 10,
+          "mean": 30.81,
+          "anomaly": 2.65
+        },
+        {
+          "month": 11,
+          "mean": 30.05,
+          "anomaly": 1.89
+        },
+        {
+          "month": 12,
+          "mean": 27.42,
+          "anomaly": -0.74
+        }
+      ]
+    },
+    {
+      "year": 2016,
+      "months": [
+        {
+          "month": 1,
+          "mean": 25.9,
+          "anomaly": -2.26
+        },
+        {
+          "month": 2,
+          "mean": 26.25,
+          "anomaly": -1.91
+        },
+        {
+          "month": 3,
+          "mean": 29.39,
+          "anomaly": 1.23
+        },
+        {
+          "month": 4,
+          "mean": 29.85,
+          "anomaly": 1.69
+        },
+        {
+          "month": 5,
+          "mean": 30.88,
+          "anomaly": 2.72
+        },
+        {
+          "month": 6,
+          "mean": 29.86,
+          "anomaly": 1.7
+        },
+        {
+          "month": 7,
+          "mean": 27.53,
+          "anomaly": -0.63
+        },
+        {
+          "month": 8,
+          "mean": 27.91,
+          "anomaly": -0.25
+        },
+        {
+          "month": 9,
+          "mean": 27.56,
+          "anomaly": -0.6
+        },
+        {
+          "month": 10,
+          "mean": 28.55,
+          "anomaly": 0.39
+        },
+        {
+          "month": 11,
+          "mean": 28.59,
+          "anomaly": 0.43
+        },
+        {
+          "month": 12,
+          "mean": 27.73,
+          "anomaly": -0.43
+        }
+      ]
+    },
+    {
+      "year": 2017,
+      "months": [
+        {
+          "month": 1,
+          "mean": 26.21,
+          "anomaly": -1.95
+        },
+        {
+          "month": 2,
+          "mean": 27.95,
+          "anomaly": -0.21
+        },
+        {
+          "month": 3,
+          "mean": 28.81,
+          "anomaly": 0.65
+        },
+        {
+          "month": 4,
+          "mean": 29.99,
+          "anomaly": 1.83
+        },
+        {
+          "month": 5,
+          "mean": 30.93,
+          "anomaly": 2.77
+        },
+        {
+          "month": 6,
+          "mean": 29.6,
+          "anomaly": 1.44
+        },
+        {
+          "month": 7,
+          "mean": 28.49,
+          "anomaly": 0.33
+        },
+        {
+          "month": 8,
+          "mean": 28.17,
+          "anomaly": 0.01
+        },
+        {
+          "month": 9,
+          "mean": 28.65,
+          "anomaly": 0.49
+        },
+        {
+          "month": 10,
+          "mean": 29.66,
+          "anomaly": 1.5
+        },
+        {
+          "month": 11,
+          "mean": 28.92,
+          "anomaly": 0.76
+        },
+        {
+          "month": 12,
+          "mean": 26.41,
+          "anomaly": -1.75
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "months": [
+        {
+          "month": 1,
+          "mean": 26.56,
+          "anomaly": -1.6
+        },
+        {
+          "month": 2,
+          "mean": 28.12,
+          "anomaly": -0.04
+        },
+        {
+          "month": 3,
+          "mean": 29.42,
+          "anomaly": 1.26
+        },
+        {
+          "month": 4,
+          "mean": 30.03,
+          "anomaly": 1.87
+        },
+        {
+          "month": 5,
+          "mean": 31.01,
+          "anomaly": 2.85
+        },
+        {
+          "month": 6,
+          "mean": 29.44,
+          "anomaly": 1.28
+        },
+        {
+          "month": 7,
+          "mean": 27.94,
+          "anomaly": -0.22
+        },
+        {
+          "month": 8,
+          "mean": 27.77,
+          "anomaly": -0.39
+        },
+        {
+          "month": 9,
+          "mean": 28.56,
+          "anomaly": 0.4
+        },
+        {
+          "month": 10,
+          "mean": 30.94,
+          "anomaly": 2.78
+        },
+        {
+          "month": 11,
+          "mean": 29.89,
+          "anomaly": 1.73
+        },
+        {
+          "month": 12,
+          "mean": 26.65,
+          "anomaly": -1.51
+        }
+      ]
+    },
+    {
+      "year": 2019,
+      "months": [
+        {
+          "month": 1,
+          "mean": 25.41,
+          "anomaly": -2.75
+        },
+        {
+          "month": 2,
+          "mean": 26.14,
+          "anomaly": -2.02
+        },
+        {
+          "month": 3,
+          "mean": 28.04,
+          "anomaly": -0.12
+        },
+        {
+          "month": 4,
+          "mean": 29.93,
+          "anomaly": 1.77
+        },
+        {
+          "month": 5,
+          "mean": 30.33,
+          "anomaly": 2.17
+        },
+        {
+          "month": 6,
+          "mean": 30.03,
+          "anomaly": 1.87
+        },
+        {
+          "month": 7,
+          "mean": 28.5,
+          "anomaly": 0.34
+        },
+        {
+          "month": 8,
+          "mean": 28.34,
+          "anomaly": 0.18
+        },
+        {
+          "month": 9,
+          "mean": 27.62,
+          "anomaly": -0.54
+        },
+        {
+          "month": 10,
+          "mean": 29.05,
+          "anomaly": 0.89
+        },
+        {
+          "month": 11,
+          "mean": 29.14,
+          "anomaly": 0.98
+        },
+        {
+          "month": 12,
+          "mean": 27.71,
+          "anomaly": -0.45
+        }
+      ]
+    },
+    {
+      "year": 2020,
+      "months": [
+        {
+          "month": 1,
+          "mean": 25.31,
+          "anomaly": -2.85
+        },
+        {
+          "month": 2,
+          "mean": 27.77,
+          "anomaly": -0.39
+        },
+        {
+          "month": 3,
+          "mean": 27.99,
+          "anomaly": -0.17
+        },
+        {
+          "month": 4,
+          "mean": 30.24,
+          "anomaly": 2.08
+        },
+        {
+          "month": 5,
+          "mean": 31.08,
+          "anomaly": 2.92
+        },
+        {
+          "month": 6,
+          "mean": 29.26,
+          "anomaly": 1.1
+        },
+        {
+          "month": 7,
+          "mean": 28.09,
+          "anomaly": -0.07
+        },
+        {
+          "month": 8,
+          "mean": 27.71,
+          "anomaly": -0.45
+        },
+        {
+          "month": 9,
+          "mean": 28.51,
+          "anomaly": 0.35
+        },
+        {
+          "month": 10,
+          "mean": 29.44,
+          "anomaly": 1.28
+        },
+        {
+          "month": 11,
+          "mean": 29.18,
+          "anomaly": 1.02
+        },
+        {
+          "month": 12,
+          "mean": 27.12,
+          "anomaly": -1.04
+        }
+      ]
+    },
+    {
+      "year": 2021,
+      "months": [
+        {
+          "month": 1,
+          "mean": 26.31,
+          "anomaly": -1.85
+        },
+        {
+          "month": 2,
+          "mean": 27.63,
+          "anomaly": -0.53
+        },
+        {
+          "month": 3,
+          "mean": 30.2,
+          "anomaly": 2.04
+        },
+        {
+          "month": 4,
+          "mean": 30.1,
+          "anomaly": 1.94
+        },
+        {
+          "month": 5,
+          "mean": 30.7,
+          "anomaly": 2.54
+        },
+        {
+          "month": 6,
+          "mean": 28.68,
+          "anomaly": 0.52
+        },
+        {
+          "month": 7,
+          "mean": 28.67,
+          "anomaly": 0.51
+        },
+        {
+          "month": 8,
+          "mean": 27.82,
+          "anomaly": -0.34
+        },
+        {
+          "month": 9,
+          "mean": 27.7,
+          "anomaly": -0.46
+        },
+        {
+          "month": 10,
+          "mean": 29.64,
+          "anomaly": 1.48
+        },
+        {
+          "month": 11,
+          "mean": 29.69,
+          "anomaly": 1.53
+        },
+        {
+          "month": 12,
+          "mean": 26.23,
+          "anomaly": -1.93
+        }
+      ]
+    },
+    {
+      "year": 2022,
+      "months": [
+        {
+          "month": 1,
+          "mean": 24.82,
+          "anomaly": -3.34
+        },
+        {
+          "month": 2,
+          "mean": 25.71,
+          "anomaly": -2.45
+        },
+        {
+          "month": 3,
+          "mean": 30.28,
+          "anomaly": 2.12
+        },
+        {
+          "month": 4,
+          "mean": 30.61,
+          "anomaly": 2.45
+        },
+        {
+          "month": 5,
+          "mean": 30.77,
+          "anomaly": 2.61
+        },
+        {
+          "month": 6,
+          "mean": 29.21,
+          "anomaly": 1.05
+        },
+        {
+          "month": 7,
+          "mean": 27.84,
+          "anomaly": -0.32
+        },
+        {
+          "month": 8,
+          "mean": 27.82,
+          "anomaly": -0.34
+        },
+        {
+          "month": 9,
+          "mean": 27.55,
+          "anomaly": -0.61
+        },
+        {
+          "month": 10,
+          "mean": 28.67,
+          "anomaly": 0.51
+        },
+        {
+          "month": 11,
+          "mean": 28.35,
+          "anomaly": 0.19
+        },
+        {
+          "month": 12,
+          "mean": 27.88,
+          "anomaly": -0.28
+        }
+      ]
+    },
+    {
+      "year": 2023,
+      "months": [
+        {
+          "month": 1,
+          "mean": 25.0,
+          "anomaly": -3.16
+        },
+        {
+          "month": 2,
+          "mean": 28.8,
+          "anomaly": 0.64
+        },
+        {
+          "month": 3,
+          "mean": 29.17,
+          "anomaly": 1.01
+        },
+        {
+          "month": 4,
+          "mean": 30.14,
+          "anomaly": 1.98
+        },
+        {
+          "month": 5,
+          "mean": 30.74,
+          "anomaly": 2.58
+        },
+        {
+          "month": 6,
+          "mean": 30.41,
+          "anomaly": 2.25
+        },
+        {
+          "month": 7,
+          "mean": 27.8,
+          "anomaly": -0.36
+        },
+        {
+          "month": 8,
+          "mean": 28.6,
+          "anomaly": 0.44
+        },
+        {
+          "month": 9,
+          "mean": 28.31,
+          "anomaly": 0.15
+        },
+        {
+          "month": 10,
+          "mean": 30.58,
+          "anomaly": 2.42
+        },
+        {
+          "month": 11,
+          "mean": 29.85,
+          "anomaly": 1.69
+        },
+        {
+          "month": 12,
+          "mean": 28.38,
+          "anomaly": 0.22
+        }
+      ]
+    },
+    {
+      "year": 2024,
+      "months": [
+        {
+          "month": 1,
+          "mean": 26.91,
+          "anomaly": -1.25
+        },
+        {
+          "month": 2,
+          "mean": 27.7,
+          "anomaly": -0.46
+        },
+        {
+          "month": 3,
+          "mean": 28.6,
+          "anomaly": 0.44
+        },
+        {
+          "month": 4,
+          "mean": 30.74,
+          "anomaly": 2.58
+        },
+        {
+          "month": 5,
+          "mean": 31.12,
+          "anomaly": 2.96
+        },
+        {
+          "month": 6,
+          "mean": 29.71,
+          "anomaly": 1.55
+        },
+        {
+          "month": 7,
+          "mean": 27.46,
+          "anomaly": -0.7
+        },
+        {
+          "month": 8,
+          "mean": 28.1,
+          "anomaly": -0.06
+        },
+        {
+          "month": 9,
+          "mean": 27.69,
+          "anomaly": -0.47
+        },
+        {
+          "month": 10,
+          "mean": 29.16,
+          "anomaly": 1.0
+        }
+      ]
+    }
+  ],
+  "climatology": [
+    {
+      "month": 1,
+      "name": "Jan",
+      "mean": 25.23,
+      "min": 13.0,
+      "max": 36.0,
+      "std": 3.48
+    },
+    {
+      "month": 2,
+      "name": "Feb",
+      "mean": 26.41,
+      "min": 14.0,
+      "max": 40.0,
+      "std": 3.68
+    },
+    {
+      "month": 3,
+      "name": "Mar",
+      "mean": 28.39,
+      "min": 18.0,
+      "max": 41.0,
+      "std": 3.28
+    },
+    {
+      "month": 4,
+      "name": "Apr",
+      "mean": 29.53,
+      "min": 21.0,
+      "max": 41.0,
+      "std": 2.48
+    },
+    {
+      "month": 5,
+      "name": "May",
+      "mean": 30.36,
+      "min": 23.0,
+      "max": 38.0,
+      "std": 1.73
+    },
+    {
+      "month": 6,
+      "name": "Jun",
+      "mean": 29.28,
+      "min": 22.0,
+      "max": 38.0,
+      "std": 2.12
+    },
+    {
+      "month": 7,
+      "name": "Jul",
+      "mean": 28.02,
+      "min": 22.0,
+      "max": 36.0,
+      "std": 1.55
+    },
+    {
+      "month": 8,
+      "name": "Aug",
+      "mean": 27.95,
+      "min": 22.0,
+      "max": 33.0,
+      "std": 1.39
+    },
+    {
+      "month": 9,
+      "name": "Sep",
+      "mean": 28.16,
+      "min": 23.0,
+      "max": 37.0,
+      "std": 1.77
+    },
+    {
+      "month": 10,
+      "name": "Oct",
+      "mean": 29.43,
+      "min": 22.0,
+      "max": 39.0,
+      "std": 2.62
+    },
+    {
+      "month": 11,
+      "name": "Nov",
+      "mean": 28.82,
+      "min": 18.0,
+      "max": 37.0,
+      "std": 3.01
+    },
+    {
+      "month": 12,
+      "name": "Dec",
+      "mean": 26.67,
+      "min": 14.0,
+      "max": 35.0,
+      "std": 3.39
+    }
+  ],
+  "mannKendall": {
+    "zStatistic": 4.129,
+    "pValue": 3.64e-05,
+    "sensSlopeYear": 0.044,
+    "sensSlopeDecade": 0.44,
+    "totalYears": 28,
+    "period": "1997\u20132024",
+    "trend": "Statistically significant warming",
+    "kendallS": 210,
+    "significant": true
+  }
+}
