@@ -9,8 +9,15 @@ import {
   Ward,
   SimulationResult,
   SimulationParams,
+  ModelMetrics,
+  MannKendallData,
 } from '../types';
-import { WARDS_DATA } from '../data/staticDatasets';
+import {
+  WARDS_DATA,
+  MODEL_METRICS,
+  CITY_WIDE_SHAP_DRIVERS,
+  MANN_KENDALL_METRICS,
+} from '../data/staticDatasets';
 import { api } from '../services/api';
 
 let debounceTimer: ReturnType<typeof setTimeout> | null = null;
@@ -88,6 +95,13 @@ interface UhiState {
   isBackendConnected: boolean;
   backendLatencyMs: number;
   checkBackendHealth: () => Promise<void>;
+  hydrateFromBackend: () => Promise<void>;
+
+  // Live Hydrated Datasets (with embedded fallback)
+  wards: Ward[];
+  validationMetrics: { xgboost: ModelMetrics; randomForest: ModelMetrics };
+  shapDrivers: typeof CITY_WIDE_SHAP_DRIVERS;
+  mannKendall: MannKendallData;
 
   // Map & Layer State
   activeLayer: MapLayerType;
@@ -169,12 +183,47 @@ export const useUhiStore = create<UhiState>((set, get) => ({
   setSelectedDate: (date) => set({ selectedDate: date }),
   isBackendConnected: false,
   backendLatencyMs: 4,
+
+  wards: WARDS_DATA,
+  validationMetrics: {
+    xgboost: MODEL_METRICS.xgboost,
+    randomForest: MODEL_METRICS.randomForest,
+  },
+  shapDrivers: CITY_WIDE_SHAP_DRIVERS,
+  mannKendall: MANN_KENDALL_METRICS,
+
+  hydrateFromBackend: async () => {
+    const [wards, validationMetrics, shapDrivers, mannKendall] = await Promise.all([
+      api.getWards(),
+      api.getValidationMetrics(),
+      api.getShapDrivers(),
+      api.getClimateTrends(),
+    ]);
+    const currentSelected = get().selectedWard;
+    const refreshedSelected = currentSelected
+      ? wards.find((w) => w.id === currentSelected.id) || currentSelected
+      : null;
+
+    set({
+      wards,
+      validationMetrics,
+      shapDrivers,
+      mannKendall,
+      selectedWard: refreshedSelected,
+    });
+  },
+
   checkBackendHealth: async () => {
+    const wasConnected = get().isBackendConnected;
     const status = await api.checkHealth();
     set({
       isBackendConnected: status.online,
       backendLatencyMs: status.latencyMs || 4,
     });
+    if (status.online && !wasConnected) {
+      await get().hydrateFromBackend();
+      await get().runSimulation();
+    }
   },
 
   activeLayer: 'lst',
@@ -199,7 +248,7 @@ export const useUhiStore = create<UhiState>((set, get) => ({
   mapZoom: 11.2,
   resetMapView: () => set({ mapCenter: [72.8777, 19.0760], mapZoom: 11.2 }),
   focusWard: (wardId) => {
-    const ward = WARDS_DATA.find((w) => w.id === wardId);
+    const ward = get().wards.find((w) => w.id === wardId) || WARDS_DATA.find((w) => w.id === wardId);
     if (ward) {
       set({
         selectedWard: ward,
