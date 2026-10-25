@@ -18,7 +18,6 @@ import {
   Cpu,
   Sparkles,
   Info,
-  ZoomIn,
 } from 'lucide-react';
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -251,7 +250,6 @@ export const LandingPage: React.FC = () => {
   const [activeFaq, setActiveFaq] = useState<number | null>(0);
   const [previewWardId, setPreviewWardId] = useState<string>('G/N');
   const [activeConceptId, setActiveConceptId] = useState<string>('lst');
-  const [selectedImageModal, setSelectedImageModal] = useState<string | null>(null);
 
   const previewWard = WARDS_DATA.find((w) => w.id === previewWardId) || WARDS_DATA[0];
   const activeConcept = SCIENTIFIC_CONCEPTS.find((c) => c.id === activeConceptId) || SCIENTIFIC_CONCEPTS[0];
@@ -464,40 +462,29 @@ export const LandingPage: React.FC = () => {
 
         {/* Concept Card Detail Showcase */}
         <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.04] via-black/80 to-black p-6 sm:p-10 shadow-2xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
             
-            {/* LEFT: Research Image Figure */}
-            <div className="lg:col-span-5 flex flex-col gap-3">
-              <div className="relative rounded-2xl overflow-hidden border border-white/15 bg-black/80 group">
+            {/* LEFT: Entire Uncropped Research Figure (Displayed Whole In-Place) */}
+            <div className="lg:col-span-6 flex flex-col gap-3">
+              <div className="w-full rounded-2xl overflow-hidden border border-white/15 bg-black/80 p-3 flex items-center justify-center shadow-xl">
                 <img
                   src={activeConcept.image}
                   alt={activeConcept.name}
-                  className="w-full h-80 object-cover object-center filter contrast-110 group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-auto max-h-[480px] object-contain rounded-xl"
+                  loading="lazy"
                 />
-                
-                {/* Lightbox / Zoom overlay button */}
-                <button
-                  onClick={() => setSelectedImageModal(activeConcept.image)}
-                  className="absolute bottom-3 right-3 px-3 py-1.5 rounded-lg bg-black/70 hover:bg-black/90 border border-white/20 text-xs font-mono text-white flex items-center gap-1.5 backdrop-blur-md cursor-pointer transition-all"
-                >
-                  <ZoomIn className="w-3.5 h-3.5 text-amber-400" />
-                  View Full Output
-                </button>
-
-                <div className="absolute top-3 left-3">
-                  <span className={`px-2.5 py-1 text-[10px] font-mono font-bold rounded-full border ${activeConcept.badgeColor}`}>
-                    {activeConcept.badge}
-                  </span>
-                </div>
               </div>
 
-              <div className="text-xs text-[#E1E0CC]/60 font-mono italic px-1">
-                {activeConcept.imageCaption}
+              <div className="w-full flex items-center justify-between text-xs text-[#E1E0CC]/70 font-mono px-1">
+                <span className="text-[11px] leading-tight text-[#E1E0CC]/70">{activeConcept.imageCaption}</span>
+                <span className={`px-2.5 py-0.5 text-[10px] font-mono font-bold rounded-full border shrink-0 ml-2 ${activeConcept.badgeColor}`}>
+                  {activeConcept.badge}
+                </span>
               </div>
             </div>
 
             {/* RIGHT: Mathematical Formulation & Variable Breakdown */}
-            <div className="lg:col-span-7 flex flex-col gap-5">
+            <div className="lg:col-span-6 flex flex-col gap-5">
               
               <div>
                 <span className={`inline-block px-2.5 py-0.5 text-[10px] font-mono rounded border ${activeConcept.badgeColor}`}>
@@ -644,25 +631,7 @@ export const LandingPage: React.FC = () => {
 
               </div>
 
-              {/* Research Image Preview: True Color vs Thermal */}
-              <div className="mt-6 rounded-xl border border-white/10 overflow-hidden bg-black/60 p-3">
-                <div className="text-[11px] font-mono text-[#E1E0CC]/60 mb-2 flex items-center justify-between">
-                  <span>Actual Research Output: True Color Optical vs. LST Inversion</span>
-                  <span className="text-amber-400 font-mono text-[10px]">USGS Landsat-8/9</span>
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="relative group cursor-pointer" onClick={() => setSelectedImageModal('/images/research/review1_true_color.png')}>
-                    <img src="/images/research/review1_true_color.png" alt="True Color Satellite" className="w-full h-32 object-cover rounded-lg" />
-                    <span className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded bg-black/70 text-[9px] font-mono text-white">True Color Optical</span>
-                  </div>
-                  <div className="relative group cursor-pointer" onClick={() => setSelectedImageModal('/images/research/review1_lst.png')}>
-                    <img src="/images/research/review1_lst.png" alt="LST Thermal" className="w-full h-32 object-cover rounded-lg" />
-                    <span className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded bg-black/70 text-[9px] font-mono text-amber-300">30m LST Inversion</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-4 p-3 rounded-xl bg-black/40 border border-white/5 text-xs text-[#E1E0CC]/70 leading-relaxed">
+              <div className="mt-6 p-4 rounded-xl bg-black/40 border border-white/5 text-xs text-[#E1E0CC]/70 leading-relaxed">
                 <span className="font-bold text-[#E1E0CC]">Thermodynamic Implication:</span> Surface heat differentials translate into a 22–38% increase in localized residential energy consumption and direct public health vulnerability during May and October peak heat waves.
               </div>
 
@@ -898,15 +867,7 @@ export const LandingPage: React.FC = () => {
                   Analysis of continuous IMD Santacruz and Colaba weather records (1997–2024, N = 383,640) indicates a statistically significant urban heating trend that exacerbates localized surface heat islands.
                 </p>
 
-                {/* Real Research Output Image */}
-                <div className="my-4 rounded-xl overflow-hidden border border-white/10 bg-black/60 relative group cursor-pointer" onClick={() => setSelectedImageModal('/images/research/asad_monthly_climatology_heatmap.png')}>
-                  <img src="/images/research/asad_monthly_climatology_heatmap.png" alt="28-Year Heatmap" className="w-full h-44 object-cover" />
-                  <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/80 text-[10px] font-mono text-amber-300">
-                    Figure: 28 × 12 Monthly Temperature Anomaly Matrix
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-3 gap-3 mt-4">
+                <div className="grid grid-cols-3 gap-3 mt-6">
                   <div className="p-3 rounded-lg bg-black/40 border border-white/5 font-mono">
                     <div className="text-[10px] text-[#E1E0CC]/50">Mann-Kendall Z</div>
                     <div className="text-lg font-bold text-[#D94E34]">+{MANN_KENDALL_METRICS.zStatistic}</div>
@@ -945,15 +906,7 @@ export const LandingPage: React.FC = () => {
                   Conventional ML models overfit urban surfaces due to proximate pixel autocorrelation. We partition Mumbai into 5 spatial regional blocks with a 1.2 km dead-zone halo buffer.
                 </p>
 
-                {/* Real Research Output Image */}
-                <div className="my-4 rounded-xl overflow-hidden border border-white/10 bg-black/60 relative group cursor-pointer" onClick={() => setSelectedImageModal('/images/research/asad_ml_validation_comparison.png')}>
-                  <img src="/images/research/asad_ml_validation_comparison.png" alt="Spatial Block K-Fold Comparison" className="w-full h-44 object-cover" />
-                  <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/80 text-[10px] font-mono text-teal-300">
-                    Figure: Spatial Block XGBoost vs. Random Forest Validation
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-3 gap-3 mt-4">
+                <div className="grid grid-cols-3 gap-3 mt-6">
                   <div className="p-3 rounded-lg bg-black/40 border border-white/5 font-mono">
                     <div className="text-[10px] text-[#E1E0CC]/50">Spatial Halo</div>
                     <div className="text-lg font-bold text-[#E1E0CC]">1.2 km</div>
@@ -1284,27 +1237,6 @@ export const LandingPage: React.FC = () => {
           <div className="font-mono">Engine Status: Online (0ms Local Latency)</div>
         </div>
       </footer>
-
-      {/* ── LIGHTBOX MODAL FOR FULL-RESOLUTION RESEARCH IMAGES ──────────── */}
-      {selectedImageModal && (
-        <div
-          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
-          onClick={() => setSelectedImageModal(null)}
-        >
-          <div className="relative max-w-5xl max-h-[90vh] bg-black border border-white/20 rounded-2xl overflow-hidden p-2 shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <img src={selectedImageModal} alt="Enlarged Research Output" className="max-w-full max-h-[80vh] object-contain mx-auto rounded-lg" />
-            <div className="p-3 text-center flex items-center justify-between">
-              <span className="font-mono text-xs text-[#E1E0CC]/70">Mumbai UHI Atlas — Empirical Output Viewer</span>
-              <button
-                onClick={() => setSelectedImageModal(null)}
-                className="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-xs font-mono text-white cursor-pointer"
-              >
-                Close (ESC)
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
     </div>
   );
