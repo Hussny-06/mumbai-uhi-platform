@@ -6,17 +6,35 @@ interface WardTooltipProps {
   ward: Ward | null;
   x: number;
   y: number;
+  containerWidth?: number;
+  containerHeight?: number;
 }
 
-export const WardTooltip: React.FC<WardTooltipProps> = ({ ward, x, y }) => {
+export const WardTooltip: React.FC<WardTooltipProps> = ({
+  ward,
+  x,
+  y,
+  containerWidth = 800,
+  containerHeight = 600,
+}) => {
   if (!ward) return null;
 
   const badge = getRiskBadgeStyle(ward.risk);
 
+  // Keep tooltip inside map canvas bounds
+  const tooltipW = 244;
+  const tooltipH = 176;
+  const left = x + tooltipW + 24 > containerWidth ? Math.max(12, x - tooltipW - 14) : x + 16;
+  const top = y + tooltipH + 24 > containerHeight ? Math.max(12, y - tooltipH - 10) : y + 14;
+
   return (
     <div
-      style={{ left: `${x + 14}px`, top: `${y + 14}px` }}
-      className="fixed z-50 pointer-events-none bg-[var(--bg-surface)]/95 backdrop-blur-md border border-[var(--border-strong)] p-3 rounded-md shadow-floating text-xs w-60"
+      style={{
+        left: `${left}px`,
+        top: `${top}px`,
+        backgroundColor: 'var(--bg-surface)',
+      }}
+      className="absolute z-[1500] pointer-events-none border border-[var(--border-strong)] p-3 rounded-md shadow-floating text-xs w-60"
     >
       {/* Header */}
       <div className="flex items-start justify-between border-b border-[var(--border-subtle)] pb-2 mb-2 gap-2">
@@ -44,7 +62,9 @@ export const WardTooltip: React.FC<WardTooltipProps> = ({ ward, x, y }) => {
       <div className="space-y-1 font-mono text-[11px]">
         <div className="flex justify-between items-center">
           <span className="text-[var(--text-secondary)] font-sans">Mean Surface LST</span>
-          <span className="text-[var(--text-primary)] font-semibold">{ward.meanLst.toFixed(1)} °C</span>
+          <span className="text-[var(--text-primary)] font-semibold">
+            {ward.meanLst.toFixed(1)} °C
+          </span>
         </div>
 
         <div className="flex justify-between items-center">

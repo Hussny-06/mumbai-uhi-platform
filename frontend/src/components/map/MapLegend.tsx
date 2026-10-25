@@ -19,7 +19,9 @@ export const MapLegend: React.FC<MapLegendProps> = ({ showDeltaScale = false }) 
         max: '+1.0°C',
         gradientClass: 'delta-cooling-gradient-bar',
         labels: ['Strong Cooling (-ΔT)', 'Baseline Neutral', 'Heat Gain'],
-        hoverVal: hoveredWard ? `${hoveredWard.uhi > 0 ? '+' : ''}${hoveredWard.uhi.toFixed(1)}°C` : null,
+        hoverVal: hoveredWard
+          ? `${hoveredWard.uhi > 0 ? '+' : ''}${hoveredWard.uhi.toFixed(1)}°C`
+          : null,
       };
     }
 
@@ -107,7 +109,10 @@ export const MapLegend: React.FC<MapLegendProps> = ({ showDeltaScale = false }) 
   const config = getLegendConfig(activeLayer);
 
   return (
-    <div className="absolute bottom-3 left-3 z-[900] bg-[var(--bg-surface)]/95 backdrop-blur-md border border-[var(--border-subtle)] p-2.5 rounded-md shadow-card text-xs w-64 pointer-events-auto">
+    <div
+      style={{ backgroundColor: 'var(--bg-surface)' }}
+      className="absolute bottom-3 left-3 z-[900] border border-[var(--border-subtle)] p-2.5 rounded-md shadow-card text-xs w-64 pointer-events-auto"
+    >
       <div className="flex items-center justify-between gap-2 mb-1.5">
         <span className="font-medium text-[var(--text-primary)] text-[11px] truncate">
           {config.title}
