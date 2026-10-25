@@ -73,16 +73,11 @@ export const TopInstrumentBar: React.FC = () => {
 
   return (
     <header className="h-12 bg-[var(--bg-surface)] border-b border-[var(--border-subtle)] px-4 flex items-center justify-between gap-3 select-none z-30 shrink-0 no-print">
-      {/* LEFT: Cartographic Brand & Spatial Metadata */}
-      <div className="flex items-center gap-3 min-w-0">
-        <div className="flex items-center gap-2 whitespace-nowrap">
-          <span className="w-2.5 h-2.5 rounded-sm bg-[var(--accent-primary)] inline-block shrink-0" />
-          <span className="font-serif font-semibold text-sm tracking-tight text-[var(--text-primary)]">
-            Mumbai UHI Atlas
-          </span>
-        </div>
-        <span className="hidden xl:inline-block text-[11px] font-mono text-[var(--text-muted)] border-l border-[var(--border-subtle)] pl-3 whitespace-nowrap">
-          30m GSD · EPSG:32643 · Pre-Monsoon 2024
+      {/* LEFT: Brand Title */}
+      <div className="flex items-center gap-2 whitespace-nowrap min-w-0">
+        <span className="w-2.5 h-2.5 rounded-sm bg-[var(--accent-primary)] inline-block shrink-0" />
+        <span className="font-serif font-semibold text-sm tracking-tight text-[var(--text-primary)]">
+          Mumbai UHI
         </span>
       </div>
 

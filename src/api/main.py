@@ -50,6 +50,7 @@ async def health_check():
         "scope": "Metropolitan Mumbai (24 Wards)",
         "resolution": "30m",
         "crs": "EPSG:32643",
+        "gcp_project": "uhi-mumbai-507613",
         "model_loaded": trained_model is not None,
         "engine": "XGBoost Spatial Downscaler",
         "records_ingested": 383640,
@@ -346,4 +347,28 @@ async def export_ward_report(ward_id: str):
         "status": "endpoint_ready",
         "message": f"Municipal policy dossier telemetry verified for Ward {ward_id}.",
         "format": "application/pdf",
+    }
+
+
+_gee_tile_cache: dict[str, str | None] = {}
+
+
+@app.get("/api/gee-tiles/{layer}")
+async def get_gee_layer_tiles(layer: str):
+    """Return Google Earth Engine (GCP project uhi-mumbai-507613) XYZ tile URL for a layer."""
+    key = layer.lower()
+    if key not in _gee_tile_cache:
+        try:
+            from ..ingestion.gee_extractor import GEEExtractor
+            extractor = GEEExtractor()
+            _gee_tile_cache[key] = extractor.get_layer_tile_url(key)
+        except Exception:
+            _gee_tile_cache[key] = None
+
+    tile_url = _gee_tile_cache.get(key)
+    return {
+        "layer": key,
+        "gcp_project": "uhi-mumbai-507613",
+        "available": tile_url is not None,
+        "tile_url": tile_url,
     }

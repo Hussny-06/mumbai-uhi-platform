@@ -199,3 +199,64 @@ class GEEExtractor:
 
         composite = collection.median().clip(geometry)
         return composite
+
+    def get_layer_tile_url(self, layer: str = "lst") -> Optional[str]:
+        """Generate a live Google Earth Engine XYZ tile URL for the specified Mumbai layer."""
+        if not self._is_authenticated:
+            if not self.initialize_ee(project_id="uhi-mumbai-507613"):
+                return None
+
+        try:
+            geometry = self.get_mumbai_geometry()
+            layer_key = layer.lower()
+
+            if layer_key == "elevation":
+                img = self.ee.Image("USGS/SRTMGL1_003").clip(geometry)
+                vis = {
+                    "min": 0,
+                    "max": 180,
+                    "palette": ["#0F766E", "#65A30D", "#CA8A04", "#9A3412", "#F8FAFC"],
+                }
+            else:
+                composite = self.fetch_mumbai_composite()
+                vis_map = {
+                    "lst": {
+                        "bands": ["LST_Celsius"],
+                        "min": 29.0,
+                        "max": 38.5,
+                        "palette": ["#0D0829", "#3B0F70", "#8C2981", "#DE4968", "#FE9F6D", "#FBB41A", "#FCFFA4"],
+                    },
+                    "ndvi": {
+                        "bands": ["NDVI"],
+                        "min": 0.0,
+                        "max": 0.65,
+                        "palette": ["#D9D2C5", "#C7E9C0", "#78C679", "#31A354", "#006837"],
+                    },
+                    "ndbi": {
+                        "bands": ["NDBI"],
+                        "min": -0.2,
+                        "max": 0.6,
+                        "palette": ["#31A354", "#D4D2CC", "#F59E0B", "#D94E34", "#7F1D1D"],
+                    },
+                    "albedo": {
+                        "bands": ["Albedo"],
+                        "min": 0.08,
+                        "max": 0.25,
+                        "palette": ["#1E293B", "#475569", "#94A3B8", "#E2E8F0", "#FEF08A"],
+                    },
+                    "mndwi": {
+                        "bands": ["MNDWI"],
+                        "min": -0.30,
+                        "max": 0.20,
+                        "palette": ["#A16207", "#D6D3D1", "#5EEAD4", "#0D9488", "#115E59"],
+                    },
+                }
+                vis = vis_map.get(layer_key, vis_map["lst"])
+                img = composite
+
+            map_id = img.getMapId(vis)
+            return map_id["tile_fetcher"].url_format
+        except Exception as exc:
+            logger.warning(f"Failed to generate GEE tile URL for layer '{layer}': {exc}")
+            return None
+

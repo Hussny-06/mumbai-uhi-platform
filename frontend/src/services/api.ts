@@ -297,6 +297,30 @@ class ApiService {
       fastApiConnected: this.isBackendOnline,
     };
   }
+
+  private geeTileCache: Record<string, string | null> = {};
+
+  async getGeeTileUrl(layer: string): Promise<string | null> {
+    if (layer in this.geeTileCache) {
+      return this.geeTileCache[layer];
+    }
+    if (!this.isBackendOnline) {
+      return null;
+    }
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/gee-tiles/${encodeURIComponent(layer)}`);
+      if (res.ok) {
+        const data = await res.json();
+        const url = data.available && data.tile_url ? String(data.tile_url) : null;
+        this.geeTileCache[layer] = url;
+        return url;
+      }
+    } catch {
+      // Fallback to local high-res spatial interpolation canvas
+    }
+    this.geeTileCache[layer] = null;
+    return null;
+  }
 }
 
 export const api = new ApiService();

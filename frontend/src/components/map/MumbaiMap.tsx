@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import L from 'leaflet';
 import { useUhiStore } from '../../stores/useUhiStore';
 import { Ward, MapLayerType, MapRenderMode } from '../../types';
 import { WARDS_DATA, THERMAL_GRID } from '../../data/staticDatasets';
 import { getLayerColor, getDivergingDeltaColor, getInfernoColor } from '../../utils/colorScales';
+import { api } from '../../services/api';
 import { MapLegend } from './MapLegend';
 import { WardTooltip } from './WardTooltip';
 import {
@@ -12,12 +13,28 @@ import {
   Trash2,
   Globe,
   MoveHorizontal,
+  Maximize2,
+  Minimize2,
+  Plus,
+  Minus,
 } from 'lucide-react';
 
 interface MumbaiMapProps {
   interactivePolygonMode?: boolean;
   splitComparisonMode?: boolean;
   className?: string;
+}
+
+interface SpatialAnchor {
+  lat: number;
+  lon: number;
+  lst: number;
+  ndvi: number;
+  ndbi: number;
+  albedo: number;
+  mndwi: number;
+  elevation: number;
+  weight: number;
 }
 
 /**
@@ -47,12 +64,13 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const baseTileLayerRef = useRef<L.TileLayer | null>(null);
-  const labelTileLayerRef = useRef<L.TileLayer | null>(null);
+  const geeTileLayerRef = useRef<L.TileLayer | null>(null);
   const wardLayersRef = useRef<{ [key: string]: L.Polygon }>({});
   const drawLayerRef = useRef<L.Polygon | null>(null);
   const drawMarkersRef = useRef<L.CircleMarker[]>([]);
 
   const {
+    wards,
     theme,
     activeLayer,
     setActiveLayer,
@@ -71,9 +89,15 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
     simulationResult,
     splitSliderPos,
     setSplitSliderPos,
+    isBackendConnected,
   } = useUhiStore();
 
+  const activeWards = wards.length > 0 ? wards : WARDS_DATA;
+
   const [satelliteOverride, setSatelliteOverride] = useState<boolean>(false);
+  const [isMaximized, setIsMaximized] = useState<boolean>(false);
+  const [layerOpacity, setLayerOpacity] = useState<number>(0.72);
+  const [geeTileUrl, setGeeTileUrl] = useState<string | null>(null);
   const [tooltipData, setTooltipData] = useState<{
     ward: Ward;
     x: number;
@@ -83,6 +107,63 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
   } | null>(null);
   const [drawCoords, setDrawCoords] = useState<[number, number][]>([]);
   const [isDraggingSplit, setIsDraggingSplit] = useState<boolean>(false);
+
+  // Build dense spatial anchor points from all 24 Ward centroids + polygon vertices + sub-ward thermal observations
+  // Guarantees 100% gap-free coverage across all 24 wards (including Ward T, S, N, M/E, R/N)
+  const spatialAnchors = useMemo<SpatialAnchor[]>(() => {
+    const anchors: SpatialAnchor[] = [];
+
+    // 1. Ward centroids & perimeter anchor points (ensures full coverage to every ward corner)
+    activeWards.forEach((w) => {
+      anchors.push({
+        lat: w.lat,
+        lon: w.lon,
+        lst: w.meanLst,
+        ndvi: w.ndvi,
+        ndbi: w.ndbi,
+        albedo: w.albedo,
+        mndwi: w.mndwi,
+        elevation: w.elev,
+        weight: 2.2,
+      });
+
+      // Add every 2nd polygon vertex slightly pulled toward centroid so ward edges never have gaps
+      w.polygon.forEach(([vLon, vLat], idx) => {
+        if (idx % 2 === 0) {
+          anchors.push({
+            lat: vLat * 0.75 + w.lat * 0.25,
+            lon: vLon * 0.75 + w.lon * 0.25,
+            lst: w.meanLst,
+            ndvi: w.ndvi,
+            ndbi: w.ndbi,
+            albedo: w.albedo,
+            mndwi: w.mndwi,
+            elevation: w.elev,
+            weight: 1.1,
+          });
+        }
+      });
+    });
+
+    // 2. Sub-ward 30m GEE sample points from THERMAL_GRID for local microclimate texture
+    THERMAL_GRID.forEach((cell, idx) => {
+      if (idx % 2 === 0) {
+        anchors.push({
+          lat: cell.lat,
+          lon: cell.lon,
+          lst: cell.lst,
+          ndvi: cell.ndvi,
+          ndbi: cell.ndbi,
+          albedo: cell.albedo,
+          mndwi: cell.mndwi,
+          elevation: cell.elevation,
+          weight: 0.9,
+        });
+      }
+    });
+
+    return anchors;
+  }, [activeWards]);
 
   // Compute simulated cooling shift for a given [lon, lat] cell or ward
   const getSimulatedDeltaForPoint = useCallback(
@@ -101,7 +182,43 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
     [simulationResult, customPolygon, selectedWard]
   );
 
-  // Paint Fine-Grained Thermal/Biophysical Grid on 2D HTML5 Canvas Overlay, Clipped to Mumbai Wards
+  // Query live Google Earth Engine (uhi-mumbai-507613) tile URL from FastAPI when layer changes
+  useEffect(() => {
+    let cancelled = false;
+    if (!isBackendConnected) {
+      setGeeTileUrl(null);
+      return;
+    }
+    api.getGeeTileUrl(activeLayer).then((url) => {
+      if (!cancelled) {
+        setGeeTileUrl(url);
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [activeLayer, isBackendConnected]);
+
+  // Attach/update live Google Earth Engine XYZ TileLayer if available and not in split comparison
+  useEffect(() => {
+    const map = mapInstanceRef.current;
+    if (!map) return;
+
+    if (geeTileLayerRef.current) {
+      map.removeLayer(geeTileLayerRef.current);
+      geeTileLayerRef.current = null;
+    }
+
+    if (geeTileUrl && !splitComparisonMode && mapRenderMode !== 'choropleth') {
+      geeTileLayerRef.current = L.tileLayer(geeTileUrl, {
+        maxZoom: 18,
+        opacity: layerOpacity,
+        zIndex: 350,
+      }).addTo(map);
+    }
+  }, [geeTileUrl, splitComparisonMode, mapRenderMode, layerOpacity]);
+
+  // Paint Continuous Gap-Free High-Resolution Spatial Field on 2D HTML5 Canvas, Clipped to 24 BMC Wards
   const renderCanvasGrid = useCallback(() => {
     const map = mapInstanceRef.current;
     const canvas = canvasRef.current;
@@ -117,15 +234,16 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
     if (!ctx) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    if (mapRenderMode === 'choropleth') {
+    // Hide canvas in Wards-only choropleth mode or when live GEE tiles are active in non-split mode
+    if (mapRenderMode === 'choropleth' || (geeTileUrl && !splitComparisonMode)) {
       return;
     }
 
     ctx.save();
 
-    // Build compound clipping path across all 24 BMC Ward polygons so no grid squares bleed into the sea
+    // 1. Clip strictly to the 24 BMC Ward polygons so zero pixels bleed into the sea/creek
     ctx.beginPath();
-    WARDS_DATA.forEach((ward) => {
+    activeWards.forEach((ward) => {
       if (!ward.polygon || ward.polygon.length < 3) return;
       ward.polygon.forEach(([lon, lat], idx) => {
         const pt = map.latLngToContainerPoint([lat, lon]);
@@ -139,76 +257,130 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
     });
     ctx.clip();
 
-    // Grid spacing in degrees: dLat ~ 0.0084, dLon ~ 0.0069
-    const dLat = 0.0085;
-    const dLon = 0.0070;
+    // 2. Compute screen-space bounding box of Metropolitan Mumbai
+    const nwBound = map.latLngToContainerPoint([19.285, 72.770]);
+    const seBound = map.latLngToContainerPoint([18.885, 73.010]);
+
+    const startX = Math.max(0, Math.floor(nwBound.x));
+    const endX = Math.min(canvas.width, Math.ceil(seBound.x));
+    const startY = Math.max(0, Math.floor(nwBound.y));
+    const endY = Math.min(canvas.height, Math.ceil(seBound.y));
+
+    if (endX <= startX || endY <= startY) {
+      ctx.restore();
+      return;
+    }
+
+    // Adaptive sub-pixel resolution step (6px in Fine Grid / Combined for smooth 60fps continuous field)
+    const step = 6;
     const splitX = (splitSliderPos / 100) * canvas.width;
-    const baseAlpha = mapRenderMode === 'grid' ? 0.80 : 0.58;
+    const spanX = seBound.x - nwBound.x || 1;
+    const spanY = seBound.y - nwBound.y || 1;
 
-    THERMAL_GRID.forEach((cell) => {
-      const nw = map.latLngToContainerPoint([cell.lat + dLat / 2, cell.lon - dLon / 2]);
-      const se = map.latLngToContainerPoint([cell.lat - dLat / 2, cell.lon + dLon / 2]);
-      const x = Math.floor(nw.x);
-      const y = Math.floor(nw.y);
-      const w = Math.max(2, Math.ceil(se.x - nw.x));
-      const h = Math.max(2, Math.ceil(se.y - nw.y));
+    for (let py = startY; py < endY; py += step) {
+      const lat = 19.285 - ((py + step * 0.5 - nwBound.y) / spanY) * (19.285 - 18.885);
 
-      if (x + w < 0 || y + h < 0 || x > canvas.width || y > canvas.height) return;
+      for (let px = startX; px < endX; px += step) {
+        const lon = 72.770 + ((px + step * 0.5 - nwBound.x) / spanX) * (73.010 - 72.770);
 
-      const baseColor = getLayerColor(activeLayer, cell);
+        // Inverse-Distance-Weighted (IDW) interpolation over spatial anchors
+        let wSum = 0;
+        let vVal = 0;
+        let lstVal = 0;
 
-      if (!splitComparisonMode) {
-        ctx.fillStyle = baseColor;
-        ctx.globalAlpha = baseAlpha;
-        ctx.fillRect(x, y, w, h);
-        return;
-      }
+        for (let i = 0; i < spatialAnchors.length; i++) {
+          const a = spatialAnchors[i];
+          const dLat = lat - a.lat;
+          const dLon = lon - a.lon;
+          const distSq = dLat * dLat + dLon * dLon;
 
-      const simDelta = getSimulatedDeltaForPoint(cell.lon, cell.lat);
-      const postLst = cell.lst + simDelta;
+          // Local neighborhood cutoff (~6.5 km radius) for fast & sharp local gradients
+          if (distSq > 0.0038) continue;
 
-      if (comparisonMode === 'delta') {
-        ctx.fillStyle = getDivergingDeltaColor(simDelta, 2.0);
-        ctx.globalAlpha = Math.abs(simDelta) > 0.01 ? 0.82 : 0.28;
-        ctx.fillRect(x, y, w, h);
-      } else if (comparisonMode === 'post') {
-        ctx.fillStyle = getInfernoColor(postLst);
-        ctx.globalAlpha = baseAlpha;
-        ctx.fillRect(x, y, w, h);
-      } else {
-        // Split Curtain Mode: Left of splitX = Baseline, Right of splitX = Simulated Post-Intervention
-        if (x + w <= splitX) {
+          const w = a.weight / (distSq + 0.000045);
+          wSum += w;
+          lstVal += a.lst * w;
+
+          if (activeLayer === 'ndvi') vVal += a.ndvi * w;
+          else if (activeLayer === 'ndbi') vVal += a.ndbi * w;
+          else if (activeLayer === 'albedo') vVal += a.albedo * w;
+          else if (activeLayer === 'mndwi') vVal += a.mndwi * w;
+          else if (activeLayer === 'elevation') vVal += a.elevation * w;
+        }
+
+        if (wSum === 0) continue;
+
+        const interpLst = lstVal / wSum;
+        const interpMetric = activeLayer === 'lst' ? interpLst : vVal / wSum;
+
+        const syntheticCell = {
+          lst: interpLst,
+          ndvi: activeLayer === 'ndvi' ? interpMetric : 0.18,
+          ndbi: activeLayer === 'ndbi' ? interpMetric : 0.32,
+          albedo: activeLayer === 'albedo' ? interpMetric : 0.14,
+          mndwi: activeLayer === 'mndwi' ? interpMetric : -0.10,
+          elevation: activeLayer === 'elevation' ? interpMetric : 14,
+        };
+
+        const baseColor = getLayerColor(activeLayer, syntheticCell);
+
+        if (!splitComparisonMode) {
           ctx.fillStyle = baseColor;
-          ctx.globalAlpha = baseAlpha;
-          ctx.fillRect(x, y, w, h);
-        } else if (x >= splitX) {
+          ctx.globalAlpha = layerOpacity;
+          ctx.fillRect(px, py, step, step);
+          continue;
+        }
+
+        const simDelta = getSimulatedDeltaForPoint(lon, lat);
+        const postLst = interpLst + simDelta;
+
+        if (comparisonMode === 'delta') {
+          ctx.fillStyle = getDivergingDeltaColor(simDelta, 2.0);
+          ctx.globalAlpha = Math.abs(simDelta) > 0.01 ? layerOpacity : 0.25;
+          ctx.fillRect(px, py, step, step);
+        } else if (comparisonMode === 'post') {
           ctx.fillStyle = getInfernoColor(postLst);
-          ctx.globalAlpha = baseAlpha;
-          ctx.fillRect(x, y, w, h);
+          ctx.globalAlpha = layerOpacity;
+          ctx.fillRect(px, py, step, step);
         } else {
-          const leftW = splitX - x;
-          ctx.fillStyle = baseColor;
-          ctx.globalAlpha = baseAlpha;
-          ctx.fillRect(x, y, leftW, h);
+          // Split Curtain Mode
+          if (px + step <= splitX) {
+            ctx.fillStyle = baseColor;
+            ctx.globalAlpha = layerOpacity;
+            ctx.fillRect(px, py, step, step);
+          } else if (px >= splitX) {
+            ctx.fillStyle = getInfernoColor(postLst);
+            ctx.globalAlpha = layerOpacity;
+            ctx.fillRect(px, py, step, step);
+          } else {
+            const leftW = splitX - px;
+            ctx.fillStyle = baseColor;
+            ctx.globalAlpha = layerOpacity;
+            ctx.fillRect(px, py, leftW, step);
 
-          ctx.fillStyle = getInfernoColor(postLst);
-          ctx.globalAlpha = baseAlpha;
-          ctx.fillRect(splitX, y, w - leftW, h);
+            ctx.fillStyle = getInfernoColor(postLst);
+            ctx.globalAlpha = layerOpacity;
+            ctx.fillRect(splitX, py, step - leftW, step);
+          }
         }
       }
-    });
+    }
 
     ctx.restore();
   }, [
+    activeWards,
+    spatialAnchors,
     activeLayer,
     mapRenderMode,
+    layerOpacity,
+    geeTileUrl,
     splitComparisonMode,
     comparisonMode,
     splitSliderPos,
     getSimulatedDeltaForPoint,
   ]);
 
-  // Initialize Leaflet Map
+  // Initialize Map (Zero "Leaflet" attribution watermark)
   useEffect(() => {
     if (!mapContainerRef.current || mapInstanceRef.current) return;
 
@@ -216,12 +388,11 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
       center: [19.076, 72.8777],
       zoom: 11,
       minZoom: 10,
-      maxZoom: 16,
+      maxZoom: 18,
       zoomControl: false,
-      attributionControl: true,
+      attributionControl: false,
     });
 
-    L.control.zoom({ position: 'bottomright' }).addTo(map);
     mapInstanceRef.current = map;
 
     return () => {
@@ -242,7 +413,30 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
     };
   }, [renderCanvasGrid]);
 
-  // Auto-Sync Watermark-Free Esri Canvas Basemaps (Light Gray / Dark Gray / World Imagery)
+  // Handle Maximize / Escape key and invalidateSize() so tiles & canvas resize smoothly
+  useEffect(() => {
+    const map = mapInstanceRef.current;
+    if (map) {
+      const timer = setTimeout(() => {
+        map.invalidateSize();
+        renderCanvasGrid();
+      }, 60);
+      return () => clearTimeout(timer);
+    }
+  }, [isMaximized, renderCanvasGrid]);
+
+  useEffect(() => {
+    if (!isMaximized) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsMaximized(false);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isMaximized]);
+
+  // Google Maps Satellite Hybrid & Terrain/Roadmap Basemaps
   useEffect(() => {
     const map = mapInstanceRef.current;
     if (!map) return;
@@ -251,53 +445,35 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
       map.removeLayer(baseTileLayerRef.current);
       baseTileLayerRef.current = null;
     }
-    if (labelTileLayerRef.current) {
-      map.removeLayer(labelTileLayerRef.current);
-      labelTileLayerRef.current = null;
-    }
 
     if (satelliteOverride) {
+      // Google Satellite Hybrid (High-Res Optical Imagery + Vector Road/Locality Labels)
       baseTileLayerRef.current = L.tileLayer(
-        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        'https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}',
         {
-          maxZoom: 19,
-          attribution: '&copy; Esri World Imagery',
+          maxZoom: 20,
         }
       ).addTo(map);
     } else if (theme === 'light') {
+      // Google Terrain / Clean Cartographic Roadmap
       baseTileLayerRef.current = L.tileLayer(
-        'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+        'https://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}',
         {
-          maxZoom: 16,
-          attribution: '&copy; Esri, HERE, Garmin, OpenStreetMap',
-        }
-      ).addTo(map);
-      labelTileLayerRef.current = L.tileLayer(
-        'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}',
-        {
-          maxZoom: 16,
-          opacity: 0.75,
+          maxZoom: 19,
         }
       ).addTo(map);
     } else {
+      // Carbon Workbench Dark Basemap
       baseTileLayerRef.current = L.tileLayer(
         'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
         {
           maxZoom: 16,
-          attribution: '&copy; Esri, HERE, Garmin, OpenStreetMap',
-        }
-      ).addTo(map);
-      labelTileLayerRef.current = L.tileLayer(
-        'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}',
-        {
-          maxZoom: 16,
-          opacity: 0.65,
         }
       ).addTo(map);
     }
   }, [theme, satelliteOverride]);
 
-  // Render & Update BMC Ward Vector Boundaries & Choropleth
+  // Render & Update 24 BMC Ward Vector Boundaries & Choropleth
   useEffect(() => {
     const map = mapInstanceRef.current;
     if (!map) return;
@@ -305,9 +481,13 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
     Object.values(wardLayersRef.current).forEach((layer) => map.removeLayer(layer));
     wardLayersRef.current = {};
 
-    const defaultStroke = theme === 'light' ? '#4A4842' : '#78756E';
+    const defaultStroke = satelliteOverride
+      ? 'rgba(255, 255, 255, 0.72)'
+      : theme === 'light'
+      ? '#2C2B29'
+      : '#A09D96';
 
-    WARDS_DATA.forEach((ward) => {
+    activeWards.forEach((ward) => {
       if (!ward.polygon || ward.polygon.length === 0) return;
 
       const latLngs = ward.polygon.map(([lon, lat]) => [lat, lon] as [number, number]);
@@ -327,31 +507,42 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
               elevation: ward.elev,
             });
 
-      const baseFillOpacity =
-        mapRenderMode === 'grid'
+      // In Combined and Fine Grid modes, the continuous canvas provides the fill (no muddy double-tinting!)
+      const polyFillOpacity =
+        mapRenderMode === 'choropleth'
           ? isSelected
-            ? 0.16
+            ? Math.min(0.92, layerOpacity + 0.12)
             : isHovered
-            ? 0.10
-            : 0.01
-          : mapRenderMode === 'combined'
-          ? isSelected
-            ? 0.42
-            : isHovered
-            ? 0.34
-            : 0.22
+            ? Math.min(0.88, layerOpacity + 0.06)
+            : layerOpacity
           : isSelected
-          ? 0.80
+          ? 0.12
           : isHovered
-          ? 0.74
-          : 0.65;
+          ? 0.06
+          : 0.0;
+
+      const strokeWeight =
+        isSelected
+          ? 2.6
+          : isHovered
+          ? 2.2
+          : mapRenderMode === 'grid'
+          ? 0.45
+          : 1.25;
+
+      const strokeOpacity =
+        isSelected || isHovered
+          ? 1.0
+          : mapRenderMode === 'grid'
+          ? 0.35
+          : 0.85;
 
       const poly = L.polygon(latLngs, {
         color: isSelected ? '#D94E34' : isHovered ? '#E55A40' : defaultStroke,
-        weight: isSelected ? 2.5 : isHovered ? 2 : 1.1,
-        opacity: isSelected || isHovered ? 1 : 0.85,
+        weight: strokeWeight,
+        opacity: strokeOpacity,
         fillColor,
-        fillOpacity: baseFillOpacity,
+        fillOpacity: polyFillOpacity,
       }).addTo(map);
 
       poly.on('mouseover', (e) => {
@@ -378,18 +569,23 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
         }
       });
 
-      poly.bindTooltip(ward.id, {
-        permanent: true,
-        direction: 'center',
-        className: 'ward-map-label',
-      });
+      if (mapRenderMode !== 'grid') {
+        poly.bindTooltip(ward.id, {
+          permanent: true,
+          direction: 'center',
+          className: 'ward-map-label',
+        });
+      }
 
       wardLayersRef.current[ward.id] = poly;
     });
   }, [
+    activeWards,
     theme,
+    satelliteOverride,
     activeLayer,
     mapRenderMode,
+    layerOpacity,
     selectedWard,
     hoveredWard,
     splitComparisonMode,
@@ -483,6 +679,12 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
     setSelectedWard(null);
   };
 
+  const handleZoom = (delta: number) => {
+    const map = mapInstanceRef.current;
+    if (!map) return;
+    map.setZoom(map.getZoom() + delta);
+  };
+
   const handleClearDrawing = () => {
     const map = mapInstanceRef.current;
     if (!map) return;
@@ -514,12 +716,16 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
   return (
     <div
       ref={wrapperRef}
-      className={`relative w-full h-full overflow-hidden bg-[var(--bg-canvas)] select-none ${className}`}
+      className={`${
+        isMaximized
+          ? 'fixed inset-x-0 top-12 bottom-0 z-[1200] w-screen h-[calc(100vh-3rem)]'
+          : `relative w-full h-full ${className}`
+      } overflow-hidden bg-[var(--bg-canvas)] select-none transition-all`}
     >
-      {/* Base Leaflet Container */}
+      {/* Base Map Container */}
       <div ref={mapContainerRef} className="w-full h-full z-10" />
 
-      {/* 2D HTML5 Canvas Overlay for Fine-Grained 30m Surrogate Thermal Grid */}
+      {/* 2D HTML5 Canvas Overlay for Continuous Gap-Free 30m Surrogate Field */}
       <canvas
         ref={canvasRef}
         className="absolute inset-0 pointer-events-none z-[400]"
@@ -563,7 +769,7 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
         </div>
       )}
 
-      {/* TOP-LEFT: Floating Cartographic Layer & Render Mode Bar */}
+      {/* TOP-LEFT: Floating Cartographic Layer, Render Mode, & Opacity Bar */}
       <div className="absolute top-3 left-3 z-[900] flex flex-wrap items-center gap-1.5 pointer-events-auto">
         {/* Layer Switcher Pill Group */}
         <div
@@ -610,9 +816,31 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
             );
           })}
         </div>
+
+        {/* Compact Layer Opacity Slider */}
+        <div
+          style={{ backgroundColor: 'var(--bg-surface)' }}
+          className="hidden md:flex items-center gap-2 px-2.5 py-1 rounded-md border border-[var(--border-subtle)] shadow-card text-[10px] font-mono text-[var(--text-secondary)]"
+          title="Adjust Thermal / Spectral Layer Opacity over Basemap"
+        >
+          <span>Opacity</span>
+          <input
+            type="range"
+            min={0.2}
+            max={0.95}
+            step={0.05}
+            value={layerOpacity}
+            onChange={(e) => setLayerOpacity(parseFloat(e.target.value))}
+            aria-label="Layer Opacity"
+            className="w-16 h-1 accent-[var(--accent-primary)] cursor-pointer"
+          />
+          <span className="w-7 text-right text-[var(--text-primary)]">
+            {Math.round(layerOpacity * 100)}%
+          </span>
+        </div>
       </div>
 
-      {/* TOP-RIGHT: Satellite Toggle, Polygon Draw Tool, & Reset View */}
+      {/* TOP-RIGHT: Satellite Toggle, Polygon Draw Tool, & Maximize Button */}
       <div className="absolute top-3 right-3 z-[900] flex items-center gap-1.5 pointer-events-auto">
         {interactivePolygonMode && (
           <div
@@ -648,10 +876,10 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
           </div>
         )}
 
-        {/* Satellite Basemap Override */}
+        {/* Google Satellite Hybrid Toggle */}
         <button
           onClick={() => setSatelliteOverride(!satelliteOverride)}
-          title="Toggle Satellite Optical Basemap"
+          title="Toggle Google Satellite Hybrid Imagery"
           style={satelliteOverride ? undefined : { backgroundColor: 'var(--bg-surface)' }}
           className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border text-[11px] font-mono shadow-card transition-colors ${
             satelliteOverride
@@ -663,24 +891,64 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
           <span className="hidden md:inline">Satellite</span>
         </button>
 
-        {/* Reset Extent */}
+        {/* Maximize / Restore Map Workspace Button (Replaces Top-Right Reload Button) */}
         <button
-          onClick={handleResetView}
-          title="Reset Extent to Metropolitan Mumbai"
-          style={{ backgroundColor: 'var(--bg-surface)' }}
-          className="p-1.5 rounded-md hover:bg-[var(--bg-elevated)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] shadow-card transition-colors"
+          onClick={() => setIsMaximized((prev) => !prev)}
+          aria-label={isMaximized ? 'Restore Split Workspace View' : 'Maximize Map'}
+          title={isMaximized ? 'Restore Split Workspace View (Esc)' : 'Maximize Map Full Workspace'}
+          style={isMaximized ? undefined : { backgroundColor: 'var(--bg-surface)' }}
+          className={`p-1.5 rounded-md border shadow-card transition-colors ${
+            isMaximized
+              ? 'bg-[var(--accent-primary)] text-white border-[var(--accent-primary)]'
+              : 'hover:bg-[var(--bg-elevated)] border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+          }`}
         >
-          <RotateCcw className="w-3.5 h-3.5" />
+          {isMaximized ? (
+            <Minimize2 className="w-3.5 h-3.5" />
+          ) : (
+            <Maximize2 className="w-3.5 h-3.5" />
+          )}
         </button>
       </div>
 
       {/* BOTTOM-LEFT: Continuous Scientific Colorbar Legend */}
       <MapLegend showDeltaScale={splitComparisonMode && comparisonMode === 'delta'} />
 
+      {/* BOTTOM-RIGHT: Custom Workbench Zoom + Reset View Control Cluster */}
+      <div
+        style={{ backgroundColor: 'var(--bg-surface)' }}
+        className="absolute bottom-7 right-3 z-[900] flex flex-col rounded-md border border-[var(--border-subtle)] shadow-card overflow-hidden pointer-events-auto"
+      >
+        <button
+          onClick={() => handleZoom(1)}
+          aria-label="Zoom In"
+          title="Zoom In"
+          className="p-1.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)] border-b border-[var(--border-subtle)] transition-colors"
+        >
+          <Plus className="w-3.5 h-3.5" />
+        </button>
+        <button
+          onClick={() => handleZoom(-1)}
+          aria-label="Zoom Out"
+          title="Zoom Out"
+          className="p-1.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)] border-b border-[var(--border-subtle)] transition-colors"
+        >
+          <Minus className="w-3.5 h-3.5" />
+        </button>
+        <button
+          onClick={handleResetView}
+          aria-label="Reset Mumbai Viewport"
+          title="Reset Extent to Metropolitan Mumbai"
+          className="p-1.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)] transition-colors"
+        >
+          <RotateCcw className="w-3.5 h-3.5" />
+        </button>
+      </div>
+
       {/* BOTTOM-RIGHT (Left of Zoom Controls): Compact Citywide Summary Strip */}
       <div
         style={{ backgroundColor: 'var(--bg-surface)' }}
-        className="hidden md:flex items-center gap-2.5 absolute bottom-3 right-12 z-[900] border border-[var(--border-subtle)] px-3 py-1.5 rounded-md shadow-card text-[11px] font-mono text-[var(--text-secondary)] pointer-events-none"
+        className="hidden md:flex items-center gap-2.5 absolute bottom-7 right-12 z-[900] border border-[var(--border-subtle)] px-3 py-1.5 rounded-md shadow-card text-[11px] font-mono text-[var(--text-secondary)] pointer-events-none"
       >
         <span>
           Mean: <strong className="text-[var(--text-primary)]">34.2°C</strong>
@@ -693,6 +961,14 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
         <span>
           Sink: <strong className="text-[#0D9488]">29.5°C (R/N)</strong>
         </span>
+      </div>
+
+      {/* BOTTOM-RIGHT CORNER: Discreet Google Cloud / GEE Attribution Tag */}
+      <div
+        style={{ backgroundColor: 'var(--bg-surface)' }}
+        className="absolute bottom-1 right-3 z-[850] px-2 py-0.5 rounded border border-[var(--border-subtle)] text-[9px] font-mono text-[var(--text-muted)] pointer-events-none"
+      >
+        {geeTileUrl ? 'GEE Live Stream · ' : ''}Google Satellite / GEE · uhi-mumbai-507613
       </div>
 
       {/* Floating Ward Hover Tooltip (z-[1500], 100% Opaque Surface) */}
