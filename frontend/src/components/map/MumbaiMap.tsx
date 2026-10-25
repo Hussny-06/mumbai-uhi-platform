@@ -46,7 +46,8 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
-  const tileLayerRef = useRef<L.TileLayer | null>(null);
+  const baseTileLayerRef = useRef<L.TileLayer | null>(null);
+  const labelTileLayerRef = useRef<L.TileLayer | null>(null);
   const wardLayersRef = useRef<{ [key: string]: L.Polygon }>({});
   const drawLayerRef = useRef<L.Polygon | null>(null);
   const drawMarkersRef = useRef<L.CircleMarker[]>([]);
@@ -73,7 +74,13 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
   } = useUhiStore();
 
   const [satelliteOverride, setSatelliteOverride] = useState<boolean>(false);
-  const [tooltipData, setTooltipData] = useState<{ ward: Ward; x: number; y: number } | null>(null);
+  const [tooltipData, setTooltipData] = useState<{
+    ward: Ward;
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+  } | null>(null);
   const [drawCoords, setDrawCoords] = useState<[number, number][]>([]);
   const [isDraggingSplit, setIsDraggingSplit] = useState<boolean>(false);
 
@@ -94,7 +101,7 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
     [simulationResult, customPolygon, selectedWard]
   );
 
-  // Paint Fine-Grained Thermal/Biophysical Grid on 2D HTML5 Canvas Overlay
+  // Paint Fine-Grained Thermal/Biophysical Grid on 2D HTML5 Canvas Overlay, Clipped to Mumbai Wards
   const renderCanvasGrid = useCallback(() => {
     const map = mapInstanceRef.current;
     const canvas = canvasRef.current;
@@ -114,11 +121,29 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
       return;
     }
 
-    // Grid spacing in degrees: dLat ~ 0.0082, dLon ~ 0.0067
-    const dLat = 0.0084;
-    const dLon = 0.0069;
+    ctx.save();
+
+    // Build compound clipping path across all 24 BMC Ward polygons so no grid squares bleed into the sea
+    ctx.beginPath();
+    WARDS_DATA.forEach((ward) => {
+      if (!ward.polygon || ward.polygon.length < 3) return;
+      ward.polygon.forEach(([lon, lat], idx) => {
+        const pt = map.latLngToContainerPoint([lat, lon]);
+        if (idx === 0) {
+          ctx.moveTo(pt.x, pt.y);
+        } else {
+          ctx.lineTo(pt.x, pt.y);
+        }
+      });
+      ctx.closePath();
+    });
+    ctx.clip();
+
+    // Grid spacing in degrees: dLat ~ 0.0084, dLon ~ 0.0069
+    const dLat = 0.0085;
+    const dLon = 0.0070;
     const splitX = (splitSliderPos / 100) * canvas.width;
-    const baseAlpha = mapRenderMode === 'grid' ? 0.78 : 0.56;
+    const baseAlpha = mapRenderMode === 'grid' ? 0.80 : 0.58;
 
     THERMAL_GRID.forEach((cell) => {
       const nw = map.latLngToContainerPoint([cell.lat + dLat / 2, cell.lon - dLon / 2]);
@@ -144,7 +169,7 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
 
       if (comparisonMode === 'delta') {
         ctx.fillStyle = getDivergingDeltaColor(simDelta, 2.0);
-        ctx.globalAlpha = Math.abs(simDelta) > 0.01 ? 0.82 : 0.25;
+        ctx.globalAlpha = Math.abs(simDelta) > 0.01 ? 0.82 : 0.28;
         ctx.fillRect(x, y, w, h);
       } else if (comparisonMode === 'post') {
         ctx.fillStyle = getInfernoColor(postLst);
@@ -173,7 +198,7 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
       }
     });
 
-    ctx.globalAlpha = 1.0;
+    ctx.restore();
   }, [
     activeLayer,
     mapRenderMode,
@@ -217,18 +242,22 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
     };
   }, [renderCanvasGrid]);
 
-  // Auto-Sync Basemap Tiles with Daylight Paper (Light) / Carbon (Dark) + Satellite Override
+  // Auto-Sync Watermark-Free Esri Canvas Basemaps (Light Gray / Dark Gray / World Imagery)
   useEffect(() => {
     const map = mapInstanceRef.current;
     if (!map) return;
 
-    if (tileLayerRef.current) {
-      map.removeLayer(tileLayerRef.current);
-      tileLayerRef.current = null;
+    if (baseTileLayerRef.current) {
+      map.removeLayer(baseTileLayerRef.current);
+      baseTileLayerRef.current = null;
+    }
+    if (labelTileLayerRef.current) {
+      map.removeLayer(labelTileLayerRef.current);
+      labelTileLayerRef.current = null;
     }
 
     if (satelliteOverride) {
-      tileLayerRef.current = L.tileLayer(
+      baseTileLayerRef.current = L.tileLayer(
         'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
         {
           maxZoom: 19,
@@ -236,21 +265,33 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
         }
       ).addTo(map);
     } else if (theme === 'light') {
-      tileLayerRef.current = L.tileLayer(
-        'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+      baseTileLayerRef.current = L.tileLayer(
+        'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
         {
-          subdomains: 'abcd',
-          maxZoom: 19,
-          attribution: '&copy; CARTO Positron &copy; OpenStreetMap',
+          maxZoom: 16,
+          attribution: '&copy; Esri, HERE, Garmin, OpenStreetMap',
+        }
+      ).addTo(map);
+      labelTileLayerRef.current = L.tileLayer(
+        'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}',
+        {
+          maxZoom: 16,
+          opacity: 0.75,
         }
       ).addTo(map);
     } else {
-      tileLayerRef.current = L.tileLayer(
-        'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+      baseTileLayerRef.current = L.tileLayer(
+        'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
         {
-          subdomains: 'abcd',
-          maxZoom: 19,
-          attribution: '&copy; CARTO Dark Matter &copy; OpenStreetMap',
+          maxZoom: 16,
+          attribution: '&copy; Esri, HERE, Garmin, OpenStreetMap',
+        }
+      ).addTo(map);
+      labelTileLayerRef.current = L.tileLayer(
+        'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}',
+        {
+          maxZoom: 16,
+          opacity: 0.65,
         }
       ).addTo(map);
     }
@@ -264,7 +305,7 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
     Object.values(wardLayersRef.current).forEach((layer) => map.removeLayer(layer));
     wardLayersRef.current = {};
 
-    const defaultStroke = theme === 'light' ? '#57554F' : '#6E6C66';
+    const defaultStroke = theme === 'light' ? '#4A4842' : '#78756E';
 
     WARDS_DATA.forEach((ward) => {
       if (!ward.polygon || ward.polygon.length === 0) return;
@@ -289,26 +330,26 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
       const baseFillOpacity =
         mapRenderMode === 'grid'
           ? isSelected
-            ? 0.18
+            ? 0.16
             : isHovered
-            ? 0.12
-            : 0.02
+            ? 0.10
+            : 0.01
           : mapRenderMode === 'combined'
           ? isSelected
-            ? 0.45
+            ? 0.42
             : isHovered
-            ? 0.35
+            ? 0.34
             : 0.22
           : isSelected
-          ? 0.78
+          ? 0.80
           : isHovered
-          ? 0.72
-          : 0.62;
+          ? 0.74
+          : 0.65;
 
       const poly = L.polygon(latLngs, {
         color: isSelected ? '#D94E34' : isHovered ? '#E55A40' : defaultStroke,
-        weight: isSelected ? 2.5 : isHovered ? 2 : 1,
-        opacity: isSelected || isHovered ? 1 : 0.75,
+        weight: isSelected ? 2.5 : isHovered ? 2 : 1.1,
+        opacity: isSelected || isHovered ? 1 : 0.85,
         fillColor,
         fillOpacity: baseFillOpacity,
       }).addTo(map);
@@ -316,12 +357,14 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
       poly.on('mouseover', (e) => {
         setHoveredWard(ward);
         const pt = map.latLngToContainerPoint(e.latlng);
-        setTooltipData({ ward, x: pt.x, y: pt.y });
+        const size = map.getSize();
+        setTooltipData({ ward, x: pt.x, y: pt.y, w: size.x, h: size.y });
       });
 
       poly.on('mousemove', (e) => {
         const pt = map.latLngToContainerPoint(e.latlng);
-        setTooltipData({ ward, x: pt.x, y: pt.y });
+        const size = map.getSize();
+        setTooltipData({ ward, x: pt.x, y: pt.y, w: size.x, h: size.y });
       });
 
       poly.on('mouseout', () => {
@@ -493,10 +536,16 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
 
           {/* Before / After Labels */}
           <div className="absolute top-14 flex items-center gap-3 font-mono text-[10px] uppercase tracking-wider">
-            <span className="-translate-x-12 px-2 py-0.5 rounded bg-[var(--bg-surface)]/90 border border-[var(--border-subtle)] text-[var(--text-secondary)] shadow-sm">
+            <span
+              style={{ backgroundColor: 'var(--bg-surface)' }}
+              className="-translate-x-12 px-2 py-0.5 rounded border border-[var(--border-subtle)] text-[var(--text-secondary)] shadow-sm"
+            >
               Baseline
             </span>
-            <span className="translate-x-12 px-2 py-0.5 rounded bg-[var(--bg-surface)]/90 border border-[#0D9488]/50 text-[#0D9488] font-semibold shadow-sm">
+            <span
+              style={{ backgroundColor: 'var(--bg-surface)' }}
+              className="translate-x-12 px-2 py-0.5 rounded border border-[#0D9488]/50 text-[#0D9488] font-semibold shadow-sm"
+            >
               Simulated
             </span>
           </div>
@@ -506,7 +555,8 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
             type="button"
             onMouseDown={() => setIsDraggingSplit(true)}
             title="Drag to compare Baseline vs. Post-Intervention LST"
-            className="pointer-events-auto absolute top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-[var(--bg-surface)] border-2 border-[var(--accent-primary)] text-[var(--text-primary)] flex items-center justify-center cursor-ew-resize shadow-floating hover:scale-105 transition-transform"
+            style={{ backgroundColor: 'var(--bg-surface)' }}
+            className="pointer-events-auto absolute top-1/2 -translate-y-1/2 w-7 h-7 rounded-full border-2 border-[var(--accent-primary)] text-[var(--text-primary)] flex items-center justify-center cursor-ew-resize shadow-floating hover:scale-105 transition-transform"
           >
             <MoveHorizontal className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
           </button>
@@ -516,7 +566,10 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
       {/* TOP-LEFT: Floating Cartographic Layer & Render Mode Bar */}
       <div className="absolute top-3 left-3 z-[900] flex flex-wrap items-center gap-1.5 pointer-events-auto">
         {/* Layer Switcher Pill Group */}
-        <div className="flex items-center bg-[var(--bg-surface)]/95 backdrop-blur-md p-0.5 rounded-md border border-[var(--border-subtle)] shadow-card">
+        <div
+          style={{ backgroundColor: 'var(--bg-surface)' }}
+          className="flex items-center p-0.5 rounded-md border border-[var(--border-subtle)] shadow-card"
+        >
           {layerPills.map((l) => {
             const isActive = activeLayer === l.id;
             return (
@@ -536,7 +589,10 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
         </div>
 
         {/* Multi-Resolution Render Mode Toggle (Fine Grid | Wards | Combined) */}
-        <div className="hidden sm:flex items-center bg-[var(--bg-surface)]/95 backdrop-blur-md p-0.5 rounded-md border border-[var(--border-subtle)] shadow-card">
+        <div
+          style={{ backgroundColor: 'var(--bg-surface)' }}
+          className="hidden sm:flex items-center p-0.5 rounded-md border border-[var(--border-subtle)] shadow-card"
+        >
           {renderModes.map((m) => {
             const isActive = mapRenderMode === m.id;
             return (
@@ -559,7 +615,10 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
       {/* TOP-RIGHT: Satellite Toggle, Polygon Draw Tool, & Reset View */}
       <div className="absolute top-3 right-3 z-[900] flex items-center gap-1.5 pointer-events-auto">
         {interactivePolygonMode && (
-          <div className="flex items-center gap-1 bg-[var(--bg-surface)]/95 backdrop-blur-md p-0.5 rounded-md border border-[var(--border-subtle)] shadow-card text-xs">
+          <div
+            style={{ backgroundColor: 'var(--bg-surface)' }}
+            className="flex items-center gap-1 p-0.5 rounded-md border border-[var(--border-subtle)] shadow-card text-xs"
+          >
             <button
               onClick={() => {
                 setIsDrawingPolygon(!isDrawingPolygon);
@@ -593,10 +652,11 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
         <button
           onClick={() => setSatelliteOverride(!satelliteOverride)}
           title="Toggle Satellite Optical Basemap"
-          className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border text-[11px] font-mono shadow-card backdrop-blur-md transition-colors ${
+          style={satelliteOverride ? undefined : { backgroundColor: 'var(--bg-surface)' }}
+          className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border text-[11px] font-mono shadow-card transition-colors ${
             satelliteOverride
               ? 'bg-[var(--accent-primary)] text-white border-[var(--accent-primary)] font-semibold'
-              : 'bg-[var(--bg-surface)]/95 text-[var(--text-secondary)] hover:text-[var(--text-primary)] border-[var(--border-subtle)]'
+              : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] border-[var(--border-subtle)]'
           }`}
         >
           <Globe className="w-3.5 h-3.5" />
@@ -607,7 +667,8 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
         <button
           onClick={handleResetView}
           title="Reset Extent to Metropolitan Mumbai"
-          className="p-1.5 rounded-md bg-[var(--bg-surface)]/95 hover:bg-[var(--bg-elevated)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] shadow-card backdrop-blur-md transition-colors"
+          style={{ backgroundColor: 'var(--bg-surface)' }}
+          className="p-1.5 rounded-md hover:bg-[var(--bg-elevated)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] shadow-card transition-colors"
         >
           <RotateCcw className="w-3.5 h-3.5" />
         </button>
@@ -617,7 +678,10 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
       <MapLegend showDeltaScale={splitComparisonMode && comparisonMode === 'delta'} />
 
       {/* BOTTOM-RIGHT (Left of Zoom Controls): Compact Citywide Summary Strip */}
-      <div className="hidden md:flex items-center gap-2.5 absolute bottom-3 right-12 z-[900] bg-[var(--bg-surface)]/95 backdrop-blur-md border border-[var(--border-subtle)] px-3 py-1.5 rounded-md shadow-card text-[11px] font-mono text-[var(--text-secondary)] pointer-events-none">
+      <div
+        style={{ backgroundColor: 'var(--bg-surface)' }}
+        className="hidden md:flex items-center gap-2.5 absolute bottom-3 right-12 z-[900] border border-[var(--border-subtle)] px-3 py-1.5 rounded-md shadow-card text-[11px] font-mono text-[var(--text-secondary)] pointer-events-none"
+      >
         <span>
           Mean: <strong className="text-[var(--text-primary)]">34.2°C</strong>
         </span>
@@ -631,9 +695,15 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
         </span>
       </div>
 
-      {/* Floating Ward Hover Tooltip */}
+      {/* Floating Ward Hover Tooltip (z-[1500], 100% Opaque Surface) */}
       {tooltipData && (
-        <WardTooltip ward={tooltipData.ward} x={tooltipData.x} y={tooltipData.y} />
+        <WardTooltip
+          ward={tooltipData.ward}
+          x={tooltipData.x}
+          y={tooltipData.y}
+          containerWidth={tooltipData.w}
+          containerHeight={tooltipData.h}
+        />
       )}
     </div>
   );
