@@ -17,6 +17,8 @@ type SortField = 'meanLst' | 'uhi' | 'ndvi' | 'ndbi' | 'popDensity';
 
 export const SpatialExplorer: React.FC = () => {
   const {
+    wards,
+    shapDrivers,
     selectedWard,
     hoveredWard,
     setHoveredWard,
@@ -26,26 +28,31 @@ export const SpatialExplorer: React.FC = () => {
     setActivePage,
   } = useUhiStore();
 
+  const activeWards = wards.length > 0 ? wards : WARDS_DATA;
+  const activeShapDrivers = shapDrivers.length > 0 ? shapDrivers : CITY_WIDE_SHAP_DRIVERS;
+
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedZone, setSelectedZone] = useState<string>('All');
   const [sortBy, setSortBy] = useState<SortField>('meanLst');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
   const filteredWards = useMemo(() => {
-    return WARDS_DATA.filter((w: Ward) => {
-      const matchSearch =
-        w.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        w.id.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchZone =
-        selectedZone === 'All' ||
-        w.zone.toLowerCase().includes(selectedZone.toLowerCase());
-      return matchSearch && matchZone;
-    }).sort((a: Ward, b: Ward) => {
-      const valA = a[sortBy];
-      const valB = b[sortBy];
-      return sortOrder === 'desc' ? valB - valA : valA - valB;
-    });
-  }, [searchQuery, selectedZone, sortBy, sortOrder]);
+    return activeWards
+      .filter((w: Ward) => {
+        const matchSearch =
+          w.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          w.id.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchZone =
+          selectedZone === 'All' ||
+          w.zone.toLowerCase().includes(selectedZone.toLowerCase());
+        return matchSearch && matchZone;
+      })
+      .sort((a: Ward, b: Ward) => {
+        const valA = a[sortBy];
+        const valB = b[sortBy];
+        return sortOrder === 'desc' ? valB - valA : valA - valB;
+      });
+  }, [activeWards, searchQuery, selectedZone, sortBy, sortOrder]);
 
   const toggleSort = (field: SortField) => {
     if (sortBy === field) {
@@ -103,18 +110,18 @@ export const SpatialExplorer: React.FC = () => {
   const dynCol = getDynamicColumnConfig();
 
   return (
-    <div className="flex-1 flex flex-col lg:flex-row h-[calc(100vh-3rem)] w-full overflow-hidden bg-[var(--bg-canvas)] p-3 gap-3">
+    <div className="flex-1 flex flex-col lg:flex-row h-[calc(100vh-3rem)] w-full overflow-y-auto lg:overflow-hidden bg-[var(--bg-canvas)] p-3 gap-3">
       {/* LEFT / CENTER MAP CANVAS (62% Width on Desktop) */}
-      <div className="w-full lg:w-[62%] h-[45vh] lg:h-full rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] shadow-card overflow-hidden relative shrink-0">
+      <div className="w-full lg:w-[62%] h-[48vh] min-h-[340px] lg:h-full rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] shadow-card overflow-hidden relative shrink-0">
         <MumbaiMap className="w-full h-full" />
       </div>
 
       {/* RIGHT SYNCHRONIZED ANALYTICAL DOCK (38% Width on Desktop) */}
-      <div className="w-full lg:w-[38%] flex-1 lg:h-full flex flex-col overflow-hidden">
+      <div className="w-full lg:w-[38%] flex-1 lg:h-full flex flex-col lg:overflow-hidden">
         {selectedWard ? (
           <WardInspectorPanel />
         ) : (
-          <div className="flex flex-col h-full gap-3 overflow-hidden">
+          <div className="flex flex-col h-full gap-3 lg:overflow-hidden">
             {/* 1. Search, Zone Filter & Registry Export Header Card */}
             <div className="bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-lg p-3 shadow-card space-y-2.5 shrink-0">
               <div className="flex items-center justify-between">
@@ -128,7 +135,7 @@ export const SpatialExplorer: React.FC = () => {
                 </div>
 
                 <button
-                  onClick={() => exportAllWardsCsv(WARDS_DATA, selectedDate)}
+                  onClick={() => exportAllWardsCsv(activeWards, selectedDate)}
                   title="Download 24-Ward Microclimate Registry CSV"
                   className="px-2.5 py-1 rounded bg-[var(--bg-canvas)] hover:bg-[var(--bg-elevated)] border border-[var(--border-subtle)] text-[11px] font-mono text-[var(--text-secondary)] hover:text-[var(--text-primary)] flex items-center gap-1 transition-colors"
                 >
@@ -146,6 +153,7 @@ export const SpatialExplorer: React.FC = () => {
                     placeholder="Filter ward ID or locality..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
+                    aria-label="Filter ward ID or locality"
                     className="w-full bg-[var(--bg-canvas)] border border-[var(--border-subtle)] focus:border-[var(--border-strong)] rounded pl-8 pr-2.5 py-1 text-xs text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none"
                   />
                 </div>
@@ -181,7 +189,7 @@ export const SpatialExplorer: React.FC = () => {
             </div>
 
             {/* 2. Compact 5-Column 24-Ward Registry Table (Zero Horizontal Scroll) */}
-            <div className="flex-1 bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-lg shadow-card overflow-hidden flex flex-col">
+            <div className="flex-1 min-h-[260px] lg:min-h-0 bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-lg shadow-card overflow-hidden flex flex-col">
               <div className="overflow-y-auto flex-1">
                 <table className="w-full text-left border-collapse">
                   <thead className="sticky top-0 z-10 bg-[var(--bg-elevated)] text-[var(--text-secondary)] text-[10px] font-mono uppercase tracking-wider border-b border-[var(--border-subtle)] select-none">
@@ -323,7 +331,7 @@ export const SpatialExplorer: React.FC = () => {
               </div>
 
               <div className="space-y-1.5">
-                {CITY_WIDE_SHAP_DRIVERS.slice(0, 4).map((d, i) => {
+                {activeShapDrivers.slice(0, 4).map((d, i) => {
                   const barColor = d.isPositive ? '#D94E34' : '#0D9488';
                   const widthPct = Math.min(100, (d.importance / 0.4) * 100);
                   return (
