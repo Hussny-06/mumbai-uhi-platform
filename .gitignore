@@ -73,3 +73,17 @@ scratch/
 # OS files
 .DS_Store
 Thumbs.db
+
+# TeX auxiliary build files
+*.aux
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.out
+
+# Frontend build & caches
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
