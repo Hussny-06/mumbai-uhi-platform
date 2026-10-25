@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CLIMATE_MONTHLY_MATRIX, CLIMATE_CLIMATOLOGY } from '../../data/staticDatasets';
-import { Calendar, Info } from 'lucide-react';
+import { getDivergingDeltaColor } from '../../utils/colorScales';
+import { Calendar } from 'lucide-react';
 
 export const MonthlyHeatmap: React.FC = () => {
   const [selectedCell, setSelectedCell] = useState<{
@@ -12,15 +13,12 @@ export const MonthlyHeatmap: React.FC = () => {
 
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-  // Color scale for thermal anomaly (-2.5°C to +2.5°C)
-  const getAnomalyColor = (anomaly: number) => {
-    if (anomaly > 1.8) return 'bg-red-600 text-white';
-    if (anomaly > 1.0) return 'bg-red-500 text-white';
-    if (anomaly > 0.4) return 'bg-orange-500 text-white';
-    if (anomaly > 0.0) return 'bg-amber-500/80 text-black';
-    if (anomaly > -0.6) return 'bg-teal-700 text-white';
-    if (anomaly > -1.2) return 'bg-cyan-800 text-white';
-    return 'bg-blue-900 text-white';
+  /** Use perceptual getDivergingDeltaColor instead of Tailwind classes */
+  const getAnomalyStyle = (anomaly: number): React.CSSProperties => {
+    const bg = getDivergingDeltaColor(anomaly, 2.2);
+    // Determine text contrast: dark bg (cooling) → white, light/orange (warming) → white
+    const textColor = '#FFFFFF';
+    return { backgroundColor: bg, color: textColor };
   };
 
   return (
@@ -39,18 +37,11 @@ export const MonthlyHeatmap: React.FC = () => {
           </p>
         </div>
 
-        {/* Legend for Heatmap */}
-        <div className="flex items-center gap-1.5 text-[10px] font-mono text-uhi-muted">
-          <span>-2.0°C</span>
-          <div className="flex h-3 w-32 rounded overflow-hidden">
-            <span className="flex-1 bg-blue-900"></span>
-            <span className="flex-1 bg-cyan-800"></span>
-            <span className="flex-1 bg-teal-700"></span>
-            <span className="flex-1 bg-amber-500"></span>
-            <span className="flex-1 bg-orange-500"></span>
-            <span className="flex-1 bg-red-600"></span>
-          </div>
-          <span>+2.0°C</span>
+        {/* Perceptual Diverging Legend */}
+        <div className="flex items-center gap-1.5 text-[10px] font-mono" style={{ color: 'var(--text-muted)' }}>
+          <span style={{ color: '#0D9488' }}>−2.0°C</span>
+          <div className="h-3 w-32 rounded overflow-hidden delta-cooling-gradient-bar" />
+          <span style={{ color: '#D94E34' }}>+2.0°C</span>
         </div>
       </div>
 
@@ -74,9 +65,8 @@ export const MonthlyHeatmap: React.FC = () => {
                   <button
                     key={m.month}
                     onMouseEnter={() => setSelectedCell({ year: yr.year, month: m.month, mean: m.mean, anomaly: m.anomaly })}
-                    className={`h-5 rounded-sm flex items-center justify-center text-[9px] font-mono font-bold transition-transform hover:scale-110 hover:z-20 cursor-pointer ${getAnomalyColor(
-                      m.anomaly
-                    )}`}
+                    style={getAnomalyStyle(m.anomaly)}
+                    className="h-5 rounded-sm flex items-center justify-center text-[9px] font-mono font-bold transition-transform hover:scale-110 hover:z-20 cursor-pointer"
                     title={`${yr.year} ${months[m.month - 1]}: ${m.mean}°C (Anomaly: ${m.anomaly > 0 ? '+' : ''}${m.anomaly}°C)`}
                   >
                     {m.mean.toFixed(0)}

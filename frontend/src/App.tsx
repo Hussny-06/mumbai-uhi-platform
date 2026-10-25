@@ -2,10 +2,9 @@ import React from 'react';
 import { useUhiStore } from './stores/useUhiStore';
 import { TopInstrumentBar } from './components/layout/TopInstrumentBar';
 import { SpatialExplorer } from './pages/SpatialExplorer';
-import { ClimateTrends } from './pages/ClimateTrends';
-import { MLInsights } from './pages/MLInsights';
-import { Simulator } from './pages/Simulator';
-import { Reports } from './pages/Reports';
+import { InterventionStudio } from './pages/InterventionStudio';
+import { ClimatologyValidation } from './pages/ClimatologyValidation';
+import { PolicyDossiers } from './pages/PolicyDossiers';
 
 export function App() {
   const { activePage } = useUhiStore();
@@ -19,15 +18,14 @@ export function App() {
         return <SpatialExplorer />;
       case 'studio':
       case 'simulator':
-        return <Simulator />;
+        return <InterventionStudio />;
       case 'science':
       case 'trends':
-        return <ClimateTrends />;
       case 'ml':
-        return <MLInsights />;
+        return <ClimatologyValidation />;
       case 'dossier':
       case 'reports':
-        return <Reports />;
+        return <PolicyDossiers />;
       default:
         return <SpatialExplorer />;
     }
