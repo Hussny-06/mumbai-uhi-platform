@@ -73,3 +73,32 @@ def test_what_if_simulation_engine_sla():
     assert total_time_ms <= 1500.0, f"Latency SLA violated: {total_time_ms} ms > 1500 ms"
     assert result["cooling_delta"] < 0.0, "Urban cooling intervention must decrease mean LST"
     assert result["energy_reduction_kwh_m2_yr"] > 0.0, "Cooling delta must yield positive energy savings"
+
+
+def test_fastapi_schemas_and_ndbi_grounding():
+    from src.api.schemas import InterventionRequest
+
+    req = InterventionRequest(
+        ward_id="M/E",
+        delta_ndvi=0.20,
+        delta_albedo=0.25,
+        delta_ndbi=-0.15,
+    )
+    assert req.ward_id == "M/E"
+    assert req.delta_ndbi == -0.15
+
+    engine = WhatIfSimulationEngine(model=None)
+    base_features = np.random.normal(loc=0.3, scale=0.05, size=(200, 17))
+    res = engine.simulate_intervention(
+        base_features=base_features,
+        delta_ndvi=req.delta_ndvi,
+        delta_albedo=req.delta_albedo,
+        delta_ndbi=req.delta_ndbi,
+        baseline_lst_override=37.3,
+    )
+    assert res["mean_baseline_lst"] == 37.3
+    assert res["cooling_delta"] < -1.0
+    assert res["mean_simulated_lst"] < 37.3
+    assert res["energy_reduction_kwh_m2_yr"] > 0.0
+
+

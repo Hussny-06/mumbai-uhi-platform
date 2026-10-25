@@ -1,25 +1,27 @@
-import { 
-  Ward, 
-  SimulationParams, 
-  SimulationResult, 
-  ModelMetrics, 
-  SystemStatus 
+import {
+  Ward,
+  SimulationParams,
+  SimulationResult,
+  ModelMetrics,
+  MannKendallData,
+  SystemStatus,
 } from '../types';
-import { 
-  WARDS_DATA, 
-  MODEL_METRICS, 
-  CITY_WIDE_SHAP_DRIVERS, 
-  PRESET_SCENARIOS, 
-  SYSTEM_QUALITY_METRICS 
+import {
+  WARDS_DATA,
+  MODEL_METRICS,
+  CITY_WIDE_SHAP_DRIVERS,
+  MANN_KENDALL_METRICS,
+  PRESET_SCENARIOS,
+  SYSTEM_QUALITY_METRICS,
 } from '../data/staticDatasets';
 
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
 class ApiService {
   private isBackendOnline: boolean = false;
   private lastPingTime: number = 0;
 
-  async checkHealth(): Promise<{ online: boolean; latencyMs: number; details?: any }> {
+  async checkHealth(): Promise<{ online: boolean; latencyMs: number; details?: Record<string, unknown> }> {
     const start = performance.now();
     try {
       const controller = new AbortController();
@@ -57,14 +59,18 @@ class ApiService {
       if (this.isBackendOnline) {
         const res = await fetch(`${API_BASE_URL}/api/wards`);
         if (res.ok) {
-          // Merge remote summaries with local geospatial polygons
           const remoteWards = await res.json();
           return WARDS_DATA.map((local) => {
-            const remoteMatch = remoteWards.find((r: any) => r.ward_id === local.id);
+            const remoteMatch = remoteWards.find((r: { ward_id: string }) => r.ward_id === local.id);
             if (remoteMatch) {
               return {
                 ...local,
                 meanLst: remoteMatch.mean_lst_celsius ?? local.meanLst,
+                ndvi: remoteMatch.ndvi ?? local.ndvi,
+                ndbi: remoteMatch.ndbi ?? local.ndbi,
+                albedo: remoteMatch.albedo ?? local.albedo,
+                uhi: remoteMatch.uhi_intensity ?? local.uhi,
+                driver: remoteMatch.dominant_heat_driver ?? local.driver,
               };
             }
             return local;
@@ -83,8 +89,17 @@ class ApiService {
       if (this.isBackendOnline) {
         const res = await fetch(`${API_BASE_URL}/api/wards/${encodedId}`);
         if (res.ok) {
+          const remote = await res.json();
           const local = WARDS_DATA.find((w) => w.id === wardId);
-          if (local) return local;
+          if (local) {
+            return {
+              ...local,
+              meanLst: remote.meanLst ?? remote.mean_lst_celsius ?? local.meanLst,
+              ndvi: remote.ndvi ?? local.ndvi,
+              ndbi: remote.ndbi ?? local.ndbi,
+              albedo: remote.albedo ?? local.albedo,
+            };
+          }
         }
       }
     } catch {
@@ -96,16 +111,17 @@ class ApiService {
   async runSimulation(params: SimulationParams): Promise<SimulationResult> {
     const start = performance.now();
 
-    // Check if backend is available
     if (this.isBackendOnline) {
       try {
         const res = await fetch(`${API_BASE_URL}/api/simulate`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            ward_id: params.wardId,
+            ward_id: params.wardId ?? null,
             delta_ndvi: params.deltaNdvi,
             delta_albedo: params.deltaAlbedo,
+            delta_ndbi: params.deltaNdbi,
+            polygon_area_km2: params.polygonAreaKm2 ?? null,
           }),
         });
 
@@ -120,6 +136,9 @@ class ApiService {
             elapsedMs: data.computation_time_ms,
             shapDrivers: data.shap_top_drivers,
             timestamp: new Date().toISOString(),
+            numPixels:
+              data.num_pixels ??
+              (params.polygonAreaKm2 ? Math.round(params.polygonAreaKm2 * 1110) : 500),
           };
         }
       } catch (err) {
@@ -128,11 +147,9 @@ class ApiService {
     }
 
     // High-performance physics surrogate calculation (calibrated to XGBoost weights)
-    // Cooling = ΔNDVI * 3.2°C + ΔAlbedo * 2.1°C + |ΔNDBI| * 2.8°C
     const targetWard = params.wardId ? WARDS_DATA.find((w) => w.id === params.wardId) : null;
     const baseLst = targetWard ? targetWard.meanLst : 34.6;
 
-    // Direct coefficient downscaling model
     const coolingDelta = -(
       params.deltaNdvi * 3.20 +
       params.deltaAlbedo * 2.10 +
@@ -151,7 +168,7 @@ class ApiService {
       energyReductionKwhM2Yr: energyReduction,
       elapsedMs: Math.max(12, elapsed),
       shapDrivers: {
-        'NDBI (Built-up Reduction)': +(Math.abs(params.deltaNdbi) * 2.85).toFixed(2),
+        'NDBI (Built-up Reduction)': +(params.deltaNdbi * 2.85).toFixed(2),
         'NDVI (Canopy Augmentation)': -(params.deltaNdvi * 3.20).toFixed(2),
         'Broadband Albedo (Cool Roofs)': -(params.deltaAlbedo * 2.10).toFixed(2),
       },
@@ -173,17 +190,17 @@ class ApiService {
             return {
               xgboost: {
                 name: 'XGBoost (Spatial Block K-Fold)',
-                rmse: data.xgboost.rmse,
-                mae: data.xgboost.mae,
-                r2: data.xgboost.r2,
+                rmse: +Number(data.xgboost.rmse).toFixed(2),
+                mae: +Number(data.xgboost.mae).toFixed(2),
+                r2: +Number(data.xgboost.r2).toFixed(3),
                 samples: { train: data.train_samples || 2306, test: data.test_samples || 137 },
                 spatialBufferKm: 1.2,
               },
               randomForest: {
                 name: 'Random Forest (Benchmark)',
-                rmse: data.random_forest.rmse,
-                mae: data.random_forest.mae,
-                r2: data.random_forest.r2,
+                rmse: +Number(data.random_forest.rmse).toFixed(2),
+                mae: +Number(data.random_forest.mae).toFixed(2),
+                r2: +Number(data.random_forest.r2).toFixed(3),
                 samples: { train: data.train_samples || 2306, test: data.test_samples || 137 },
                 spatialBufferKm: 1.2,
               },
@@ -201,7 +218,48 @@ class ApiService {
   }
 
   async getShapDrivers(): Promise<typeof CITY_WIDE_SHAP_DRIVERS> {
+    try {
+      if (this.isBackendOnline) {
+        const res = await fetch(`${API_BASE_URL}/api/shap`);
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data.drivers) && data.drivers.length > 0) {
+            return data.drivers;
+          }
+        }
+      }
+    } catch {
+      // Fallback
+    }
     return CITY_WIDE_SHAP_DRIVERS;
+  }
+
+  async getClimateTrends(): Promise<MannKendallData> {
+    try {
+      if (this.isBackendOnline) {
+        const res = await fetch(`${API_BASE_URL}/api/climate-trends`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.p_value !== undefined && data.sens_slope_per_year !== undefined) {
+            const slopePerYr = Number(data.sens_slope_per_year);
+            return {
+              trend: data.trend || 'increasing',
+              pValue: Number(data.p_value),
+              sensSlopeYear: +slopePerYr.toFixed(4),
+              sensSlopeDecade: +(slopePerYr * 10).toFixed(2),
+              zStatistic: +Number(data.z_statistic ?? MANN_KENDALL_METRICS.zStatistic).toFixed(3),
+              kendallS: Number(data.kendall_s ?? MANN_KENDALL_METRICS.kendallS),
+              totalYears: Number(data.n_years || 28),
+              period: data.period || '1997–2024',
+              significant: Boolean(data.significant_at_005 ?? data.significant ?? true),
+            };
+          }
+        }
+      }
+    } catch {
+      // Fallback
+    }
+    return MANN_KENDALL_METRICS;
   }
 
   async getScenarios() {
