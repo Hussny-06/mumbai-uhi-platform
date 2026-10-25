@@ -34,6 +34,14 @@ export function App() {
     }
   };
 
+  if (activePage === 'landing') {
+    return (
+      <div className="min-h-screen w-screen overflow-x-hidden bg-[#0a0a0c] text-[#E1E0CC]">
+        <LandingPage />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col h-screen w-screen overflow-hidden bg-[var(--bg-canvas)] text-[var(--text-primary)]">
       {/* 48px Global Instrument Bar */}
