@@ -1,9 +1,7 @@
 import React from 'react';
 import { useUhiStore } from './stores/useUhiStore';
 import { TopInstrumentBar } from './components/layout/TopInstrumentBar';
-import { Dashboard } from './pages/Dashboard';
-import { HeatMap } from './pages/HeatMap';
-import { WardAnalytics } from './pages/WardAnalytics';
+import { SpatialExplorer } from './pages/SpatialExplorer';
 import { ClimateTrends } from './pages/ClimateTrends';
 import { MLInsights } from './pages/MLInsights';
 import { Simulator } from './pages/Simulator';
@@ -16,11 +14,9 @@ export function App() {
     switch (activePage) {
       case 'explorer':
       case 'overview':
-        return <Dashboard />;
       case 'heatmap':
-        return <HeatMap />;
       case 'wards':
-        return <WardAnalytics />;
+        return <SpatialExplorer />;
       case 'studio':
       case 'simulator':
         return <Simulator />;
@@ -33,13 +29,13 @@ export function App() {
       case 'reports':
         return <Reports />;
       default:
-        return <Dashboard />;
+        return <SpatialExplorer />;
     }
   };
 
   return (
     <div className="flex flex-col h-screen w-screen overflow-hidden bg-[var(--bg-canvas)] text-[var(--text-primary)]">
-      {/* 48px Global Instrument Bar (Replaces Legacy Header + 256px Left Sidebar) */}
+      {/* 48px Global Instrument Bar */}
       <TopInstrumentBar />
 
       {/* 100% Width Workspace Canvas */}
