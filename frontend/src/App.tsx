@@ -1,7 +1,6 @@
 import React from 'react';
 import { useUhiStore } from './stores/useUhiStore';
-import { Header } from './components/layout/Header';
-import { Sidebar } from './components/layout/Sidebar';
+import { TopInstrumentBar } from './components/layout/TopInstrumentBar';
 import { Dashboard } from './pages/Dashboard';
 import { HeatMap } from './pages/HeatMap';
 import { WardAnalytics } from './pages/WardAnalytics';
@@ -9,46 +8,44 @@ import { ClimateTrends } from './pages/ClimateTrends';
 import { MLInsights } from './pages/MLInsights';
 import { Simulator } from './pages/Simulator';
 import { Reports } from './pages/Reports';
-import { System } from './pages/System';
 
 export function App() {
   const { activePage } = useUhiStore();
 
-  const renderActivePage = () => {
+  const renderActiveWorkspace = () => {
     switch (activePage) {
+      case 'explorer':
       case 'overview':
         return <Dashboard />;
       case 'heatmap':
         return <HeatMap />;
       case 'wards':
         return <WardAnalytics />;
+      case 'studio':
+      case 'simulator':
+        return <Simulator />;
+      case 'science':
       case 'trends':
         return <ClimateTrends />;
       case 'ml':
         return <MLInsights />;
-      case 'simulator':
-        return <Simulator />;
+      case 'dossier':
       case 'reports':
         return <Reports />;
-      case 'system':
-        return <System />;
       default:
         return <Dashboard />;
     }
   };
 
   return (
-    <div className="flex flex-col h-screen w-screen overflow-hidden bg-uhi-bg text-uhi-text select-none">
-      {/* Top Header */}
-      <Header />
+    <div className="flex flex-col h-screen w-screen overflow-hidden bg-[var(--bg-canvas)] text-[var(--text-primary)]">
+      {/* 48px Global Instrument Bar (Replaces Legacy Header + 256px Left Sidebar) */}
+      <TopInstrumentBar />
 
-      {/* Main Workspace: Left Sidebar + Active Page */}
-      <div className="flex flex-1 h-[calc(100vh-4rem)] overflow-hidden">
-        <Sidebar />
-        <main className="flex-1 flex overflow-hidden">
-          {renderActivePage()}
-        </main>
-      </div>
+      {/* 100% Width Workspace Canvas */}
+      <main className="flex-1 flex h-[calc(100vh-3rem)] w-full overflow-hidden">
+        {renderActiveWorkspace()}
+      </main>
     </div>
   );
 }

@@ -1,21 +1,31 @@
-export type ActivePage = 
-  | 'overview' 
-  | 'heatmap' 
-  | 'wards' 
-  | 'trends' 
-  | 'ml' 
-  | 'simulator' 
-  | 'reports' 
+export type WorkspaceId = 'explorer' | 'studio' | 'science' | 'dossier';
+
+export type LegacyPageId =
+  | 'overview'
+  | 'heatmap'
+  | 'wards'
+  | 'trends'
+  | 'ml'
+  | 'simulator'
+  | 'reports'
   | 'system';
 
-export type MapLayerType = 
-  | 'lst' 
-  | 'ndvi' 
-  | 'ndbi' 
-  | 'mndwi' 
-  | 'albedo' 
-  | 'elevation' 
-  | 'wards' 
+export type ActivePage = WorkspaceId | LegacyPageId;
+
+export type ThemeMode = 'light' | 'dark';
+
+export type MapRenderMode = 'grid' | 'choropleth' | 'combined';
+
+export type ComparisonMode = 'split' | 'delta' | 'post';
+
+export type MapLayerType =
+  | 'lst'
+  | 'ndvi'
+  | 'ndbi'
+  | 'mndwi'
+  | 'albedo'
+  | 'elevation'
+  | 'wards'
   | 'satellite';
 
 export interface ShapDriver {

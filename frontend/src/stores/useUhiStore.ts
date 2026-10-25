@@ -1,18 +1,86 @@
 import { create } from 'zustand';
-import { 
-  ActivePage, 
-  MapLayerType, 
-  Ward, 
-  SimulationResult, 
-  SimulationParams 
+import {
+  ActivePage,
+  WorkspaceId,
+  ThemeMode,
+  MapRenderMode,
+  ComparisonMode,
+  MapLayerType,
+  Ward,
+  SimulationResult,
+  SimulationParams,
 } from '../types';
 import { WARDS_DATA } from '../data/staticDatasets';
 import { api } from '../services/api';
+
+let debounceTimer: ReturnType<typeof setTimeout> | null = null;
+
+function normalizeToWorkspace(page: ActivePage): WorkspaceId {
+  switch (page) {
+    case 'explorer':
+    case 'overview':
+    case 'heatmap':
+    case 'wards':
+      return 'explorer';
+    case 'studio':
+    case 'simulator':
+      return 'studio';
+    case 'science':
+    case 'trends':
+    case 'ml':
+      return 'science';
+    case 'dossier':
+    case 'reports':
+      return 'dossier';
+    default:
+      return 'explorer';
+  }
+}
+
+function getInitialUrlState(): { page: ActivePage; ward: Ward | null; theme: ThemeMode } {
+  if (typeof window === 'undefined') {
+    return { page: 'explorer', ward: null, theme: 'dark' };
+  }
+  const params = new URLSearchParams(window.location.search);
+  const viewParam = params.get('view') as ActivePage | null;
+  const wardParam = params.get('ward');
+  const savedTheme = (localStorage.getItem('uhi-theme') as ThemeMode | null) || 'dark';
+
+  if (savedTheme === 'dark') {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+
+  const ward = wardParam ? WARDS_DATA.find((w) => w.id.toLowerCase() === wardParam.toLowerCase()) || null : null;
+  const page: ActivePage = viewParam ? normalizeToWorkspace(viewParam) : 'explorer';
+
+  return { page, ward, theme: savedTheme };
+}
+
+function syncUrlState(page: ActivePage, ward: Ward | null) {
+  if (typeof window === 'undefined') return;
+  const url = new URL(window.location.href);
+  url.searchParams.set('view', normalizeToWorkspace(page));
+  if (ward) {
+    url.searchParams.set('ward', ward.id);
+  } else {
+    url.searchParams.delete('ward');
+  }
+  window.history.replaceState({}, '', url.toString());
+}
+
+const initial = getInitialUrlState();
 
 interface UhiState {
   // Navigation & Page State
   activePage: ActivePage;
   setActivePage: (page: ActivePage) => void;
+
+  // Dual-Theme State (Daylight Paper vs Carbon Workbench)
+  theme: ThemeMode;
+  setTheme: (theme: ThemeMode) => void;
+  toggleTheme: () => void;
 
   // Header & Global Telemetry
   selectedDate: string;
@@ -24,6 +92,11 @@ interface UhiState {
   // Map & Layer State
   activeLayer: MapLayerType;
   setActiveLayer: (layer: MapLayerType) => void;
+  mapRenderMode: MapRenderMode;
+  setMapRenderMode: (mode: MapRenderMode) => void;
+  comparisonMode: ComparisonMode;
+  setComparisonMode: (mode: ComparisonMode) => void;
+
   selectedWard: Ward | null;
   setSelectedWard: (ward: Ward | null) => void;
   hoveredWard: Ward | null;
@@ -53,6 +126,7 @@ interface UhiState {
   setDeltaAlbedo: (val: number) => void;
   setDeltaNdbi: (val: number) => void;
   applyPresetScenario: (scenario: { deltaNdvi: number; deltaAlbedo: number; deltaNdbi: number }) => void;
+  resetInterventions: () => void;
 
   // Simulation execution
   isSimulating: boolean;
@@ -64,31 +138,61 @@ interface UhiState {
   setSplitSliderPos: (pos: number) => void;
 }
 
+function scheduleDebouncedSimulation(runSim: () => Promise<void>) {
+  if (debounceTimer) clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    runSim();
+  }, 100);
+}
+
 export const useUhiStore = create<UhiState>((set, get) => ({
-  activePage: 'overview',
-  setActivePage: (page) => set({ activePage: page }),
+  activePage: initial.page,
+  setActivePage: (page) => {
+    set({ activePage: page });
+    syncUrlState(page, get().selectedWard);
+  },
+
+  theme: initial.theme,
+  setTheme: (theme) => {
+    if (typeof document !== 'undefined') {
+      document.documentElement.classList.toggle('dark', theme === 'dark');
+      localStorage.setItem('uhi-theme', theme);
+    }
+    set({ theme });
+  },
+  toggleTheme: () => {
+    const next: ThemeMode = get().theme === 'dark' ? 'light' : 'dark';
+    get().setTheme(next);
+  },
 
   selectedDate: 'Pre-Monsoon 2024',
   setSelectedDate: (date) => set({ selectedDate: date }),
   isBackendConnected: false,
-  backendLatencyMs: 42,
+  backendLatencyMs: 4,
   checkBackendHealth: async () => {
     const status = await api.checkHealth();
     set({
       isBackendConnected: status.online,
-      backendLatencyMs: status.latencyMs || 42,
+      backendLatencyMs: status.latencyMs || 4,
     });
   },
 
   activeLayer: 'lst',
   setActiveLayer: (layer) => set({ activeLayer: layer }),
-  selectedWard: null,
+  mapRenderMode: 'combined',
+  setMapRenderMode: (mode) => set({ mapRenderMode: mode }),
+  comparisonMode: 'split',
+  setComparisonMode: (mode) => set({ comparisonMode: mode }),
+
+  selectedWard: initial.ward,
   setSelectedWard: (ward) => {
     set({ selectedWard: ward, isWardDrawerOpen: !!ward });
+    syncUrlState(get().activePage, ward);
+    scheduleDebouncedSimulation(get().runSimulation);
   },
   hoveredWard: null,
   setHoveredWard: (ward) => set({ hoveredWard: ward }),
-  isWardDrawerOpen: false,
+  isWardDrawerOpen: !!initial.ward,
   setIsWardDrawerOpen: (open) => set({ isWardDrawerOpen: open }),
 
   mapCenter: [72.8777, 19.0760],
@@ -103,6 +207,8 @@ export const useUhiStore = create<UhiState>((set, get) => ({
         mapCenter: [ward.lon, ward.lat],
         mapZoom: 13.0,
       });
+      syncUrlState(get().activePage, ward);
+      scheduleDebouncedSimulation(get().runSimulation);
     }
   },
 
@@ -110,35 +216,61 @@ export const useUhiStore = create<UhiState>((set, get) => ({
   setIsDrawingPolygon: (drawing) => set({ isDrawingPolygon: drawing }),
   customPolygon: null,
   polygonAreaKm2: null,
-  setCustomPolygon: (polygon, areaKm2 = 2.45) => set({
-    customPolygon: polygon,
-    polygonAreaKm2: areaKm2,
-    isDrawingPolygon: false,
-  }),
-  clearPolygon: () => set({
-    customPolygon: null,
-    polygonAreaKm2: null,
-    isDrawingPolygon: false,
-  }),
+  setCustomPolygon: (polygon, areaKm2 = 3.12) => {
+    set({
+      customPolygon: polygon,
+      polygonAreaKm2: areaKm2,
+      isDrawingPolygon: false,
+    });
+    scheduleDebouncedSimulation(get().runSimulation);
+  },
+  clearPolygon: () => {
+    set({
+      customPolygon: null,
+      polygonAreaKm2: null,
+      isDrawingPolygon: false,
+    });
+    scheduleDebouncedSimulation(get().runSimulation);
+  },
 
   deltaNdvi: 0.20,
   deltaAlbedo: 0.25,
   deltaNdbi: -0.15,
-  setDeltaNdvi: (val) => set({ deltaNdvi: val }),
-  setDeltaAlbedo: (val) => set({ deltaAlbedo: val }),
-  setDeltaNdbi: (val) => set({ deltaNdbi: val }),
-  applyPresetScenario: (scenario) => set({
-    deltaNdvi: scenario.deltaNdvi,
-    deltaAlbedo: scenario.deltaAlbedo,
-    deltaNdbi: scenario.deltaNdbi,
-  }),
+  setDeltaNdvi: (val) => {
+    set({ deltaNdvi: val });
+    scheduleDebouncedSimulation(get().runSimulation);
+  },
+  setDeltaAlbedo: (val) => {
+    set({ deltaAlbedo: val });
+    scheduleDebouncedSimulation(get().runSimulation);
+  },
+  setDeltaNdbi: (val) => {
+    set({ deltaNdbi: val });
+    scheduleDebouncedSimulation(get().runSimulation);
+  },
+  applyPresetScenario: (scenario) => {
+    set({
+      deltaNdvi: scenario.deltaNdvi,
+      deltaAlbedo: scenario.deltaAlbedo,
+      deltaNdbi: scenario.deltaNdbi,
+    });
+    scheduleDebouncedSimulation(get().runSimulation);
+  },
+  resetInterventions: () => {
+    set({
+      deltaNdvi: 0.0,
+      deltaAlbedo: 0.0,
+      deltaNdbi: 0.0,
+    });
+    scheduleDebouncedSimulation(get().runSimulation);
+  },
 
   isSimulating: false,
   simulationResult: null,
   runSimulation: async () => {
     set({ isSimulating: true });
     const { deltaNdvi, deltaAlbedo, deltaNdbi, selectedWard, customPolygon, polygonAreaKm2 } = get();
-    
+
     const params: SimulationParams = {
       wardId: selectedWard?.id,
       deltaNdvi,
@@ -148,8 +280,6 @@ export const useUhiStore = create<UhiState>((set, get) => ({
       polygonAreaKm2: polygonAreaKm2 || undefined,
     };
 
-    // Realistic simulation processing delay
-    await new Promise((r) => setTimeout(r, 650));
     const result = await api.runSimulation(params);
 
     set({
