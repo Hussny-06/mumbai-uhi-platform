@@ -74,12 +74,23 @@ export const TopInstrumentBar: React.FC = () => {
   return (
     <header className="h-12 bg-[var(--bg-surface)] border-b border-[var(--border-subtle)] px-4 flex items-center justify-between gap-3 select-none z-30 shrink-0 no-print">
       {/* LEFT: Brand Title */}
-      <div className="flex items-center gap-2 whitespace-nowrap min-w-0">
+      <button
+        onClick={() => setActivePage('landing')}
+        className="flex items-center gap-2 whitespace-nowrap min-w-0 hover:opacity-85 transition-opacity cursor-pointer text-left"
+        title="View 13-Section Landing Page"
+      >
         <span className="w-2.5 h-2.5 rounded-sm bg-[var(--accent-primary)] inline-block shrink-0" />
         <span className="font-serif font-semibold text-sm tracking-tight text-[var(--text-primary)]">
           Mumbai UHI
         </span>
-      </div>
+        <span className={`hidden sm:inline-block text-[10px] font-mono px-1.5 py-0.5 rounded border transition-colors ${
+          activePage === 'landing'
+            ? 'bg-[var(--accent-primary)] text-white border-transparent font-bold'
+            : 'bg-[var(--bg-canvas)] border-[var(--border-subtle)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
+        }`}>
+          Overview
+        </span>
+      </button>
 
       {/* CENTER: Segmented 4-Workspace Switcher */}
       <nav

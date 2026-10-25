@@ -1,4 +1,4 @@
-export type WorkspaceId = 'explorer' | 'studio' | 'science' | 'dossier';
+export type WorkspaceId = 'landing' | 'explorer' | 'studio' | 'science' | 'dossier';
 
 export type LegacyPageId =
   | 'overview'

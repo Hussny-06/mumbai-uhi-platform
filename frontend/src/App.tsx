@@ -5,12 +5,15 @@ import { SpatialExplorer } from './pages/SpatialExplorer';
 import { InterventionStudio } from './pages/InterventionStudio';
 import { ClimatologyValidation } from './pages/ClimatologyValidation';
 import { PolicyDossiers } from './pages/PolicyDossiers';
+import { LandingPage } from './pages/LandingPage';
 
 export function App() {
   const { activePage } = useUhiStore();
 
   const renderActiveWorkspace = () => {
     switch (activePage) {
+      case 'landing':
+        return <LandingPage />;
       case 'explorer':
       case 'overview':
       case 'heatmap':

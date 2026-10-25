@@ -13,6 +13,7 @@
     "@types/leaflet": "^1.9.22",
     "autoprefixer": "^10.6.1",
     "clsx": "^2.1.1",
+    "framer-motion": "^14.6.0",
     "leaflet": "^1.9.4",
     "lucide-react": "^1.52.0",
     "postcss": "^8.5.29",

@@ -24,6 +24,8 @@ let debounceTimer: ReturnType<typeof setTimeout> | null = null;
 
 function normalizeToWorkspace(page: ActivePage): WorkspaceId {
   switch (page) {
+    case 'landing':
+      return 'landing';
     case 'explorer':
     case 'overview':
     case 'heatmap':
