@@ -5,95 +5,226 @@
 @tailwind utilities;
 
 @layer base {
+  /* Daylight Paper Theme (Light Mode Default) */
   :root {
-    color-scheme: dark;
+    color-scheme: light;
+    --bg-canvas: #F6F5F0;
+    --bg-surface: #FFFFFF;
+    --bg-elevated: #EFECE6;
+    --border-subtle: #E2DFD7;
+    --border-strong: #C8C4B8;
+    --text-primary: #161615;
+    --text-secondary: #57554F;
+    --text-muted: #85827A;
+    --accent-primary: #D94E34;
+    --accent-subtle: rgba(217, 78, 52, 0.10);
+    --shadow-card: 0 1px 3px 0 rgba(22, 22, 21, 0.05), 0 1px 2px -1px rgba(22, 22, 21, 0.04);
+    --shadow-floating: 0 10px 25px -5px rgba(22, 22, 21, 0.12), 0 4px 10px -4px rgba(22, 22, 21, 0.08);
+    --map-label-bg: rgba(255, 255, 255, 0.90);
+    --map-label-border: #C8C4B8;
   }
+
+  /* Carbon Workbench Theme (Dark Mode) */
+  .dark {
+    color-scheme: dark;
+    --bg-canvas: #0E0F11;
+    --bg-surface: #16181B;
+    --bg-elevated: #1F2227;
+    --border-subtle: #272A30;
+    --border-strong: #383C44;
+    --text-primary: #F2F0EC;
+    --text-secondary: #A09E97;
+    --text-muted: #6E6C66;
+    --accent-primary: #E55A40;
+    --accent-subtle: rgba(229, 90, 64, 0.14);
+    --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.35);
+    --shadow-floating: 0 12px 32px -4px rgba(0, 0, 0, 0.60);
+    --map-label-bg: rgba(22, 24, 27, 0.88);
+    --map-label-border: #383C44;
+  }
+
   body {
-    background-color: #07111F;
-    color: #E2E8F0;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
+    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     overflow-x: hidden;
+  }
+
+  .font-mono {
+    font-variant-numeric: tabular-nums;
   }
 }
 
-/* Custom scrollbars */
+/* Custom subtle scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #07111F;
+  background: var(--bg-canvas);
 }
 ::-webkit-scrollbar-thumb {
-  background: #1B2C42;
+  background: var(--border-strong);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #2E4566;
+  background: var(--text-muted);
 }
 
-/* Leaflet Dark Customizations */
+/* Leaflet Dual-Theme Customizations */
 .leaflet-container {
-  background-color: #07111F !important;
-  font-family: inherit;
+  background-color: var(--bg-canvas) !important;
+  font-family: 'IBM Plex Sans', sans-serif;
   outline: none;
 }
 .leaflet-control-zoom {
-  border: 1px solid #1B2C42 !important;
-  background: #0D1828 !important;
+  border: 1px solid var(--border-subtle) !important;
+  background: var(--bg-surface) !important;
   border-radius: 6px !important;
+  box-shadow: var(--shadow-card) !important;
   overflow: hidden;
 }
 .leaflet-control-zoom a {
-  background-color: #0D1828 !important;
-  color: #E2E8F0 !important;
-  border-bottom: 1px solid #1B2C42 !important;
+  background-color: var(--bg-surface) !important;
+  color: var(--text-primary) !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+  width: 28px !important;
+  height: 28px !important;
+  line-height: 28px !important;
+  font-size: 14px !important;
 }
 .leaflet-control-zoom a:hover {
-  background-color: #17283E !important;
-  color: #00D2FF !important;
+  background-color: var(--bg-elevated) !important;
+  color: var(--accent-primary) !important;
 }
 .leaflet-control-attribution {
-  background: rgba(7, 17, 31, 0.8) !important;
-  color: #8B9BB0 !important;
+  background: var(--map-label-bg) !important;
+  color: var(--text-muted) !important;
+  font-family: 'IBM Plex Mono', monospace !important;
   font-size: 9px !important;
+  border-top: 1px solid var(--border-subtle);
+  border-left: 1px solid var(--border-subtle);
+  border-top-left-radius: 4px;
+  padding: 2px 6px !important;
   backdrop-filter: blur(4px);
 }
 .leaflet-control-attribution a {
-  color: #38BDF8 !important;
+  color: var(--text-secondary) !important;
+  text-decoration: none;
 }
 
-/* Scientific gradients */
+/* Perceptual Scientific Colorbars */
 .thermal-gradient-bar {
-  background: linear-gradient(90deg, #1e0845 0%, #3d0361 20%, #8c105b 40%, #e63946 60%, #f77f00 80%, #fcbf49 95%, #ffffff 100%);
+  background: linear-gradient(
+    90deg,
+    #2B0B3F 0%,
+    #721F81 22%,
+    #B63679 44%,
+    #E65164 66%,
+    #FB8761 84%,
+    #FBB41A 100%
+  );
 }
 
 .ndvi-gradient-bar {
-  background: linear-gradient(90deg, #8c510a 0%, #dfc27d 25%, #f6e8c3 45%, #80cdc1 70%, #01665e 100%);
+  background: linear-gradient(
+    90deg,
+    #A6611A 0%,
+    #DFC27D 25%,
+    #A6D96A 55%,
+    #31A354 80%,
+    #006837 100%
+  );
 }
 
 .ndbi-gradient-bar {
-  background: linear-gradient(90deg, #2b83ba 0%, #abdda4 30%, #ffffbf 60%, #fdae61 80%, #d7191c 100%);
+  background: linear-gradient(
+    90deg,
+    #2B83BA 0%,
+    #ABDDA4 28%,
+    #F7F7F7 52%,
+    #FDAE61 76%,
+    #D7191C 100%
+  );
 }
 
 .mndwi-gradient-bar {
-  background: linear-gradient(90deg, #a6611a 0%, #dfc27d 35%, #80cdc1 65%, #018571 100%);
+  background: linear-gradient(
+    90deg,
+    #A6611A 0%,
+    #DFC27D 35%,
+    #80CDC1 68%,
+    #0D9488 100%
+  );
 }
 
 .albedo-gradient-bar {
-  background: linear-gradient(90deg, #1a1a1a 0%, #4d4d4d 30%, #878787 60%, #e0e0e0 90%, #ffffff 100%);
+  background: linear-gradient(
+    90deg,
+    #1F2227 0%,
+    #57554F 35%,
+    #A09E97 68%,
+    #F6F5F0 100%
+  );
 }
 
-/* Custom ward label styling */
+.delta-cooling-gradient-bar {
+  background: linear-gradient(
+    90deg,
+    #0D9488 0%,
+    #2DD4BF 35%,
+    #D6D3CD 65%,
+    #F97316 85%,
+    #D94E34 100%
+  );
+}
+
+/* Custom Ward Centroid Label Styling */
 .ward-map-label {
-  background: rgba(13, 24, 40, 0.85);
-  border: 1px solid #1B2C42;
-  color: #E2E8F0;
-  font-family: monospace;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 1px 4px;
-  border-radius: 3px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-  white-space: nowrap;
+  background: var(--map-label-bg) !important;
+  border: 1px solid var(--map-label-border) !important;
+  color: var(--text-primary) !important;
+  font-family: 'IBM Plex Mono', monospace !important;
+  font-size: 9.5px !important;
+  font-weight: 600 !important;
+  padding: 1px 4px !important;
+  border-radius: 3px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+  white-space: nowrap !important;
+}
+.ward-map-label::before {
+  display: none !important;
+}
+
+/* Official BMC Dossier Print Stylesheet (@media print) */
+@media print {
+  :root, .dark {
+    --bg-canvas: #FFFFFF !important;
+    --bg-surface: #FFFFFF !important;
+    --bg-elevated: #F6F5F0 !important;
+    --border-subtle: #D4D1C7 !important;
+    --border-strong: #85827A !important;
+    --text-primary: #111111 !important;
+    --text-secondary: #3F3E3A !important;
+    --text-muted: #66645E !important;
+    --accent-primary: #B93820 !important;
+  }
+
+  body {
+    background: #FFFFFF !important;
+    color: #111111 !important;
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  .no-print,
+  header {
+    display: none !important;
+  }
+
+  main {
+    height: auto !important;
+    overflow: visible !important;
+    display: block !important;
+  }
 }
